@@ -1,30 +1,15 @@
 
-Respo workflow in Calcit-js
+Respo feather in Calcit-js
 ----
 
-> Respo web page based on calcit-js.
+> Respo feather based on calcit-js.
 
-Demo http://repo.calcit-lang.org/respo-calcit-workflow/ .
+* Demo http://repo.calcit-lang.org/respo-feather.calcit/ .
+* Docs https://github.com/Respo/respo-feather
 
 ### Usages
 
-To develop:
-
-```bash
-cr --emit-js # watching
-
-yarn # to install vite
-yarn vite # watching and running on localhost:3000
-```
-
-calcit-js is using [Calcit Editor](https://github.com/Cirru/calcit-editor).
-
-To build:
-
-```bash
-yarn vite build
-http-server dist/
-```
+_TODO_
 
 ### Workflow
 
