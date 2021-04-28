@@ -2,7 +2,7 @@
 {} (:package |feather)
   :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :version |0.2.0
+    :version |0.2.1
   :files $ {}
     |feather.comp.container $ {}
       :ns $ quote
@@ -44,7 +44,7 @@
                 div
                   {} $ :style
                     {} (:width "\"100%") (:padding 16) (:overflow :auto) (:margin-top 80)
-                  , & $ ->> icons
+                  , & $ -> icons
                     map $ fn (icon)
                       div
                         {}
