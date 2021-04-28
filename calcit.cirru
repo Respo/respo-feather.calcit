@@ -312,7 +312,7 @@
                                           |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655674660) (:text |80)
                           |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655674660)
                             :data $ {}
-                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655674660) (:text |->>)
+                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1619600699080) (:text |->)
                               |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615656390578) (:text |icons)
                               |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655674660)
                                 :data $ {}
@@ -1305,4 +1305,4 @@
     :init-fn |feather.main/main!
     :compact-output? true
     :storage-key |calcit.cirru
-    :version |0.2.0
+    :version |0.2.1

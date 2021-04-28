@@ -1,11 +1,11 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "dependencies": {
-    "@calcit/procs": "^0.2.96",
+    "@calcit/procs": "^0.3.0-a10",
     "copy-text-to-clipboard": "^3.0.1",
     "feather-icons": "^4.28.0"
   },
   "devDependencies": {
-    "vite": "^2.0.5"
+    "vite": "^2.2.3"
   }
 }
