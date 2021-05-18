@@ -2,7 +2,7 @@
 {} (:package |feather)
   :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :version |0.2.1
+    :version |0.2.2
   :files $ {}
     |feather.comp.container $ {}
       :ns $ quote
@@ -14,7 +14,7 @@
           [] respo-md.comp.md :refer $ [] comp-md
           [] feather.config :refer $ [] dev?
           [] feather.core :refer $ [] comp-icon comp-i
-          [] "\"feather-icons" :as feather-icons
+          [] "\"feather-icons" :default feather-icons
           [] "\"copy-text-to-clipboard" :as copy!
       :defs $ {}
         |comp-container $ quote
@@ -26,7 +26,7 @@
                 state $ either (:data states)
                   {} $ :content "\""
                 icons $ to-calcit-data
-                  .keys js/Object $ .-icons feather-icons/@
+                  .keys js/Object $ .-icons feather-icons
               div
                 {} $ :style (merge ui/global ui/fullscreen)
                 if
@@ -161,7 +161,7 @@
         ns feather.core $ :require
           [] respo.core :refer $ [] defcomp create-element span div i <>
           [] respo.util.format :refer $ [] hsl
-          [] "\"feather-icons" :as feather-icons
+          [] "\"feather-icons" :default feather-icons
       :defs $ {}
         |comp-i $ quote
           defcomp comp-i (icon size color)
@@ -181,7 +181,7 @@
               , "\"3: color in string"
             let
                 icon-name $ turn-string icon
-                obj $ aget (.-icons feather-icons/@) icon-name
+                obj $ aget (.-icons feather-icons) icon-name
               if (some? obj)
                 create-element :i $ {}
                   :style $ merge style-base style

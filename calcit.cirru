@@ -101,7 +101,7 @@
                   :data $ {}
                     |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655693630) (:text |[])
                     |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655693630) (:text "|\"feather-icons")
-                    |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655693630) (:text |:as)
+                    |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621359730378) (:text |:default)
                     |v $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655693630) (:text |feather-icons)
         :defs $ {}
           |comp-container $ {} (:type :expr) (:at 1499755354983)
@@ -173,7 +173,7 @@
                                   |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615656188570)
                                     :data $ {}
                                       |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615656188570) (:text |.-icons)
-                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615656202503) (:text |feather-icons/@)
+                                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621359726176) (:text |feather-icons)
                   |T $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655674660)
                     :data $ {}
                       |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655674660) (:text |div)
@@ -1049,7 +1049,7 @@
                   :data $ {}
                     |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text |[])
                     |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text "|\"feather-icons")
-                    |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text |:as)
+                    |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621359772328) (:text |:default)
                     |v $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text |feather-icons)
         :defs $ {}
           |comp-i $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655659087)
@@ -1144,7 +1144,7 @@
                               |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655659087)
                                 :data $ {}
                                   |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text |.-icons)
-                                  |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655945183) (:text |feather-icons/@)
+                                  |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621359769580) (:text |feather-icons)
                               |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1615655659087) (:text |icon-name)
                   |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1615655659087)
                     :data $ {}
@@ -1305,4 +1305,4 @@
     :init-fn |feather.main/main!
     :compact-output? true
     :storage-key |calcit.cirru
-    :version |0.2.1
+    :version |0.2.2
