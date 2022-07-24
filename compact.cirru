@@ -1,22 +1,10 @@
 
 {} (:package |feather)
-  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!)
+  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.2.3)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :version |0.2.3
   :entries $ {}
   :files $ {}
     |feather.comp.container $ {}
-      :ns $ quote
-        ns feather.comp.container $ :require (respo-ui.core :as ui)
-          respo.util.format :refer $ hsl
-          respo.core :refer $ defcomp defeffect <> >> div button textarea span input
-          respo.comp.space :refer $ =<
-          reel.comp.reel :refer $ comp-reel
-          respo-md.comp.md :refer $ comp-md
-          feather.config :refer $ dev?
-          feather.core :refer $ comp-icon comp-i
-          "\"feather-icons" :default feather-icons
-          "\"copy-text-to-clipboard" :default copy!
       :defs $ {}
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -65,95 +53,25 @@
                           :color $ hsl 0 0 80
                           :white-space :nowrap
                 when dev? $ comp-reel (>> states :reel) reel ({})
+      :ns $ quote
+        ns feather.comp.container $ :require (respo-ui.core :as ui)
+          respo.util.format :refer $ hsl
+          respo.core :refer $ defcomp defeffect <> >> div button textarea span input
+          respo.comp.space :refer $ =<
+          reel.comp.reel :refer $ comp-reel
+          respo-md.comp.md :refer $ comp-md
+          feather.config :refer $ dev?
+          feather.core :refer $ comp-icon comp-i
+          "\"feather-icons" :default feather-icons
+          "\"copy-text-to-clipboard" :default copy!
     |feather.config $ {}
-      :ns $ quote (ns feather.config)
       :defs $ {}
         |dev? $ quote
-          def dev? $ = "\"dev" (get-env "\"mode")
+          def dev? $ = "\"dev" (get-env "\"mode" "\"release")
         |site $ quote
           def site $ {} (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"respo-feather")
-    |feather.main $ {}
-      :ns $ quote
-        ns feather.main $ :require
-          respo.core :refer $ render! clear-cache!
-          feather.comp.container :refer $ comp-container
-          feather.updater :refer $ updater
-          feather.schema :as schema
-          reel.util :refer $ listen-devtools!
-          reel.core :refer $ reel-updater refresh-reel
-          reel.schema :as reel-schema
-          feather.config :as config
-          "\"./calcit.build-errors" :default build-errors
-          "\"bottom-tip" :default hud!
-      :defs $ {}
-        |render-app! $ quote
-          defn render-app! () $ render! mount-target (comp-container @*reel) (\ dispatch! % %2)
-        |persist-storage! $ quote
-          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
-            js/JSON.stringify $ to-cirru-edn (:store @*reel)
-        |mount-target $ quote
-          def mount-target $ .querySelector js/document |.app
-        |*reel $ quote
-          defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
-        |main! $ quote
-          defn main! () (load-console-formatter!)
-            println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
-            render-app!
-            add-watch *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |a dispatch!
-            .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
-            repeat! 60 persist-storage!
-            let
-                raw $ .getItem js/localStorage (:storage-key config/site)
-              when (some? raw)
-                dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
-            println "|App started."
-        |snippets $ quote
-          defn snippets () $ println config/cdn?
-        |dispatch! $ quote
-          defn dispatch! (op op-data)
-            when
-              and config/dev? $ not= op :states
-              println "\"Dispatch:" op op-data
-            reset! *reel $ reel-updater updater @*reel op op-data
-        |reload! $ quote
-          defn reload! () $ if (nil? build-errors)
-            do (remove-watch *reel :changes) (clear-cache!)
-              add-watch *reel :changes $ fn (reel prev) (render-app!)
-              reset! *reel $ refresh-reel @*reel schema/store updater
-              hud! "\"ok~" "\"Ok"
-            hud! "\"error" build-errors
-        |repeat! $ quote
-          defn repeat! (duration cb)
-            js/setTimeout
-              fn () (cb)
-                repeat! (* 1000 duration) cb
-              * 1000 duration
-    |feather.schema $ {}
-      :ns $ quote (ns feather.schema)
-      :defs $ {}
-        |store $ quote
-          def store $ {}
-            :states $ {}
-              :cursor $ []
-    |feather.updater $ {}
-      :ns $ quote
-        ns feather.updater $ :require
-          respo.cursor :refer $ update-states
-      :defs $ {}
-        |updater $ quote
-          defn updater (store op data op-id op-time)
-            case op
-              :states $ update-states store data
-              :hydrate-storage data
-              :exhibit $ assoc store :icon data
-              op store
+      :ns $ quote (ns feather.config)
     |feather.core $ {}
-      :ns $ quote
-        ns feather.core $ :require
-          respo.core :refer $ defcomp create-element span div i <>
-          respo.util.format :refer $ hsl
-          "\"feather-icons" :default feather-icons
       :defs $ {}
         |comp-i $ quote
           defcomp comp-i (icon size color)
@@ -199,3 +117,84 @@
             :padding "\"0 8px"
             :line-height "\"24px"
             :border-radius "\"12px"
+      :ns $ quote
+        ns feather.core $ :require
+          respo.core :refer $ defcomp create-element span div i <>
+          respo.util.format :refer $ hsl
+          "\"feather-icons" :default feather-icons
+    |feather.main $ {}
+      :defs $ {}
+        |*reel $ quote
+          defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+        |dispatch! $ quote
+          defn dispatch! (op op-data)
+            when
+              and config/dev? $ not= op :states
+              println "\"Dispatch:" op op-data
+            reset! *reel $ reel-updater updater @*reel op op-data
+        |main! $ quote
+          defn main! () (load-console-formatter!)
+            println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
+            render-app!
+            add-watch *reel :changes $ fn (reel prev) (render-app!)
+            listen-devtools! |a dispatch!
+            .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
+            repeat! 60 persist-storage!
+            let
+                raw $ .getItem js/localStorage (:storage-key config/site)
+              when (some? raw)
+                dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
+            println "|App started."
+        |mount-target $ quote
+          def mount-target $ .querySelector js/document |.app
+        |persist-storage! $ quote
+          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
+            js/JSON.stringify $ to-cirru-edn (:store @*reel)
+        |reload! $ quote
+          defn reload! () $ if (nil? build-errors)
+            do (remove-watch *reel :changes) (clear-cache!)
+              add-watch *reel :changes $ fn (reel prev) (render-app!)
+              reset! *reel $ refresh-reel @*reel schema/store updater
+              hud! "\"ok~" "\"Ok"
+            hud! "\"error" build-errors
+        |render-app! $ quote
+          defn render-app! () $ render! mount-target (comp-container @*reel) (\ dispatch! % %2)
+        |repeat! $ quote
+          defn repeat! (duration cb)
+            js/setTimeout
+              fn () (cb)
+                repeat! (* 1000 duration) cb
+              * 1000 duration
+        |snippets $ quote
+          defn snippets () $ println config/cdn?
+      :ns $ quote
+        ns feather.main $ :require
+          respo.core :refer $ render! clear-cache!
+          feather.comp.container :refer $ comp-container
+          feather.updater :refer $ updater
+          feather.schema :as schema
+          reel.util :refer $ listen-devtools!
+          reel.core :refer $ reel-updater refresh-reel
+          reel.schema :as reel-schema
+          feather.config :as config
+          "\"./calcit.build-errors" :default build-errors
+          "\"bottom-tip" :default hud!
+    |feather.schema $ {}
+      :defs $ {}
+        |store $ quote
+          def store $ {}
+            :states $ {}
+              :cursor $ []
+      :ns $ quote (ns feather.schema)
+    |feather.updater $ {}
+      :defs $ {}
+        |updater $ quote
+          defn updater (store op data op-id op-time)
+            case op
+              :states $ update-states store data
+              :hydrate-storage data
+              :exhibit $ assoc store :icon data
+              op store
+      :ns $ quote
+        ns feather.updater $ :require
+          respo.cursor :refer $ update-states
