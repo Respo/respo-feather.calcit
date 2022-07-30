@@ -130,26 +130,27 @@
           defn dispatch! (op op-data)
             when
               and config/dev? $ not= op :states
-              println "\"Dispatch:" op op-data
+              js/console.log "\"Dispatch:" op op-data
             reset! *reel $ reel-updater updater @*reel op op-data
         |main! $ quote
           defn main! () (load-console-formatter!)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
+            if config/dev? $ load-console-formatter!
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |a dispatch!
-            .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
-            repeat! 60 persist-storage!
+            js/window.addEventListener |beforeunload $ fn (event) (persist-storage!)
+            flipped js/setInterval (* 60 1000) persist-storage!
             let
-                raw $ .getItem js/localStorage (:storage-key config/site)
+                raw $ js/localStorage.getItem (:storage-key config/site)
               when (some? raw)
-                dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
+                dispatch! :hydrate-storage $ parse-cirru-edn raw
             println "|App started."
         |mount-target $ quote
           def mount-target $ .querySelector js/document |.app
         |persist-storage! $ quote
-          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
-            js/JSON.stringify $ to-cirru-edn (:store @*reel)
+          defn persist-storage! () $ js/localStorage.setItem (:storage-key config/site)
+            format-cirru-edn $ :store @*reel
         |reload! $ quote
           defn reload! () $ if (nil? build-errors)
             do (remove-watch *reel :changes) (clear-cache!)
@@ -190,11 +191,10 @@
       :defs $ {}
         |updater $ quote
           defn updater (store op data op-id op-time)
-            case op
+            case-default op store
               :states $ update-states store data
               :hydrate-storage data
               :exhibit $ assoc store :icon data
-              op store
       :ns $ quote
         ns feather.updater $ :require
           respo.cursor :refer $ update-states
