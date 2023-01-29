@@ -17,7 +17,7 @@
                 icons $ to-calcit-data
                   js/Object.keys $ .-icons feather-icons
               div
-                {} $ :style (merge ui/global ui/fullscreen)
+                {} $ :class-name (str-spaced css/global css/fullscreen)
                 if
                   some? $ :icon store
                   div
@@ -30,33 +30,49 @@
                     comp-i
                       str $ :icon store
                       , 40 "\"black"
-                div
+                list->
                   {} $ :style
                     {} (:width "\"100%") (:padding 16) (:overflow :auto) (:margin-top 80)
-                  , & $ -> icons
-                    map $ fn (icon)
-                      div
-                        {}
-                          :style $ merge ui/center
-                            {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer)
-                            if
-                              = icon $ :icon store
-                              {} $ :background-color (hsl 0 0 95)
-                          :on-click $ fn (event d!)
-                            copy! $ str "\":" icon
-                            d! :exhibit icon
-                        comp-icon icon
-                          {} (:font-size 24)
-                            :color $ hsl 200 80 60
-                          , nil
-                        <> icon $ {} (:font-size 12)
-                          :color $ hsl 0 0 80
-                          :white-space :nowrap
+                  -> icons $ map
+                    fn (icon)
+                      [] icon $ memof1-call-by icon comp-icon-demo icon
+                        = icon $ :icon store
                 when dev? $ comp-reel (>> states :reel) reel ({})
+        |comp-icon-demo $ quote
+          defcomp comp-icon-demo (icon selected?)
+            div
+              {}
+                :class-name $ str-spaced css/center css-cell
+                :style $ if selected?
+                  {}
+                    :background-color $ hsl 0 0 95
+                    :outline $ str "\"1px solid " (hsl 200 90 89)
+                    :z-index 999
+                :on-click $ fn (event d!)
+                  copy! $ str "\":" icon
+                  d! :exhibit icon
+              comp-icon icon
+                {} (:font-size 24)
+                  :color $ hsl 200 80 60
+                , nil
+              <> icon css-icon-name
+        |css-cell $ quote
+          defstyle css-cell $ {}
+            "\"$0" $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration "\"300ms")
+            "\"$0:hover" $ {}
+              :background-color $ hsl 0 0 96
+            "\"$0:active" $ {} (:transition-duration "\"0ms")
+              :background-color $ hsl 0 0 90
+              :transform "\"scale(1.02)"
+        |css-icon-name $ quote
+          defstyle css-icon-name $ {}
+            "\"$0" $ {} (:font-size 12)
+              :color $ hsl 0 0 80
+              :white-space :nowrap
       :ns $ quote
-        ns feather.comp.container $ :require (respo-ui.core :as ui)
+        ns feather.comp.container $ :require (respo-ui.core :as ui) (respo-ui.css :as css)
           respo.util.format :refer $ hsl
-          respo.core :refer $ defcomp defeffect <> >> div button textarea span input
+          respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
           respo-md.comp.md :refer $ comp-md
@@ -64,6 +80,8 @@
           feather.core :refer $ comp-icon comp-i
           "\"feather-icons" :default feather-icons
           "\"copy-text-to-clipboard" :default copy!
+          respo.css :refer $ defstyle
+          memof.once :refer $ memof1-call-by
     |feather.config $ {}
       :defs $ {}
         |dev? $ quote
@@ -96,17 +114,17 @@
                 create-element :i $ {}
                   :style $ merge style-base style
                   :innerHTML $ if (some? obj)
-                    .toSvg obj $ to-js-data
+                    .!toSvg obj $ to-js-data
                       {}
                         :width $ :font-size style
                         :height $ :font-size style
                         :color $ :color style
                   :on-click on-click
                 do
-                  .error js/console "\"No icon named:" $ turn-string icon
+                  js/console.error "\"No icon named:" $ turn-string icon
                   span
                     {} (:on-click on-click)
-                      :style $ merge style-base style style-error
+                      :stle $ merge style-base style style-error
                     <> $ str "\"No " icon-name
         |style-base $ quote
           def style-base $ {} (:display :inline-block)
