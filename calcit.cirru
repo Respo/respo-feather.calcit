@@ -1,6 +1,6 @@
 
 {}
-  :configs $ {} (:compact-output? true) (:extension |.cljs) (:init-fn |feather.main/main!) (:output |src) (:port 6001) (:reload-fn |feather.main/reload!) (:storage-key |calcit.cirru) (:version |0.2.3)
+  :configs $ {} (:compact-output? true) (:extension |.cljs) (:init-fn |feather.main/main!) (:output |src) (:port 6001) (:reload-fn |feather.main/reload!) (:storage-key |calcit.cirru) (:version |0.2.4)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :entries $ {}
   :ir $ {} (:package |feather)
@@ -657,7 +657,7 @@
                           |j $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:text |icon) (:type :leaf)
                       |r $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:type :expr)
                         :data $ {}
-                          |T $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:text |keyword?) (:type :leaf)
+                          |T $ {} (:at 1685265671844) (:by |rJG4IHzWf) (:text |tag?) (:type :leaf)
                           |j $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:text |icon) (:type :leaf)
                   |r $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:text "|\"1: icon name in string") (:type :leaf)
               |x $ {} (:at 1615655659087) (:by |rJG4IHzWf) (:type :expr)
