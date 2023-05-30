@@ -1,6 +1,6 @@
 
 {} (:package |feather)
-  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.2.3)
+  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.2.4)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :entries $ {}
   :files $ {}
@@ -99,7 +99,7 @@
         |comp-icon $ quote
           defcomp comp-icon (icon style on-click)
             assert
-              or (string? icon) (keyword? icon)
+              or (string? icon) (tag? icon)
               , "\"1: icon name in string"
             assert
               number? $ :font-size style
