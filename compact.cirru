@@ -98,15 +98,9 @@
               , nil
         |comp-icon $ quote
           defcomp comp-icon (icon style on-click)
-            assert
-              or (string? icon) (tag? icon)
-              , "\"1: icon name in string"
-            assert
-              number? $ :font-size style
-              , "\"2: size in number"
-            assert
-              string? $ :color style
-              , "\"3: color in string"
+            assert "\"1: icon name in string" $ or (string? icon) (tag? icon)
+            assert "\"2: size in number" $ number? (:font-size style)
+            assert "\"3: color in string" $ string? (:color style)
             let
                 icon-name $ turn-string icon
                 obj $ aget (.-icons feather-icons) icon-name
@@ -145,11 +139,9 @@
         |*reel $ quote
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |dispatch! $ quote
-          defn dispatch! (op op-data)
-            when
-              and config/dev? $ not= op :states
-              js/console.log "\"Dispatch:" op op-data
-            reset! *reel $ reel-updater updater @*reel op op-data
+          defn dispatch! (op)
+            when config/dev? $ js/console.log "\"Dispatch:" op
+            reset! *reel $ reel-updater updater @*reel op
         |main! $ quote
           defn main! () (load-console-formatter!)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
@@ -162,7 +154,7 @@
             let
                 raw $ js/localStorage.getItem (:storage-key config/site)
               when (some? raw)
-                dispatch! :hydrate-storage $ parse-cirru-edn raw
+                dispatch! $ :: :hydrate-storage (parse-cirru-edn raw)
             println "|App started."
         |mount-target $ quote
           def mount-target $ .querySelector js/document |.app
@@ -177,7 +169,7 @@
               hud! "\"ok~" "\"Ok"
             hud! "\"error" build-errors
         |render-app! $ quote
-          defn render-app! () $ render! mount-target (comp-container @*reel) (\ dispatch! % %2)
+          defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
         |repeat! $ quote
           defn repeat! (duration cb)
             js/setTimeout
@@ -208,11 +200,13 @@
     |feather.updater $ {}
       :defs $ {}
         |updater $ quote
-          defn updater (store op data op-id op-time)
-            case-default op store
-              :states $ update-states store data
-              :hydrate-storage data
-              :exhibit $ assoc store :icon data
+          defn updater (store op op-id op-time)
+            tag-match op
+                :states cursor s
+                update-states store cursor s
+              (:hydrate-storage data) data
+              (:exhibit d) (assoc store :icon d)
+              _ $ do (eprintln "\"Unknown op:" op) store
       :ns $ quote
         ns feather.updater $ :require
           respo.cursor :refer $ update-states
