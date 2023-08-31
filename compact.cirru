@@ -1,12 +1,12 @@
 
 {} (:package |feather)
-  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.3.0-a2)
+  :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.3.0-a3)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :entries $ {}
   :files $ {}
-    |feather.comp.container $ {}
+    |feather.comp.container $ %{} :FileEntry
       :defs $ {}
-        |comp-container $ %{} :CodeEntry
+        |comp-container $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
               let
@@ -39,8 +39,7 @@
                         [] icon $ memof1-call-by icon comp-icon-demo icon
                           = icon $ :icon store
                   when dev? $ comp-reel (>> states :reel) reel ({})
-          :doc |
-        |comp-icon-demo $ %{} :CodeEntry
+        |comp-icon-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon-demo (icon selected?)
               div
@@ -59,8 +58,7 @@
                     :color $ hsl 200 80 60
                   , nil
                 <> icon css-icon-name
-          :doc |
-        |css-cell $ %{} :CodeEntry
+        |css-cell $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle css-cell $ {}
               "\"$0" $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration "\"300ms")
@@ -69,15 +67,13 @@
               "\"$0:active" $ {} (:transition-duration "\"0ms")
                 :background-color $ hsl 0 0 90
                 :transform "\"scale(1.02)"
-          :doc |
-        |css-icon-name $ %{} :CodeEntry
+        |css-icon-name $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle css-icon-name $ {}
               "\"$0" $ {} (:font-size 12)
                 :color $ hsl 0 0 80
                 :white-space :nowrap
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns feather.comp.container $ :require (respo-ui.core :as ui) (respo-ui.css :as css)
             respo.util.format :refer $ hsl
@@ -91,30 +87,25 @@
             "\"copy-text-to-clipboard" :default copy!
             respo.css :refer $ defstyle
             memof.once :refer $ memof1-call-by
-        :doc |
-    |feather.config $ {}
+    |feather.config $ %{} :FileEntry
       :defs $ {}
-        |dev? $ %{} :CodeEntry
+        |dev? $ %{} :CodeEntry (:doc |)
           :code $ quote
             def dev? $ = "\"dev" (get-env "\"mode" "\"release")
-          :doc |
-        |site $ %{} :CodeEntry
+        |site $ %{} :CodeEntry (:doc |)
           :code $ quote
             def site $ {} (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"respo-feather")
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns feather.config)
-        :doc |
-    |feather.core $ {}
+    |feather.core $ %{} :FileEntry
       :defs $ {}
-        |comp-i $ %{} :CodeEntry
+        |comp-i $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-i (icon size color)
               comp-icon icon
                 {} (:font-size size) (:color color)
                 , nil
-          :doc |
-        |comp-icon $ %{} :CodeEntry
+        |comp-icon $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon (icon style on-click)
               assert "\"1: icon name in string" $ or (string? icon) (tag? icon)
@@ -139,12 +130,10 @@
                       {} (:on-click on-click)
                         :stle $ merge style-base style style-error
                       <> $ str "\"No " icon-name
-          :doc |
-        |style-base $ %{} :CodeEntry
+        |style-base $ %{} :CodeEntry (:doc |)
           :code $ quote
             def style-base $ {} (:display :inline-block)
-          :doc |
-        |style-error $ %{} :CodeEntry
+        |style-error $ %{} :CodeEntry (:doc |)
           :code $ quote
             def style-error $ {}
               :background-color $ hsl 0 80 70
@@ -152,27 +141,23 @@
               :padding "\"0 8px"
               :line-height "\"24px"
               :border-radius "\"12px"
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns feather.core $ :require
             respo.core :refer $ defcomp create-element span div i <>
             respo.util.format :refer $ hsl
             "\"feather-icons" :default feather-icons
-        :doc |
-    |feather.main $ {}
+    |feather.main $ %{} :FileEntry
       :defs $ {}
-        |*reel $ %{} :CodeEntry
+        |*reel $ %{} :CodeEntry (:doc |)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
-          :doc |
-        |dispatch! $ %{} :CodeEntry
+        |dispatch! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op)
               when config/dev? $ js/console.log "\"Dispatch:" op
               reset! *reel $ reel-updater updater @*reel op
-          :doc |
-        |main! $ %{} :CodeEntry
+        |main! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn main! () (load-console-formatter!)
               println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
@@ -187,17 +172,14 @@
                 when (some? raw)
                   dispatch! $ :: :hydrate-storage (parse-cirru-edn raw)
               println "|App started."
-          :doc |
-        |mount-target $ %{} :CodeEntry
+        |mount-target $ %{} :CodeEntry (:doc |)
           :code $ quote
             def mount-target $ .querySelector js/document |.app
-          :doc |
-        |persist-storage! $ %{} :CodeEntry
+        |persist-storage! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ js/localStorage.setItem (:storage-key config/site)
               format-cirru-edn $ :store @*reel
-          :doc |
-        |reload! $ %{} :CodeEntry
+        |reload! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
               do (remove-watch *reel :changes) (clear-cache!)
@@ -205,24 +187,20 @@
                 reset! *reel $ refresh-reel @*reel schema/store updater
                 hud! "\"ok~" "\"Ok"
               hud! "\"error" build-errors
-          :doc |
-        |render-app! $ %{} :CodeEntry
+        |render-app! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
-          :doc |
-        |repeat! $ %{} :CodeEntry
+        |repeat! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn repeat! (duration cb)
               js/setTimeout
                 fn () (cb)
                   repeat! (* 1000 duration) cb
                 * 1000 duration
-          :doc |
-        |snippets $ %{} :CodeEntry
+        |snippets $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn snippets () $ println config/cdn?
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns feather.main $ :require
             respo.core :refer $ render! clear-cache!
@@ -235,21 +213,18 @@
             feather.config :as config
             "\"./calcit.build-errors" :default build-errors
             "\"bottom-tip" :default hud!
-        :doc |
-    |feather.schema $ {}
+    |feather.schema $ %{} :FileEntry
       :defs $ {}
-        |store $ %{} :CodeEntry
+        |store $ %{} :CodeEntry (:doc |)
           :code $ quote
             def store $ {}
               :states $ {}
                 :cursor $ []
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns feather.schema)
-        :doc |
-    |feather.updater $ {}
+    |feather.updater $ %{} :FileEntry
       :defs $ {}
-        |updater $ %{} :CodeEntry
+        |updater $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn updater (store op op-id op-time)
               tag-match op
@@ -258,9 +233,7 @@
                 (:hydrate-storage data) data
                 (:exhibit d) (assoc store :icon d)
                 _ $ do (eprintln "\"Unknown op:" op) store
-          :doc |
-      :ns $ %{} :CodeEntry
+      :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns feather.updater $ :require
             respo.cursor :refer $ update-states
-        :doc |
