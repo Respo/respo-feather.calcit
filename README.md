@@ -4,8 +4,8 @@ Respo feather in Calcit-js
 
 > Respo feather based on calcit-js.
 
-* Demo http://repo.calcit-lang.org/respo-feather.calcit/ .
-* Docs https://github.com/Respo/respo-feather
+* Availables icons https://feathericons.com
+* Demo http://repo.calcit-lang.org/respo-feather.calcit/
 
 ### Usages
 
@@ -15,17 +15,18 @@ Install dependency:
 npm install feather-icons
 ```
 
-```clojure
+```cirru
 feather.core/comp-i icon font-size color
 
 ; or
-feather.core/comp-icon icon style-object $ fn (e d!)
+feather.core/comp-icon icon
+  {}
+    :font-size 12
+    :color :blue
+    :class-name css-icon
+    :style $ {}
+  fn (e d!)
 ```
-
-Availables icons can be found on:
-
-* https://feathericons.com
-* http://repo.respo-mvc.org/feather/
 
 ### Workflow
 
