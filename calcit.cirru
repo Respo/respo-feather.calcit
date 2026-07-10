@@ -1,12 +1,12 @@
 
-{} (:package |feather)
+{} (:about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `cr query` to inspect and `cr edit`/`cr tree` to modify. Run `cr docs agents --full` first. Manual edits must follow format and schema conventions, then run `cr edit format`.") (:package |feather)
   :configs $ {} (:init-fn |feather.main/main!) (:reload-fn |feather.main/reload!) (:version |0.4.0-a1)
     :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
   :entries $ {}
   :files $ {}
     |feather.comp.container $ %{} :FileEntry
       :defs $ {}
-        |comp-container $ %{} :CodeEntry (:doc |)
+        |comp-container $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defcomp comp-container (reel)
               let
@@ -14,73 +14,84 @@
                   states $ :states store
                   cursor $ either (:cursor states) ([])
                   state $ either (:data states)
-                    {} $ :content "\""
+                    {} $ :content |
                 div
                   {} $ :class-name (str-spaced css/preset css/global css/fullscreen)
                   if
                     some? $ :icon store
                     div
                       {} $ :class-name (str-spaced css/row-center style-preview)
-                      <> $ str "\"Copied " "\":" (:icon store)
+                      <> $ str "|Copied " |: (:icon store)
                       =< 16 nil
                       comp-i
                         str $ :icon store
-                        , 40 "\"black"
+                        , 40 |black
                   list->
                     {} $ :style
-                      {} (:width "\"100%") (:padding 16) (:overflow :auto) (:margin-top 80)
+                      {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
                     -> icon-names $ map
                       fn (icon)
                         [] icon $ memof1-call-by icon comp-icon-demo icon
                           = icon $ :icon store
                   when dev? $ comp-reel (>> states :reel) reel ({})
-        |comp-icon-demo $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |comp-icon-demo $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defcomp comp-icon-demo (icon selected?)
               div
                 {}
                   :class-name $ str-spaced css/center css-cell (if selected? style-selected)
                   :on-click $ fn (event d!)
-                    copy! $ str "\":" icon
+                    copy! $ str |: icon
                     d! :exhibit icon
                 comp-icon icon
                   {} (:font-size 24)
                     :color $ hsl 200 80 60
                   , nil
                 <> icon css-icon-name
-        |css-cell $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |css-cell $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle css-cell $ {}
-              "\"$0" $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration "\"300ms")
-              "\"$0:hover" $ {}
+              |$0 $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration |300ms)
+              |$0:hover $ {}
                 :background-color $ hsl 0 0 96
-              "\"$0:active" $ {} (:transition-duration "\"0ms")
+              |$0:active $ {} (:transition-duration |0ms)
                 :background-color $ hsl 0 0 90
-                :transform "\"scale(1.02)"
-        |css-icon-name $ %{} :CodeEntry (:doc |)
+                :transform "|scale(1.02)"
+          :examples $ []
+        |css-icon-name $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle css-icon-name $ {}
-              "\"$0" $ {} (:font-size 12)
+              |$0 $ {} (:font-size 12)
                 :color $ hsl 0 0 80
                 :white-space :nowrap
+          :examples $ []
         |icon-names $ %{} :CodeEntry (:doc |)
           :code $ quote
             def icon-names $ to-calcit-data
               js/Object.keys $ .-icons feather-icons
-        |style-preview $ %{} :CodeEntry (:doc |)
+          :examples $ []
+          :schema $ :: :fn
+            {} (:return :dynamic)
+              :args $ []
+              :features $ #{} :js-ffi
+        |style-preview $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle style-preview $ {}
-              "\"&" $ {} (:padding "\"16px") (:position :fixed) (:top 0) (:width "\"100%")
+              |& $ {} (:padding |16px) (:position :fixed) (:top 0) (:width |100%)
                 :background-color $ hsl 0 0 100 0.8
-                :border-bottom $ str "\"1px solid " (hsl 0 0 92)
-        |style-selected $ %{} :CodeEntry (:doc |)
+                :border-bottom $ str "|1px solid " (hsl 0 0 92)
+          :examples $ []
+        |style-selected $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle style-selected $ {}
-              "\"&" $ {}
+              |& $ {}
                 :background-color $ hsl 0 0 95
-                :outline $ str "\"1px solid " (hsl 200 90 89)
+                :outline $ str "|1px solid " (hsl 200 90 89)
                 :z-index 999
-      :ns $ %{} :CodeEntry (:doc |)
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote
           ns feather.comp.container $ :require (respo-ui.core :as ui) (respo-ui.css :as css)
             respo.util.format :refer $ hsl
@@ -90,40 +101,43 @@
             respo-md.comp.md :refer $ comp-md
             feather.config :refer $ dev?
             feather.core :refer $ comp-icon comp-i
-            "\"feather-icons" :default feather-icons
-            "\"copy-text-to-clipboard" :default copy!
+            |feather-icons :default feather-icons
+            |copy-text-to-clipboard :default copy!
             respo.css :refer $ defstyle
             memof.once :refer $ memof1-call-by
     |feather.config $ %{} :FileEntry
       :defs $ {}
-        |dev? $ %{} :CodeEntry (:doc |)
+        |dev? $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
-            def dev? $ = "\"dev" (get-env "\"mode" "\"release")
-        |site $ %{} :CodeEntry (:doc |)
+            def dev? $ = |dev (get-env |mode |release)
+          :examples $ []
+        |site $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
-            def site $ {} (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"respo-feather")
-      :ns $ %{} :CodeEntry (:doc |)
+            def site $ {} (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |respo-feather)
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote (ns feather.config)
     |feather.core $ %{} :FileEntry
       :defs $ {}
-        |comp-i $ %{} :CodeEntry (:doc |)
+        |comp-i $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defcomp comp-i (icon ? size color)
               comp-icon icon
                 {} (:font-size size) (:color color)
                 , nil
+          :examples $ []
         |comp-icon $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon (icon options on-click)
-              assert "\"icon name in string" $ or (string? icon) (tag? icon)
+              assert "|icon name in string" $ or (string? icon) (tag? icon)
               let
                   icon-name $ turn-string icon
                   obj $ aget (.-icons feather-icons) icon-name
                   class-name $ get options :class-name
                   size $ get options :font-size
                   color $ get options :color
-                assert "\"size in number" $ or (number? size) (nil? size)
-                assert "\"color in string" $ or (string? color) (nil? color) (tag? color)
+                assert "|size in number" $ or (number? size) (nil? size)
+                assert "|color in string" $ or (string? color) (nil? color) (tag? color)
                 if (some? obj)
                   create-element :i $ {}
                     :class-name $ str-spaced style-base class-name
@@ -135,45 +149,54 @@
                         :height $ or size 14
                         :color $ turn-string (or color :blue)
                   do
-                    js/console.error "\"No icon named:" $ turn-string icon
+                    js/console.error "|No icon named:" $ turn-string icon
                     span
                       {} (:on-click on-click) (:class-name style-error)
-                      <> $ str "\"No icon: " icon-name
-        |style-base $ %{} :CodeEntry (:doc |)
+                      <> $ str "|No icon: " icon-name
+          :examples $ []
+          :schema $ :: :fn
+            {} (:return :dynamic)
+              :args $ [] :dynamic :dynamic :dynamic
+              :features $ #{} :js-ffi
+        |style-base $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle style-base $ {}
-              "\"&" $ {} (:display :inline-block)
-        |style-error $ %{} :CodeEntry (:doc |)
+              |& $ {} (:display :inline-block)
+          :examples $ []
+        |style-error $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defstyle style-error $ {}
-              "\"&" $ {}
+              |& $ {}
                 :background-color $ hsl 0 80 70
                 :color :white
-                :padding "\"0 8px"
-                :line-height "\"24px"
-                :border-radius "\"12px"
+                :padding "|0 8px"
+                :line-height |24px
+                :border-radius |12px
                 :display :inline-block
-      :ns $ %{} :CodeEntry (:doc |)
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote
           ns feather.core $ :require
             respo.core :refer $ defcomp create-element span div i <>
             respo.util.format :refer $ hsl
-            "\"feather-icons" :default feather-icons
+            |feather-icons :default feather-icons
             respo.css :refer $ defstyle
     |feather.main $ %{} :FileEntry
       :defs $ {}
-        |*reel $ %{} :CodeEntry (:doc |)
+        |*reel $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
-        |dispatch! $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |dispatch! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn dispatch! (op)
-              when config/dev? $ js/console.log "\"Dispatch:" op
+              when config/dev? $ js/console.log |Dispatch: op
               reset! *reel $ reel-updater updater @*reel op
+          :examples $ []
         |main! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn main! () (load-console-formatter!)
-              println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
+              println "|Running mode:" $ if config/dev? |dev |release
               if config/dev? $ load-console-formatter!
               render-app!
               add-watch *reel :changes $ fn (reel prev) (render-app!)
@@ -185,35 +208,46 @@
                 when (some? raw)
                   dispatch! $ :: :hydrate-storage (parse-cirru-edn raw)
               println "|App started."
-        |mount-target $ %{} :CodeEntry (:doc |)
+          :examples $ []
+          :schema $ :: :fn
+            {} (:return :dynamic)
+              :args $ []
+              :features $ #{} :js-ffi
+        |mount-target $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
-        |persist-storage! $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |persist-storage! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn persist-storage! () $ js/localStorage.setItem (:storage-key config/site)
               format-cirru-edn $ :store @*reel
-        |reload! $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |reload! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
               do (remove-watch *reel :changes) (clear-cache!)
                 add-watch *reel :changes $ fn (reel prev) (render-app!)
                 reset! *reel $ refresh-reel @*reel schema/store updater
-                hud! "\"ok~" "\"Ok"
-              hud! "\"error" build-errors
-        |render-app! $ %{} :CodeEntry (:doc |)
+                hud! |ok~ |Ok
+              hud! |error build-errors
+          :examples $ []
+        |render-app! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
-        |repeat! $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |repeat! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn repeat! (duration cb)
               js/setTimeout
                 fn () (cb)
                   repeat! (* 1000 duration) cb
                 * 1000 duration
-        |snippets $ %{} :CodeEntry (:doc |)
+          :examples $ []
+        |snippets $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn snippets () $ println config/cdn?
-      :ns $ %{} :CodeEntry (:doc |)
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote
           ns feather.main $ :require
             respo.core :refer $ render! clear-cache!
@@ -224,29 +258,30 @@
             reel.core :refer $ reel-updater refresh-reel
             reel.schema :as reel-schema
             feather.config :as config
-            "\"./calcit.build-errors" :default build-errors
-            "\"bottom-tip" :default hud!
+            |./calcit.build-errors :default build-errors
+            |bottom-tip :default hud!
     |feather.schema $ %{} :FileEntry
       :defs $ {}
-        |store $ %{} :CodeEntry (:doc |)
+        |store $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             def store $ {}
               :states $ {}
                 :cursor $ []
-      :ns $ %{} :CodeEntry (:doc |)
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote (ns feather.schema)
     |feather.updater $ %{} :FileEntry
       :defs $ {}
-        |updater $ %{} :CodeEntry (:doc |)
+        |updater $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn updater (store op op-id op-time)
               tag-match op
-                  :states cursor s
-                  update-states store cursor s
+                (:states cursor s) (update-states store cursor s)
                 (:hydrate-storage data) data
                 (:exhibit d) (assoc store :icon d)
-                _ $ do (eprintln "\"Unknown op:" op) store
-      :ns $ %{} :CodeEntry (:doc |)
+                _ $ do (eprintln "|Unknown op:" op) store
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote
           ns feather.updater $ :require
             respo.cursor :refer $ update-states
