@@ -144,11 +144,11 @@
                   icon-name $ turn-string icon
                   icons $ unsafe-coerce
                     .-icons $ unsafe-coerce feather-icons 'JsObject
-                    'JsObject
+                    :: 'JsObject
                   raw-obj $ aget icons icon-name
-                  class-name $ get options :class-name
-                  size $ get options :font-size
-                  color $ get options :color
+                  class-name $ option:unwrap-or (get options :class-name) nil
+                  size $ option:unwrap-or (get options :font-size) nil
+                  color $ option:unwrap-or (get options :color) nil
                 assert "|size in number" $ or (number? size) (nil? size)
                 assert "|color in string" $ or (string? color) (nil? color) (tag? color)
                 if (js-present? raw-obj)
@@ -156,7 +156,7 @@
                       obj $ unsafe-coerce raw-obj 'JsObject
                     create-element :i $ {}
                       :class-name $ str-spaced style-base class-name
-                      :style $ get options :style
+                      :style $ option:unwrap-or (get options :style) ({})
                       :on-click on-click
                       :innerHTML $ .!toSvg obj
                         js-object
