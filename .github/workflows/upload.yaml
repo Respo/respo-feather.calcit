@@ -30,7 +30,6 @@ jobs:
         && cr calcit.cirru edit format
         && git diff --exit-code -- calcit.cirru
         && cr calcit.cirru --check-only
-        && cr calcit.cirru analyze check-types --summary-only --format json
         && mkdir -p .calcit
         && cr calcit.cirru analyze check-types --summary-only --format json > .calcit/check-types.json
         && cr calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic,code-nil --intent unresolved,declared-optional --summary-only --format json > .calcit/weak-types.json

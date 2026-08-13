@@ -1,6 +1,13 @@
 import fs from "node:fs";
 
-const read = (name) => JSON.parse(fs.readFileSync(`.calcit/${name}.json`, "utf8")).data.summary;
+const read = (name) => {
+  const path = `.calcit/${name}.json`
+  let parsed
+  try { parsed = JSON.parse(fs.readFileSync(path, "utf8")) }
+  catch (error) { throw new Error(`Unable to read ${path}: ${error.message}`) }
+  if (!parsed?.data?.summary) throw new Error(`Missing data.summary in ${path}`)
+  return parsed.data.summary
+}
 const types = read("check-types");
 const weak = read("weak-types");
 const deprecated = read("deprecated");
