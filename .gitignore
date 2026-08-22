@@ -10,3 +10,5 @@ dist/
 .yarn
 
 .calcit/
+
+.DS_Store
