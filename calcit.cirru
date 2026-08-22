@@ -39,7 +39,7 @@
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
-              :args $ [] 'Dynamic
+              :args $ [] (:: 'Map 'Tag 'Dynamic)
         |comp-icon-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon-demo (icon selected?)
@@ -57,7 +57,7 @@
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
-              :args $ [] 'Dynamic 'Bool
+              :args $ [] 'String 'Bool
         |css-cell $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle css-cell $ {}
@@ -332,8 +332,9 @@
                 _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []
           :schema $ :: 'Fn
-            {} (:return 'Map)
+            {}
               :args $ [] 'Map 'Dynamic 'Dynamic 'Dynamic
+              :return $ :: 'Map 'Tag 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns feather.updater $ :require
