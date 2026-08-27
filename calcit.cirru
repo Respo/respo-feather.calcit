@@ -254,7 +254,7 @@
                 storage-key $ option:unwrap (get config/site :storage-key)
                 store $ option:unwrap (get @*reel :store)
               js/localStorage.setItem storage-key $ format-cirru-edn store
-              , nil
+              , &unit
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'Unit)
