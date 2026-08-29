@@ -6,9 +6,9 @@
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {}
   :files $ {}
-    |feather.comp.container $ %{} 'FileEntry
+    'feather.comp.container $ %{} 'FileEntry
       :defs $ {}
-        |comp-container $ %{} 'CodeEntry (:doc |)
+        'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
               let
@@ -40,7 +40,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] (:: 'Map 'Tag 'Dynamic)
-        |comp-icon-demo $ %{} 'CodeEntry (:doc |)
+        'comp-icon-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon-demo (icon selected?)
               div
@@ -58,7 +58,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'String 'Bool
-        |css-cell $ %{} 'CodeEntry (:doc |)
+        'css-cell $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle css-cell $ {}
               |$0 $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration |300ms)
@@ -69,7 +69,7 @@
                 :transform "|scale(1.02)"
           :examples $ []
           :schema $ :: 'Dynamic
-        |css-icon-name $ %{} 'CodeEntry (:doc |)
+        'css-icon-name $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle css-icon-name $ {}
               |$0 $ {} (:font-size 12)
@@ -77,7 +77,7 @@
                 :white-space :nowrap
           :examples $ []
           :schema $ :: 'Dynamic
-        |icon-names $ %{} 'CodeEntry (:doc |)
+        'icon-names $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def icon-names $ to-calcit-data
               js/Object.keys $ .-icons feather-icons
@@ -86,7 +86,7 @@
             {} (:return 'Dynamic)
               :args $ []
               :features $ #{} :js-ffi
-        |style-preview $ %{} 'CodeEntry (:doc |)
+        'style-preview $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-preview $ {}
               |& $ {} (:padding |16px) (:position :fixed) (:top 0) (:width |100%)
@@ -94,7 +94,7 @@
                 :border-bottom $ str "|1px solid " (hsl 0 0 92)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-selected $ %{} 'CodeEntry (:doc |)
+        'style-selected $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-selected $ {}
               |& $ {}
@@ -116,24 +116,24 @@
             |feather-icons :default feather-icons
             |copy-text-to-clipboard :default copy!
             respo.css :refer $ defstyle
-    |feather.config $ %{} 'FileEntry
+    'feather.config $ %{} 'FileEntry
       :defs $ {}
-        |dev? $ %{} 'CodeEntry (:doc |)
+        'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def dev? $ = |dev
               option:unwrap-or (get-env |mode) |release
           :examples $ []
           :schema $ :: 'Bool
-        |site $ %{} 'CodeEntry (:doc |)
+        'site $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def site $ {} (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |respo-feather)
           :examples $ []
           :schema $ :: 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns feather.config)
-    |feather.core $ %{} 'FileEntry
+    'feather.core $ %{} 'FileEntry
       :defs $ {}
-        |comp-i $ %{} 'CodeEntry (:doc |)
+        'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-i (icon ? size color)
               comp-icon icon
@@ -143,7 +143,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'Dynamic 'Dynamic 'Dynamic
-        |comp-icon $ %{} 'CodeEntry (:doc |)
+        'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-icon (icon options on-click)
               assert "|icon name in string" $ or (string? icon) (tag? icon)
@@ -180,13 +180,13 @@
             {} (:return 'Dynamic)
               :args $ [] 'Dynamic 'Dynamic 'Dynamic
               :features $ #{} :js-ffi
-        |style-base $ %{} 'CodeEntry (:doc |)
+        'style-base $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-base $ {}
               |& $ {} (:display :inline-block)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-error $ %{} 'CodeEntry (:doc |)
+        'style-error $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-error $ {}
               |& $ {}
@@ -205,14 +205,14 @@
             respo.util.format :refer $ hsl
             |feather-icons :default feather-icons
             respo.css :refer $ defstyle
-    |feather.main $ %{} 'FileEntry
+    'feather.main $ %{} 'FileEntry
       :defs $ {}
-        |*reel $ %{} 'CodeEntry (:doc |)
+        '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
           :examples $ []
           :schema $ :: 'Dynamic
-        |dispatch! $ %{} 'CodeEntry (:doc |)
+        'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op)
               when config/dev? $ js/console.log |Dispatch: op
@@ -221,7 +221,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ [] 'Dynamic
-        |main! $ %{} 'CodeEntry (:doc |)
+        'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! () (load-console-formatter!)
               println "|Running mode:" $ if config/dev? |dev |release
@@ -243,12 +243,12 @@
             {} (:return 'Dynamic)
               :args $ []
               :features $ #{} :js-ffi
-        |mount-target $ %{} 'CodeEntry (:doc |)
+        'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
           :examples $ []
           :schema $ :: 'String
-        |persist-storage! $ %{} 'CodeEntry (:doc |)
+        'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ let
                 storage-key $ option:unwrap (get config/site :storage-key)
@@ -259,7 +259,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |reload! $ %{} 'CodeEntry (:doc |)
+        'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
               do (remove-watch *reel :changes) (clear-cache!)
@@ -271,14 +271,14 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |render-app! $ %{} 'CodeEntry (:doc |)
+        'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |repeat! $ %{} 'CodeEntry (:doc |)
+        'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn repeat! (duration cb)
               js/setTimeout
@@ -289,7 +289,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ [] 'Number 'Fn
-        |snippets $ %{} 'CodeEntry (:doc |)
+        'snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn snippets () $ println config/cdn?
           :examples $ []
@@ -309,9 +309,9 @@
             feather.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
-    |feather.schema $ %{} 'FileEntry
+    'feather.schema $ %{} 'FileEntry
       :defs $ {}
-        |store $ %{} 'CodeEntry (:doc |)
+        'store $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def store $ {}
               :states $ {}
@@ -320,12 +320,12 @@
           :schema $ :: 'Map
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns feather.schema)
-    |feather.updater $ %{} 'FileEntry
+    'feather.updater $ %{} 'FileEntry
       :defs $ {}
-        |updater $ %{} 'CodeEntry (:doc |)
+        'updater $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn updater (store op op-id op-time)
-              tag-match op
+              match op
                 (:states cursor s) (update-states store cursor s)
                 (:hydrate-storage data) data
                 (:exhibit d) (assoc store :icon d)

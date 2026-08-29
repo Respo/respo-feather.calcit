@@ -28,7 +28,7 @@ jobs:
 
     - name: "compiles to js"
       run: >
-        caps --ci && yarn install --immutable
+        caps --strict --ci && yarn install --immutable
         && calcit calcit.cirru edit format
         && git diff --exit-code -- calcit.cirru
         && calcit calcit.cirru --check-only
