@@ -1,11 +1,10 @@
 
-Respo feather in Calcit-js
-----
+## Respo Feather for Calcit
 
-> Respo feather based on calcit-js.
+Feather icon components for Respo applications written in Calcit.
 
-* Availables icons https://feathericons.com
-* Demo http://repo.calcit-lang.org/respo-feather.calcit/
+- Available icons: https://feathericons.com
+- Demo: http://repo.calcit-lang.org/respo-feather.calcit/
 
 ### Usages
 
@@ -31,6 +30,11 @@ feather.core/comp-icon icon
 ### Workflow
 
 https://github.com/calcit-lang/respo-calcit-workflow
+
+### 中文说明
+
+本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
+Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
 ### License
 
