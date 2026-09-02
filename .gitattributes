@@ -1,2 +1,5 @@
 
 yarn.lock -diff linguist-generated
+
+# Generated analyzer baseline consumed by the Node compatibility gate.
+config/calcit-upgrade-baseline.json text linguist-generated
