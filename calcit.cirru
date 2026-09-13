@@ -16,7 +16,7 @@
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
-                store $ &map:get reel :store
+                store $ reel.:store
                 states $ &map:get store :states
                 cursor $ or (&map:get states :cursor) ([])
                 state $ or (&map:get states :data)
@@ -41,7 +41,7 @@
           :examples $ []
           :schema $ :: 'Fn $ {}
             :return 'respo.schema/Component
-            :args $ [] $ :: 'Map 'Tag 'Dynamic
+            :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
             :features $ #{} :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon-demo (icon selected?)
@@ -269,7 +269,7 @@
           :code $ quote $ defn persist-storage! ()
             let
                 storage-key $ &map:get config/site :storage-key
-                store $ &map:get @*reel :store
+                store $ ret-reel-store @*reel
               js/localStorage.setItem storage-key $ format-cirru-edn store
               , &unit
           :examples $ []
@@ -312,6 +312,13 @@
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Number 'Fn
             :features $ #{} :js-ffi
+        'ret-reel-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn ret-reel-store (r) r.:store
+          :examples $ []
+          :schema $ :: 'Fn $ {}
+            :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
+            :features $ #{} :js-ffi
+            :return $ :: 'Map 'Dynamic 'Dynamic
         'snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn snippets () (println config/cdn?)
           :examples $ []
