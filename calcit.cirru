@@ -3,10 +3,7 @@
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |feather
   :entries $ {} $ :default
-    {} (:description |)
-      :init-fn 'feather.main/main!
-      :mode :native
-      :reload-fn 'feather.main/reload!
+    {} (:description |) (:init-fn 'feather.main/main!) (:mode :native) (:reload-fn 'feather.main/reload!)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {}
@@ -39,8 +36,7 @@
                       [] icon $ comp-icon-demo icon $ &= icon selected-icon
                 when dev? $ comp-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
             :features $ #{} :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
@@ -57,17 +53,14 @@
                 , nil
               <> icon css-icon-name
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'String 'Bool
         'css-cell $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle css-cell
             {}
-              |$0 $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer)
-                :transition-duration |300ms
+              |$0 $ {} (:display :inline-flex) (:width 80) (:height 80) (:cursor :pointer) (:transition-duration |300ms)
               |$0:hover $ {} $ :background-color (hsl 0 0 96)
-              |$0:active $ {}
-                :transition-duration |0ms
+              |$0:active $ {} (:transition-duration |0ms)
                 :background-color $ hsl 0 0 90
                 :transform "|scale(1.02)"
           :examples $ []
@@ -123,9 +116,7 @@
           :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
-            {} (:title |Calcit)
-              :icon |http://cdn.tiye.me/logo/mvc-works.png
-              :storage-key |respo-feather
+            {} (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |respo-feather)
           :examples $ []
           :schema $ :: 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
@@ -151,8 +142,7 @@
               {} (:font-size size) (:color color)
               , nil
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Dynamic 'Dynamic 'Dynamic
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
@@ -227,8 +217,7 @@
             :args $ [] 'Dynamic
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn main! ()
-            load-console-formatter!
+          :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
             if config/dev? $ load-console-formatter!
             render-app!
@@ -247,8 +236,7 @@
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn mount-target ()
-            js/document.querySelector |.app
+          :code $ quote $ defn mount-target () (js/document.querySelector |.app)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Dynamic)
             :args $ []
