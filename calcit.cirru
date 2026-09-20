@@ -146,31 +146,20 @@
             :args $ [] 'Dynamic 'Dynamic 'Dynamic
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
-            assert "|icon name in string" $ or (string? icon) (tag? icon)
             let
-                icon-name $ turn-string icon
-                icons $ unsafe-coerce
-                  .-icons $ unsafe-coerce feather-icons FeatherIconsHost
-                  :: 'JsObject
-                raw-obj $ aget icons icon-name
-                class-name $ or (&map:get options :class-name) nil
-                size $ or (&map:get options :font-size) nil
-                color $ or (&map:get options :color) nil
-              assert "|size in number" $ or (number? size) (nil? size)
-              assert "|color in string" $ or (string? color) (nil? color) (tag? color)
-              if (js-present? raw-obj)
-                let
-                    obj $ unsafe-coerce raw-obj FeatherIconHost
-                  create-element :i $ {}
-                    :class-name $ str-spaced style-base class-name
-                    :style $ or (&map:get options :style) ({})
-                    :on-click on-click
-                    :innerHTML $ .to-svg obj $ js-object
-                      :width $ or size 14
-                      :height $ or size 14
-                      :color $ turn-string $ or color :blue
+                icon-name $ if (tag? icon) (turn-string icon) icon
+                obj $ js-get feather-icons icon-name
+              if obj
+                span $ {}
+                  :class-name $ str-spaced style-base $ or (&map:get options :class-name) |
+                  :style $ or (&map:get options :style) ({})
+                  :on-click on-click
+                  :innerHTML $ .to-svg obj $ js-object
+                    :width $ or (&map:get options :size) 14
+                    :height $ or (&map:get options :size) 14
+                    :color $ turn-string $ or (&map:get options :color) :blue
                 do
-                  js/console.error "|No icon named:" $ turn-string icon
+                  shared/console-error! $ str "|No icon named:" icon-name
                   span
                     {} (:on-click on-click) (:class-name style-error)
                     <> $ str "|No icon: " icon-name
@@ -197,10 +186,11 @@
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.core
           :require
-            respo.core :refer $ defcomp create-element span div i <>
+            respo.core :refer $ defcomp create-element span div <>
             respo.util.format :refer $ hsl
             |feather-icons :default feather-icons
             respo.css :refer $ defstyle
+            js-ffi.shared :as shared
     'feather.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
@@ -210,7 +200,7 @@
           :schema $ :: 'Ref $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
-            when config/dev? $ js/console.log |Dispatch: op
+            when config/dev? $ shared/console-log! $ str |Dispatch: op
             reset! *reel $ next-reel op
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
@@ -223,20 +213,25 @@
             render-app!
             add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |a dispatch!
-            js/window.addEventListener |beforeunload $ fn (event) (persist-storage!)
-            flipped js/setInterval (* 60 1000) persist-storage!
+            browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
+            browser/set-interval! persist-storage! $ * 60 1000
             let
                 storage-key $ &map:get config/site :storage-key
-                raw $ js/localStorage.getItem storage-key
-              when (js-present? raw)
-                dispatch! $ :: :hydrate-storage $ parse-cirru-edn (unsafe-coerce raw 'String)
+                raw $ browser/storage-get storage-key
+              match raw
+                (:some value)
+                  dispatch! $ :: :hydrate-storage $ parse-cirru-edn value
+                (:none) &unit
             println "|App started."
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Dynamic)
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn mount-target () (js/document.querySelector |.app)
+          :code $ quote $ defn mount-target ()
+            unsafe-coerce
+              option:unwrap $ browser/query-selector |.app
+              , 'Dynamic
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Dynamic)
             :args $ []
@@ -247,7 +242,7 @@
               assert-type @*reel $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
               assert-type op 'Enum
               generate-id!
-              unsafe-coerce js/Date.now 'Number
+              shared/now-ms
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] 'Enum
@@ -258,7 +253,7 @@
             let
                 storage-key $ &map:get config/site :storage-key
                 store $ ret-reel-store @*reel
-              js/localStorage.setItem storage-key $ format-cirru-edn store
+              browser/storage-set! storage-key $ format-cirru-edn store
               , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
@@ -292,7 +287,7 @@
             :args $ []
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
-            js/setTimeout
+            browser/set-timeout!
               fn () (cb)
                 repeat! (* 1000 duration) cb
               * 1000 duration
@@ -326,6 +321,8 @@
             feather.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
+            js-ffi.browser :as browser
+            js-ffi.shared :as shared
     'feather.schema $ %{} 'FileEntry
       :defs $ {} $ 'store
         %{} 'CodeEntry (:doc |)
