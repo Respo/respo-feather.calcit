@@ -13,7 +13,7 @@
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
-                store $ reel.:store
+                store $ :store reel
                 states $ &map:get store :states
                 cursor $ or (&map:get states :cursor) ([])
                 state $ or (&map:get states :data)
@@ -34,7 +34,7 @@
                   map (unsafe-coerce icon-names 'List)
                     fn (icon)
                       [] icon $ comp-icon-demo icon $ &= icon selected-icon
-                when dev? $ comp-reel (>> states :reel) reel $ {}
+                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
@@ -100,7 +100,7 @@
             respo.util.format :refer $ hsl
             respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input memo-comp-by
             respo.comp.space :refer $ =<
-            reel.comp.reel :refer $ comp-reel
+            reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md
             feather.config :refer $ dev?
             feather.core :refer $ comp-icon comp-i
@@ -148,16 +148,21 @@
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
                 icon-name $ if (tag? icon) (turn-string icon) icon
-                obj $ js-get feather-icons icon-name
+                obj $ js-get
+                  unsafe-coerce
+                    .-icons $ unsafe-coerce feather-icons FeatherIconsHost
+                    , JsObject
+                  , icon-name
               if obj
                 span $ {}
                   :class-name $ str-spaced style-base $ or (&map:get options :class-name) |
                   :style $ or (&map:get options :style) ({})
                   :on-click on-click
-                  :innerHTML $ .to-svg obj $ js-object
-                    :width $ or (&map:get options :size) 14
-                    :height $ or (&map:get options :size) 14
-                    :color $ turn-string $ or (&map:get options :color) :blue
+                  :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
+                    js-object
+                      :width $ or (&map:get options :size) 14
+                      :height $ or (&map:get options :size) 14
+                      :color $ turn-string $ or (&map:get options :color) :blue
                 do
                   shared/console-error! $ str "|No icon named:" icon-name
                   span
