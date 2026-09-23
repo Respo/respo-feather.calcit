@@ -7,7 +7,8 @@ js-out/
 node_modules/
 dist/
 
-.yarn
+.yarn/
+.pnp.*
 
 .calcit/
 
