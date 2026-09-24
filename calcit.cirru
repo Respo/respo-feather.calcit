@@ -131,8 +131,7 @@
             :names $ {} $ :to-svg |toSvg
           :schema $ :: 'Trait
         'FeatherIconsHost $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ deftrait FeatherIconsHost
-            (:icons 'Dynamic)
+          :code $ quote $ deftrait FeatherIconsHost (:icons 'JsObject)
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
           :schema $ :: 'Trait
