@@ -31,9 +31,8 @@
                       comp-i (str icon) 40 |black
                 list->
                   {} $ :style $ {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
-                  map (unsafe-coerce icon-names 'List)
-                    fn (icon)
-                      [] icon $ comp-icon-demo icon $ &= icon selected-icon
+                  map icon-names $ fn (icon)
+                    [] icon $ comp-icon-demo icon $ &= icon selected-icon
                 when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -73,12 +72,19 @@
           :examples $ []
           :schema $ :: 'Dynamic
         'icon-names $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def icon-names
-            to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons FeatherIconsHost)
+          :code $ quote $ def icon-names (load-icon-names)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Dynamic)
+          :schema $ :: 'List 'String
+        'load-icon-names $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn load-icon-names ()
+            unsafe-coerce
+              to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons FeatherIconsHost)
+              :: 'List 'String
+          :examples $ []
+          :schema $ :: 'Fn $ {}
             :args $ []
             :features $ #{} :js-ffi
+            :return $ :: 'List 'String
         'style-preview $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-preview
             {} $ |& $ {} (:padding |16px) (:position :fixed) (:top 0) (:width |100%)
@@ -131,8 +137,7 @@
             :names $ {} $ :to-svg |toSvg
           :schema $ :: 'Trait
         'FeatherIconsHost $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ deftrait FeatherIconsHost
-            (:icons 'Dynamic)
+          :code $ quote $ deftrait FeatherIconsHost (:icons 'JsObject)
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
           :schema $ :: 'Trait
