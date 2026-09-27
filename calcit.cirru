@@ -312,11 +312,6 @@
             :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
             :features $ #{} :js-ffi
             :return $ :: 'Map 'Dynamic 'Dynamic
-        'snippets $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn snippets () (println config/cdn?)
-          :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ []
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.main
           :require
