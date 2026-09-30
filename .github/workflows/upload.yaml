@@ -39,6 +39,9 @@ jobs:
 
     - name: Validate Calcit snapshot and types
       run: |
+        set -euo pipefail
+        test ! -e compact.cirru
+        test ! -e package.cirru
         caps --strict --ci
         yarn install --immutable
         caps verify --toolchain
