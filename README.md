@@ -36,6 +36,10 @@ https://github.com/calcit-lang/respo-calcit-workflow
 本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
 Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
+项目使用 Calcit 0.27.0。演示页面的前端构建产物上传到 COS，并通过公开
+CDN 地址校验；PR 使用仓库路径下的 `/pr/` 前缀。生产环境继续使用原有
+`dist/*` rsync 部署路径。
+
 ### License
 
 MIT

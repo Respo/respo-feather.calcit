@@ -3,9 +3,9 @@
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |feather
   :entries $ {} $ :default
-    {} (:description |) (:init-fn 'feather.main/main!) (:mode :native) (:reload-fn 'feather.main/reload!)
+    {} (:description |) (:init-fn 'feather.main/main!) (:mode :js) (:reload-fn 'feather.main/reload!) (:target :browser)
       :feature-policy $ {}
-      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {}
   :files $ {}
     'feather.comp.container $ %{} 'FileEntry
@@ -107,7 +107,6 @@
             respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input memo-comp-by
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-typed-reel
-            respo-md.comp.md :refer $ comp-md
             feather.config :refer $ dev?
             feather.core :refer $ comp-icon comp-i
             |feather-icons :default feather-icons
@@ -239,11 +238,9 @@
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
-            unsafe-coerce
-              option:unwrap $ browser/query-selector |.app
-              , 'Dynamic
+            option:unwrap $ browser/query-selector |.app
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Dynamic)
+          :schema $ :: 'Fn $ {} (:return 'js-ffi.browser/DomElementHost)
             :args $ []
             :features $ #{} :js-ffi
         'next-reel $ %{} 'CodeEntry (:doc |)
@@ -301,6 +298,7 @@
               fn () (cb)
                 repeat! (* 1000 duration) cb
               * 1000 duration
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Number 'Fn
