@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { _$n__$M_ } from '../js-out/calcit.core.mjs';
+import { parse_cirru_edn } from '../js-out/calcit.core.mjs';
 import { comp_container } from '../js-out/feather.comp.container.mjs';
 import { comp_icon } from '../js-out/feather.core.mjs';
 import { store } from '../js-out/feather.schema.mjs';
@@ -21,3 +22,23 @@ test('renders the icon gallery with a typed Reel state', () => {
   assert.match(html, /activity/);
   assert.doesNotMatch(html, /No icon:/);
 });
+
+for (const [color, expected] of [
+  ['nil', 'blue'], ['false', 'blue'], [':red', 'red'], ['|#123456', '#123456'],
+  ['|', 'blue'], ['0', 'blue'], ['true', 'true'],
+]) {
+  test(`preserves SVG color for ${color}`, () => {
+    const options = parse_cirru_edn(`{} (:color ${color})`);
+    const html = make_string(comp_icon('activity', options, null));
+    assert.ok(html.includes(`color="${expected}"`));
+    assert.match(html, /stroke="currentColor"/);
+  });
+}
+
+for (const color of ['({})', '([])', '(#{})']) {
+  test(`rejects collection color ${color} before SVG conversion`, () => {
+    const options = parse_cirru_edn(`{} (:color ${color})`);
+    assert.throws(() => comp_icon('activity', options, null),
+      /\[Feather\/comp-icon\] expected color to be a text scalar/);
+  });
+}

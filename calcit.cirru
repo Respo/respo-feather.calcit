@@ -166,7 +166,7 @@
                     js-object
                       :width $ or (&map:get options :size) 14
                       :height $ or (&map:get options :size) 14
-                      :color $ turn-string $ or (&map:get options :color) :blue
+                      :color $ icon-color-text $ &map:get options :color
                 do
                   shared/console-error! $ str "|No icon named:" icon-name
                   span
@@ -176,6 +176,54 @@
           :schema $ :: 'Fn $ {} (:return 'Dynamic)
             :args $ [] 'Dynamic 'Dynamic 'Dynamic
             :features $ #{} :js-ffi
+        'icon-color-text $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn icon-color-text (color)
+            let
+                value $ or color :blue
+              cond
+                  string? value
+                  turn-string $ assert-type value 'String
+                (tag? value)
+                  turn-string $ assert-type value 'Tag
+                (number? value)
+                  turn-string $ assert-type value 'Number
+                (bool? value)
+                  turn-string $ assert-type value 'Bool
+                (symbol? value)
+                  turn-string $ assert-type value 'Symbol
+                true $ raise "|[Feather/comp-icon] expected color to be a text scalar"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'String)
+            :args $ [] 'ColorInput
+            :generics $ [] 'ColorInput
+          :tests $ []
+            %{} 'TestEntry (:name |preserves-text-scalars)
+              :code $ quote $ do
+                assert= |blue $ icon-color-text :blue
+                assert= |#123456 $ icon-color-text |#123456
+                assert= | $ icon-color-text |
+                assert= |0 $ icon-color-text 0
+                assert= |true $ icon-color-text true
+                assert= |red $ icon-color-text 'red
+              :tags $ #{} :regression :unit
+            %{} 'TestEntry (:name |defaults-falsey-colors)
+              :code $ quote $ do
+                assert= |blue $ icon-color-text nil
+                assert= |blue $ icon-color-text false
+                assert= |blue $ icon-color-text &unit
+              :tags $ #{} :regression :unit
+            %{} 'TestEntry (:name |rejects-collections)
+              :code $ quote $ each
+                [] ({}) ([]) (#{})
+                fn (value)
+                  let
+                      rejected? $ atom false
+                    try (icon-color-text value)
+                      fn (error)
+                        assert= "|[Feather/comp-icon] expected color to be a text scalar" error
+                        reset! rejected? true
+                    assert |collection-color-rejected $ deref rejected?
+              :tags $ #{} :regression :unit
         'style-base $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-base
             {} $ |& $ {} (:display :inline-block)
