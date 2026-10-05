@@ -21,7 +21,7 @@
                 selected-icon $ &map:get store :icon
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
-                if (some? selected-icon)
+                if (non-nil? selected-icon)
                   let
                       icon $ selected-icon
                     div
@@ -151,7 +151,7 @@
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
-                icon-name $ if (tag? icon) (turn-string icon) icon
+                icon-name $ if (tag? icon) (to-string icon) icon
                 obj $ js-get
                   unsafe-coerce
                     .-icons $ unsafe-coerce feather-icons FeatherIconsHost
@@ -173,25 +173,29 @@
                     {} (:on-click on-click) (:class-name style-error)
                     <> $ str "|No icon: " icon-name
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Dynamic)
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Dynamic 'Dynamic 'Dynamic
             :features $ #{} :js-ffi
         'icon-color-text $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn icon-color-text (color)
-            let
-                value $ or color :blue
-              cond
-                  string? value
-                  turn-string $ assert-type value 'String
-                (tag? value)
-                  turn-string $ assert-type value 'Tag
-                (number? value)
-                  turn-string $ assert-type value 'Number
-                (bool? value)
-                  turn-string $ assert-type value 'Bool
-                (symbol? value)
-                  turn-string $ assert-type value 'Symbol
-                true $ raise "|[Feather/comp-icon] expected color to be a text scalar"
+            cond
+                nil? color
+                , |blue
+              (= :unit (type-of color))
+                , |blue
+              (string? color)
+                .to-string $ assert-type color 'String
+              (tag? color)
+                .to-string $ assert-type color 'Tag
+              (number? color)
+                .to-string $ assert-type color 'Number
+              (bool? color)
+                if color
+                  .to-string $ assert-type color 'Bool
+                  , |blue
+              (symbol? color)
+                .to-string $ assert-type color 'Symbol
+              true $ raise "|[Feather/comp-icon] expected color to be a text scalar"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'String)
             :args $ [] 'ColorInput
@@ -223,6 +227,12 @@
                         assert= "|[Feather/comp-icon] expected color to be a text scalar" error
                         reset! rejected? true
                     assert |collection-color-rejected $ deref rejected?
+              :tags $ #{} :regression :unit
+            %{} 'TestEntry (:name |preserves-unicode-and-number-text)
+              :code $ quote $ do
+                assert= "|蓝色😀" $ icon-color-text "|蓝色😀"
+                assert= |12.5 $ icon-color-text 12.5
+                assert= |-2 $ icon-color-text -2
               :tags $ #{} :regression :unit
         'style-base $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-base
@@ -268,7 +278,7 @@
             println "|Running mode:" $ if config/dev? |dev |release
             if config/dev? $ load-console-formatter!
             render-app!
-            add-watch *reel :changes $ fn (reel prev) (render-app!)
+            add-watch! *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |a dispatch!
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
             browser/set-interval! persist-storage! $ * 60 1000
@@ -281,7 +291,7 @@
                 (:none) &unit
             println "|App started."
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Dynamic)
+          :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
@@ -317,8 +327,8 @@
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
-              do (remove-watch *reel :changes) (clear-cache!)
-                add-watch *reel :changes $ fn (reel prev) (render-app!)
+              do (remove-watch! *reel :changes) (clear-cache!)
+                add-watch! *reel :changes $ fn (reel prev) (render-app!)
                 reset! *reel $ reloaded-reel
                 hud! |ok~ |Ok
               hud! |error build-errors
