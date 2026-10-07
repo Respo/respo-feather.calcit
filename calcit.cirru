@@ -151,7 +151,7 @@
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
-                opts $ if (map? options) options $ if (nil? options) ({}) $ raise "|comp-icon expected options as a map"
+                opts $ if (map? options) options $ if (nil? options) ({}) (raise "|comp-icon expected options as a map")
                 icon-name $ if (tag? icon) (to-string icon) icon
                 obj $ js-get
                   unsafe-coerce
@@ -269,7 +269,11 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
-            reset! *reel $ next-reel op
+            if (enum? op)
+              &let
+                _next $ reset! *reel $ next-reel op
+                , &unit
+              raise "|dispatch! expected an Enum op"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Dynamic
