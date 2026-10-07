@@ -351,7 +351,10 @@
             :return $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel) dispatch!
+            render!
+              narrow-element $ mount-target
+              comp-container @*reel
+              , dispatch!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -377,6 +380,7 @@
         :code $ quote $ ns feather.main
           :require
             respo.core :refer $ render! clear-cache!
+            respo.ffi.browser :refer $ narrow-element
             feather.comp.container :refer $ comp-container
             feather.updater :refer $ updater
             feather.schema :as schema
