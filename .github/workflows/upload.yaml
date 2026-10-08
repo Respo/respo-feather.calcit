@@ -46,7 +46,7 @@ jobs:
         caps --strict --ci
         yarn install --immutable
         caps verify --toolchain
-        test "$(calcit --version)" = "0.29.0-alpha.6"
+        test "$(calcit --version)" = "0.29.0-alpha.19"
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only

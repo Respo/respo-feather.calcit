@@ -151,6 +151,7 @@
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
+                opts $ if (map? options) options $ if (nil? options) ({}) (raise "|comp-icon expected options as a map")
                 icon-name $ if (tag? icon) (to-string icon) icon
                 obj $ js-get
                   unsafe-coerce
@@ -159,14 +160,14 @@
                   , icon-name
               if obj
                 span $ {}
-                  :class-name $ str-spaced style-base $ or (&map:get options :class-name) |
-                  :style $ or (&map:get options :style) ({})
+                  :class-name $ str-spaced style-base $ or (&map:get opts :class-name) |
+                  :style $ or (&map:get opts :style) ({})
                   :on-click on-click
                   :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
                     js-object
-                      :width $ or (&map:get options :size) 14
-                      :height $ or (&map:get options :size) 14
-                      :color $ icon-color-text $ &map:get options :color
+                      :width $ or (&map:get opts :size) 14
+                      :height $ or (&map:get opts :size) 14
+                      :color $ icon-color-text $ &map:get opts :color
                 do
                   shared/console-error! $ str "|No icon named:" icon-name
                   span
@@ -268,7 +269,11 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
-            reset! *reel $ next-reel op
+            if (enum? op)
+              &let
+                _next $ reset! *reel $ next-reel op
+                , &unit
+              raise "|dispatch! expected an Enum op"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Dynamic
@@ -346,7 +351,10 @@
             :return $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel) dispatch!
+            render!
+              narrow-element $ mount-target
+              comp-container @*reel
+              , dispatch!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -372,6 +380,7 @@
         :code $ quote $ ns feather.main
           :require
             respo.core :refer $ render! clear-cache!
+            respo.ffi.browser :refer $ narrow-element
             feather.comp.container :refer $ comp-container
             feather.updater :refer $ updater
             feather.schema :as schema
