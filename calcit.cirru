@@ -23,7 +23,7 @@
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
                 if (non-nil? selected-icon)
                   let
-                      icon $ selected-icon
+                      icon selected-icon
                     div
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
@@ -262,8 +262,7 @@
     'feather.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel
-            -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+          :code $ quote $ defatom *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ :: 'Ref $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
         'dispatch! $ %{} 'CodeEntry (:doc |)
@@ -370,7 +369,7 @@
             :args $ [] 'Number 'Fn
             :features $ #{} :js-ffi
         'ret-reel-store $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn ret-reel-store (r) r.:store
+          :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
