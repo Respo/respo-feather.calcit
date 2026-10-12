@@ -43,7 +43,7 @@ COS Action 固定到正式 1.2.0 的发布提交，设置 `public-base-url` 启�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-依赖固定为已发布的正式 Reel `0.6.33`、UI `0.7.32`、
+依赖固定为已发布的正式 Reel `0.6.34`、UI `0.7.33`、
 Respo `0.16.114`、js-ffi `0.2.1`；传递 Router
 `0.8.28`。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
