@@ -262,7 +262,7 @@
     'feather.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel (typed/new-reel schema/store)
+          :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ :: 'Ref $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
         'dispatch! $ %{} 'CodeEntry (:doc |)

@@ -46,7 +46,7 @@ jobs:
         caps --strict --ci
         yarn install --immutable
         caps verify --toolchain
-        test "$(calcit --version)" = "0.29.0"
+        test "$(calcit --version)" = "0.29.1"
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only
@@ -55,7 +55,7 @@ jobs:
           --ns feather.config --ns feather.schema --ns feather.updater --format edn
         calcit calcit.cirru analyze weak-types --only coverage --summary-only --format json
         calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
-        calcit calcit.cirru analyze weak-types --only deprecated-call --summary-only --format json
+        calcit calcit.cirru analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'
 
     - name: Select frontend CDN path
       id: asset-path
