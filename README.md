@@ -49,11 +49,16 @@ COS Action 使用精确正式 tag `v1.2.0`，设置 `public-base-url` 启用内�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-准备 0.4.27，使用已发布的正式 Reel `0.6.37`、UI `0.7.39`、
+准备 0.4.28，使用已发布的正式 Reel `0.6.38`、UI `0.7.40`、
 Respo `0.16.120`、js-ffi `0.2.3`；传递 Router
-`0.8.34`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
+`0.8.35`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
+
+0.4.28 只对齐上述正式依赖图，Snapshot、图标 API、颜色行为、lockfile、
+测试与部署配置均未修改。新依赖图本地完整 strict/preflight、204 个定义、
+原 4 项 native、16 项 Node 渲染测试及构建通过；这不是干净 Caps CI 或浏览器
+交互验收的替代，也不表示已全面迁移到尚未正式发布的 Calcit 0.30.1。
 
 ### 颜色边界
 
@@ -93,10 +98,10 @@ CI 用当前严格检查覆盖全部六个命名空间，保留原渲染测试�
 ### 限制
 
 - 当前源码使用正式工具链与依赖图；发布仍需最新 PR HEAD CI/review 与合并后 main 验收。
-- Reel 0.6.37 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
+- Reel 0.6.38 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
-  当前正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
+  0.4.27 的正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
   及原 16 项 Node suite（含同源 native/生成 JS 回放）通过；干净 CI/review 仍需独立完成。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。
