@@ -14,11 +14,16 @@
           :code $ quote $ defcomp comp-container (reel)
             let
                 store $ :store reel
-                states $ &map:get store :states
-                cursor $ or (&map:get states :cursor) ([])
-                state $ or (&map:get states :data)
+                states $ decode-map-as
+                  .unwrap-or (get store :states) nil
+                  :: 'Map 'Dynamic 'Dynamic
+                cursor $ or
+                  .unwrap-or (get states :cursor) nil
+                  []
+                state $ or
+                  .unwrap-or (get states :data) nil
                   {} $ :content |
-                selected-icon $ &map:get store :icon
+                selected-icon $ .unwrap-or (get store :icon) nil
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
                 if (non-nil? selected-icon)
@@ -77,8 +82,8 @@
           :schema $ :: 'List 'String
         'load-icon-names $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn load-icon-names ()
-            unsafe-coerce
-              to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons FeatherIconsHost)
+            decode-map-as
+              to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons feather.core/FeatherIconsHost)
               :: 'List 'String
           :examples $ []
           :schema $ :: 'Fn $ {}
@@ -123,7 +128,7 @@
           :code $ quote $ def site
             {} (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |respo-feather)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Map 'Tag 'String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.config
     'feather.core $ %{} 'FileEntry
@@ -160,14 +165,22 @@
                   , icon-name
               if obj
                 span $ {}
-                  :class-name $ str-spaced style-base $ or (&map:get opts :class-name) |
-                  :style $ or (&map:get opts :style) ({})
+                  :class-name $ str-spaced style-base $ or
+                    .unwrap-or (get opts :class-name) nil
+                    , |
+                  :style $ or
+                    .unwrap-or (get opts :style) nil
+                    {}
                   :on-click on-click
                   :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
                     js-object
-                      :width $ or (&map:get opts :size) 14
-                      :height $ or (&map:get opts :size) 14
-                      :color $ icon-color-text $ &map:get opts :color
+                      :width $ or
+                        .unwrap-or (get opts :size) nil
+                        , 14
+                      :height $ or
+                        .unwrap-or (get opts :size) nil
+                        , 14
+                      :color $ icon-color-text $ .unwrap-or (get opts :color) nil
                 do
                   shared/console-error! $ str "|No icon named:" icon-name
                   span
@@ -287,7 +300,9 @@
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
             browser/set-interval! persist-storage! $ * 60 1000
             let
-                storage-key $ &map:get config/site :storage-key
+                storage-key $ match (get config/site :storage-key)
+                  (:some lookup-value) lookup-value
+                  (:none) (raise "|Feather configuration missing :storage-key")
                 raw $ browser/storage-get storage-key
               match raw
                 (:some value)
@@ -320,7 +335,9 @@
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             let
-                storage-key $ &map:get config/site :storage-key
+                storage-key $ match (get config/site :storage-key)
+                  (:some lookup-value) lookup-value
+                  (:none) (raise "|Feather configuration missing :storage-key")
                 store $ ret-reel-store @*reel
               browser/storage-set! storage-key $ format-cirru-edn store
               , &unit
@@ -407,9 +424,14 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor s) (update-states store cursor s)
+              (:states cursor s)
+                decode-map-as
+                  update-states store
+                    decode-map-as cursor $ :: 'List 'Dynamic
+                    , s
+                  :: 'Map 'Dynamic 'Dynamic
               (:hydrate-storage data)
-                assert-type data $ :: 'Map 'Dynamic 'Dynamic
+                decode-map-as data $ :: 'Map 'Dynamic 'Dynamic
               (:exhibit d) (&map:assoc store :icon d)
               _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []

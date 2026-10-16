@@ -34,7 +34,13 @@ https://github.com/calcit-lang/respo-calcit-workflow
 本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
 Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
-当前源码配对正式 Calcit / `@calcit/procs` `0.29.3`。演示页面的前端构建产物上传到 COS，并通过公开
+当前源码配对正式 Calcit / `@calcit/procs` `0.30.0`。本轮将 11 处底层 Map
+读取迁到公开 `get` / Option，保留 nil、false、0、原默认值及存储 key。
+states 在真实开放边界校验为 Map，保留混合 key；站点配置明确为 Map<Tag,String>。
+图标名称复用已有 host trait 的完整命名，返回 List 和存储/cursor 输入改用真实检查，
+不把断言或强转当成运行时验证。图标渲染、颜色、点击和存储格式不变。
+
+演示页面的前端构建产物上传到 COS，并通过公开
 CDN 地址校验；PR 使用仓库路径下的 `/pr/<PR>/<run-id>/<attempt>/` 前缀。生产环境继续使用原有
 `dist/*` rsync 部署路径。
 
@@ -43,7 +49,7 @@ COS Action 使用精确正式 tag `v1.2.0`，设置 `public-base-url` 启用内�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-0.4.26 候选依赖固定为已发布的正式 Reel `0.6.36`、UI `0.7.39`、
+沿用 0.4.26 已发布的依赖图：正式 Reel `0.6.36`、UI `0.7.39`、
 Respo `0.16.120`、js-ffi `0.2.3`；传递 Router
 `0.8.34`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
@@ -87,6 +93,9 @@ CI 用当前严格检查覆盖全部六个命名空间，保留原渲染测试�
 ### 限制
 
 - 当前源码使用正式工具链与依赖图；发布仍需最新 PR HEAD CI/review 与合并后 main 验收。
+- 本轮源码准备暂不合并或发版：额外完整 strict 已通过本地边界修复，但仍报
+  上游 Reel `comp-records` 的 List 输入证明错误。普通 CI 成功不代表该审计通过，
+  必须等上游正式修复后重跑；不删除演示功能、伪造类型或放宽门禁绕过。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。
 - 其余开放 options、事件回调和原宿主对象授权未在此版本全面类型化。
