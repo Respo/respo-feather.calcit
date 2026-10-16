@@ -34,8 +34,9 @@ https://github.com/calcit-lang/respo-calcit-workflow
 本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
 Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
-当前源码配对正式 Calcit / `@calcit/procs` `0.30.0`。本轮将 11 处底层 Map
-读取迁到公开 `get` / Option，保留 nil、false、0、原默认值及存储 key。
+当前源码配对已发布的 Calcit / `@calcit/procs` `0.30.1-alpha.4`，
+不是稳定 Calcit 0.30.1。稳定 0.30.0 项目继续使用模块 0.4.28，不混装工具链。
+此前将 11 处底层 Map 读取迁到公开 `get` / Option，保留 nil、false、0、原默认值及存储 key。
 states 在真实开放边界校验为 Map，保留混合 key；站点配置明确为 Map<Tag,String>。
 图标名称复用已有 host trait 的完整命名，返回 List 和存储/cursor 输入改用真实检查，
 不把断言或强转当成运行时验证。图标渲染、颜色、点击和存储格式不变。
@@ -49,16 +50,15 @@ COS Action 使用精确正式 tag `v1.2.0`，设置 `public-base-url` 启用内�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-准备 0.4.28，使用已发布的正式 Reel `0.6.38`、UI `0.7.40`、
-Respo `0.16.120`、js-ffi `0.2.3`；传递 Router
-`0.8.35`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
+准备 0.4.29，使用已发布的正式 Reel `0.6.39`、UI `0.7.41`、
+Respo `0.16.122`、js-ffi `0.2.3`；传递 Router
+`0.8.36`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
 
-0.4.28 只对齐上述正式依赖图，Snapshot、图标 API、颜色行为、lockfile、
-测试与部署配置均未修改。新依赖图本地完整 strict/preflight、204 个定义、
-原 4 项 native、16 项 Node 渲染测试及构建通过；这不是干净 Caps CI 或浏览器
-交互验收的替代，也不表示已全面迁移到尚未正式发布的 Calcit 0.30.1。
+0.4.29 对齐上述 alpha 工具链和正式模块依赖图，Snapshot、图标 API、颜色行为、
+测试与部署配置均未修改。原有附带测试继续在 native 与生成 JS 上回放，
+完整 strict、原渲染测试和构建仍是升级门禁，不把单纯的版本号变化当作验收。
 
 ### 颜色边界
 
@@ -97,8 +97,8 @@ CI 用当前严格检查覆盖全部六个命名空间，保留原渲染测试�
 
 ### 限制
 
-- 当前源码使用正式工具链与依赖图；发布仍需最新 PR HEAD CI/review 与合并后 main 验收。
-- Reel 0.6.38 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
+- 当前源码使用已发布的 alpha 工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review 与合并后 main 验收。
+- Reel 0.6.39 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
   0.4.27 的正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
