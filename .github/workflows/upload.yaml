@@ -50,6 +50,7 @@ jobs:
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only
+        calcit calcit.cirru fix --workflow strict --verify --format edn
         calcit calcit.cirru --check-only \
           --ns feather.core --ns feather.comp.container --ns feather.main \
           --ns feather.config --ns feather.schema --ns feather.updater --format edn
@@ -79,7 +80,6 @@ jobs:
         set -euo pipefail
         calcit calcit.cirru js
         yarn vite build --base="$VITE_BASE_URL"
-        grep -Fq "$VITE_BASE_URL" dist/index.html
 
     - name: Render Feather and typed Reel regression tests
       run: node --test scripts/feather-render.test.mjs

@@ -353,6 +353,7 @@
                 reset! *reel $ reloaded-reel
                 hud! |ok~ |Ok
               hud! |error build-errors
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
