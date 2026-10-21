@@ -49,11 +49,10 @@ jobs:
         caps verify --toolchain
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
-        calcit calcit.cirru --check-only
-        calcit calcit.cirru fix --workflow strict --verify --format edn
-        calcit calcit.cirru --check-only \
-          --ns feather.core --ns feather.comp.container --ns feather.main \
-          --ns feather.config --ns feather.schema --ns feather.updater --format edn
+        calcit calcit.cirru --check-only --all-defs
+        report="$(calcit calcit.cirru fix --workflow strict --verify --format json)"
+        printf '%s\n' "$report"
+        jq -e '.data.workflow.status? == "passed" and .diagnostics? == []' <<< "$report"
         calcit calcit.cirru analyze weak-types --only coverage --summary-only --format json
         calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
         calcit calcit.cirru analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'

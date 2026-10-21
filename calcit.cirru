@@ -294,11 +294,6 @@
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
             if config/dev? $ load-console-formatter!
-            render-app!
-            add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |a dispatch!
-            browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
-            browser/set-interval! persist-storage! $ * 60 1000
             let
                 storage-key $ match (get config/site :storage-key)
                   (:some lookup-value) lookup-value
@@ -308,6 +303,11 @@
                 (:some value)
                   dispatch! $ :: :hydrate-storage $ parse-cirru-edn value
                 (:none) &unit
+            render-app!
+            add-watch! *reel :changes $ fn (reel prev) (render-app!)
+            listen-devtools! |a dispatch!
+            browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
+            browser/set-interval! persist-storage! $ * 60 1000
             println "|App started."
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
