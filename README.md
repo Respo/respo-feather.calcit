@@ -3,6 +3,13 @@
 
 Feather icon components for Respo applications written in Calcit.
 
+使用者注意：`0.4.30` 候选配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，
+请同步下方完整依赖图、重新生成 JS，并完整刷新页面，不混装旧 alpha。
+UI 从 0.7 升到 0.8，基础样式可能变化；图标 API、颜色、点击与存档格式不变。
+Demo 先恢复存档，再首次渲染和注册 watch、快捷键、离页保存与定时器；
+坏存档仍明确报错，但不再留下会在离页时覆盖原值的持久化回调。
+发布与否以同名正式 tag 为准，源码版本号不等于已发版。
+
 - Available icons: https://feathericons.com
 - Demo: http://repo.calcit-lang.org/respo-feather.calcit/
 
@@ -34,8 +41,8 @@ https://github.com/calcit-lang/respo-calcit-workflow
 本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
 Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
-当前源码配对已发布的 Calcit / `@calcit/procs` `0.30.1-alpha.4`，
-不是稳定 Calcit 0.30.1。稳定 0.30.0 项目继续使用模块 0.4.28，不混装工具链。
+当前候选配对正式 Calcit / `@calcit/procs` `0.30.1`。
+仍固定旧工具链的项目不要单独替换本模块，先迁移完整依赖图。
 此前将 11 处底层 Map 读取迁到公开 `get` / Option，保留 nil、false、0、原默认值及存储 key。
 states 在真实开放边界校验为 Map，保留混合 key；站点配置明确为 Map<Tag,String>。
 图标名称复用已有 host trait 的完整命名，返回 List 和存储/cursor 输入改用真实检查，
@@ -50,14 +57,16 @@ COS Action 使用精确正式 tag `v1.2.0`，设置 `public-base-url` 启用内�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-准备 0.4.29，使用已发布的正式 Reel `0.6.39`、UI `0.7.41`、
-Respo `0.16.122`、js-ffi `0.2.3`；传递 Router
-`0.8.36`。发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
+准备 0.4.30，使用已发布的正式 Reel `0.6.41`、UI `0.8.0`、
+Respo `0.16.124`、js-ffi `0.2.5`；传递 Router
+`0.8.37`。Reel 0.6.41 指向其 #83，尚不含后续 main 的 UI 解耦改动。
+发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
 
-0.4.29 对齐上述 alpha 工具链和正式模块依赖图，Snapshot、图标 API、颜色行为、
-测试与部署配置均未修改。原有附带测试继续在 native 与生成 JS 上回放，
+0.4.30 只调整 Demo 启动中的存档恢复顺序；原解析/派发异常继续传播，
+成功恢复后才安装原来的宿主 effect，不补默认存档或吞异常。
+图标 API、颜色行为、原测试与部署路径不变。原有附带测试继续在 native 与生成 JS 上回放，
 完整 strict、原渲染测试和构建仍是升级门禁，不把单纯的版本号变化当作验收。
 
 ### 颜色边界
@@ -78,7 +87,8 @@ Number（含 0）、true 与 Symbol 保留各自文本。Map/List/Set 等非标�
 caps --strict --ci
 YARN_ENABLE_HARDENED_MODE=1 yarn install --immutable
 caps verify --toolchain
-calcit --check-only
+calcit --check-only --all-defs
+calcit fix --workflow strict --verify --format edn
 calcit test --require-match
 calcit js
 node --test scripts/feather-render.test.mjs
@@ -89,7 +99,8 @@ yarn vite build
 Snapshot，执行 native 与生成 JS，再验证规范 Snapshot 字节未变；不存在
 零测试选择静默通过，也不新增检查入口。普通消费项目可通过
 `calcit query def feather.core/icon-color-text` 查看合同和附带测试。
-CI 用当前严格检查覆盖全部六个命名空间，保留原渲染测试并报告弱类型与废弃调用。
+CI 用 all-defs 严格检查覆盖全部定义，不重复手列 namespace；
+完整 strict 明确要求 passed 且 diagnostics 为空，保留原渲染测试并报告弱类型与废弃调用。
 旧迁移预算在正式依赖图、原有测试及构建通过后退役，不保留重复预算脚本。
 实际启动使用 `typed/new-reel` 创建名义 State，持久化用 `:store` 字段访问，
 不再把旧 Map 初始值标注成 State；选中图标按字符串读取，不把它作为函数调用。
@@ -97,8 +108,8 @@ CI 用当前严格检查覆盖全部六个命名空间，保留原渲染测试�
 
 ### 限制
 
-- 当前源码使用已发布的 alpha 工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review 与合并后 main 验收。
-- Reel 0.6.39 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
+- 当前候选使用正式工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
+- Reel 0.6.41 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
   0.4.27 的正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
