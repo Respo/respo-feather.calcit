@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'feather.main/main!) (:mode :js) (:reload-fn 'feather.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {}
+      :type-slots $ {} $ :dispatch-op |feather.schema/Op
   :files $ {}
     'feather.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -288,7 +288,7 @@
               raise "|dispatch! expected an Enum op"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Dynamic
+            :args $ [] 'Enum
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
@@ -322,11 +322,12 @@
             :features $ #{} :js-ffi
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
-            typed/record-op updater
-              assert-type @*reel $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
-              assert-type op 'Enum
-              generate-id!
-              shared/now-ms
+            let
+                reel $ assert-type @*reel $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
+              match (typed/decode-control op)
+                (:some control) (typed/apply-control updater reel control)
+                (:none)
+                  typed/record-op updater reel op (generate-id!) (shared/now-ms)
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] 'Enum
@@ -411,8 +412,23 @@
             js-ffi.browser :as browser
             js-ffi.shared :as shared
     'feather.schema $ %{} 'FileEntry
-      :defs $ {} $ 'store
-        %{} 'CodeEntry (:doc |)
+      :defs $ {}
+        'Op $ %{} 'CodeEntry
+          :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends."
+          :code $ quote $ defenum Op
+            :states (:: 'List 'Dynamic) 'Dynamic
+            :hydrate-storage 'Dynamic
+            :exhibit 'Dynamic
+            :reel/toggle
+            :reel/recall 'Number
+            :reel/run
+            :reel/step
+            :reel/merge
+            :reel/reset
+            :reel/remove 'Number
+          :examples $ []
+          :schema $ :: 'EnumDef
+        'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {} $ :states $ {}
               :cursor $ []
