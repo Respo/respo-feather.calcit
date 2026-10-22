@@ -322,11 +322,12 @@
             :features $ #{} :js-ffi
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
-            typed/record-op updater
-              assert-type @*reel $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
-              assert-type op 'Enum
-              generate-id!
-              shared/now-ms
+            let
+                reel $ assert-type @*reel $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
+              match (typed/decode-control op)
+                (:some control) (typed/apply-control updater reel control)
+                (:none)
+                  typed/record-op updater reel op (generate-id!) (shared/now-ms)
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] 'Enum
