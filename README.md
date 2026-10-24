@@ -3,12 +3,17 @@
 
 Feather icon components for Respo applications written in Calcit.
 
-使用者注意：`0.4.30` 候选配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，
+使用者注意：`0.4.31` 维护补丁配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，
 请同步下方完整依赖图、重新生成 JS，并完整刷新页面，不混装旧 alpha。
 UI 从 0.7 升到 0.8，基础样式可能变化；图标 API、颜色、点击与存档格式不变。
 Demo 先恢复存档，再首次渲染和注册 watch、快捷键、离页保存与定时器；
 坏存档仍明确报错，但不再留下会在离页时覆盖原值的持久化回调。
 发布与否以同名正式 tag 为准，源码版本号不等于已发版。
+
+本补丁只更新已发布的精确依赖图，图标 Snapshot、公开 API、原断言、点击与颜色行为不变。
+在独立的 `maintenance/0.30.1` 分支维护，不回退正在开发 0.31 的 main。
+维护分支 push 只测试，不上传 COS 或部署 Demo；PR 仍只使用独立前缀和 Action 内置 verify。
+不把兼容别名或宿主边界全部清零当作这次依赖补丁已完成的承诺。
 
 - Available icons: https://feathericons.com
 - Demo: http://repo.calcit-lang.org/respo-feather.calcit/
@@ -57,9 +62,9 @@ COS Action 使用精确正式 tag `v1.2.0`，设置 `public-base-url` 启用内�
 每个 PR 独立排队，与生产队列分开；生产 COS 前缀不变，不取消正在上传的任务。
 Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部署保持不变。
 
-准备 0.4.30，使用已发布的正式 Reel `0.6.41`、UI `0.8.0`、
-Respo `0.16.124`、js-ffi `0.2.5`；传递 Router
-`0.8.37`。Reel 0.6.41 指向其 #83，尚不含后续 main 的 UI 解耦改动。
+维护 0.4.31，使用已发布的正式 Reel `0.6.42`、UI `0.8.1`、
+Respo `0.16.126`、js-ffi `0.2.6`；传递 Router
+`0.8.38`。这是与 Alerts 0.10.58、Markdown 0.4.60 相容的一套图，不能仅替换一个 pin 混装旧图。
 发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
@@ -108,8 +113,8 @@ CI 用 all-defs 严格检查覆盖全部定义，不重复手列 namespace；
 
 ### 限制
 
-- 当前候选使用正式工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
-- Reel 0.6.41 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
+- 当前维护候选使用正式工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后维护分支验收，不触发 main/Demo 部署。
+- Reel 0.6.42 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
   0.4.27 的正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
