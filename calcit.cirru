@@ -47,7 +47,7 @@
           :code $ quote $ defcomp comp-icon-demo (icon selected?)
             div
               {}
-                :class-name $ str-spaced css/center css-cell $ if selected? style-selected
+                :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
                   copy! $ str |: icon
                   d! :exhibit icon
@@ -135,7 +135,9 @@
       :defs $ {}
         'FeatherIconHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait FeatherIconHost
-            .to-svg $ :: 'Fn $ {} (:args [] 'Dynamic) (:return 'String)
+            .to-svg $ :: 'Fn $ {}
+              :args $ [] 'feather.core/FeatherIconHost 'Dynamic
+              :return 'String
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
             :names $ {} $ :to-svg |toSvg
@@ -402,7 +404,7 @@
             feather.comp.container :refer $ comp-container
             feather.updater :refer $ updater
             feather.schema :as schema
-            reel.util :refer $ listen-devtools! generate-id!
+            reel.util :refer $ listen-devtools!
             reel.core :refer $ reel-updater refresh-reel
             reel.schema :as reel-schema
             reel.typed :as typed
