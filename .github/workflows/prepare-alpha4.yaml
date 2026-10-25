@@ -46,7 +46,7 @@ jobs:
           set -euo pipefail
           test "$(calcit -v)" = 0.31.0-alpha.4
           caps --strict --ci
-          yarn install
+          YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
           yarn install --immutable
           caps verify --toolchain
           calcit calcit.cirru edit format
