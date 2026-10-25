@@ -3,6 +3,19 @@
 
 Feather icon components for Respo applications written in Calcit.
 
+### 当前 0.31 预发布维护线
+
+使用者影响：本分支将 Calcit CLI 与 `@calcit/procs` 同步到已发布的
+`0.31.0-alpha.4`（仍为预发布），消费方需协调依赖图并重新生成 JS；
+仍使用 0.30.1 的项目继续使用原维护版本，不要只替换单个 runtime。
+本次不改图标 API、颜色、点击、HUD 或存档行为，也不发布新的模块 tag。
+
+只将颜色拒绝测试中的旧 `atom` 构造器改为 `ref`，保留全部四项附带测试的
+名称、标签、顺序及其余断言。原完整 strict、native/JS 同源回放、渲染回归和
+前端构建继续作为门禁；不添加迁移脚本、预批准项或额外 COS 校验。
+CLI/runtime 的当前版本以 `deps.cirru` / `package.json` 为准，下文 0.4.30
+及正式 0.30.1 的说明为历史维护线记录，不代表当前 main 的工具链。
+
 使用者注意：`0.4.30` 候选配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，
 请同步下方完整依赖图、重新生成 JS，并完整刷新页面，不混装旧 alpha。
 UI 从 0.7 升到 0.8，基础样式可能变化；图标 API、颜色、点击与存档格式不变。
