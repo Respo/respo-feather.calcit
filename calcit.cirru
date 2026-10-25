@@ -237,7 +237,7 @@
                 [] ({}) ([]) (#{})
                 fn (value)
                   let
-                      rejected? $ atom false
+                      rejected? $ ref false
                     try (icon-color-text value)
                       fn (error)
                         assert= "|[Feather/comp-icon] expected color to be a text scalar" error
