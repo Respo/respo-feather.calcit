@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+assert.equal(process.env.GITHUB_ACTIONS,'true');
+assert.equal(process.platform,'linux');
+const exec=(name,args)=>execFileSync(name,args,{encoding:'utf8',maxBuffer:64e6,stdio:['pipe','pipe','pipe']});
+const run=(...a)=>exec('calcit',['calcit.cirru',...a]);
+const norm=v=>Array.isArray(v)?v.map(norm):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,k==='__edn_set'?x.map(norm).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))):norm(x)])):v;
+const q=(...a)=>norm(JSON.parse(run('query',...a,'--format','json')).data);
+const input=norm(JSON.parse(readFileSync('reviewed.json','utf8')));
+const blob=()=>exec('git',['hash-object','calcit.cirru']).trim();
+const views=()=>({config:q('config'),namespaces:q('ns').namespaces.map(n=>q('ns',n)),defs:input.before.defs.map(d=>q('def',d.id))});
+mkdirSync('acceptance',{recursive:true});
+if(process.argv[2]==='apply'){
+ assert.equal(exec('calcit',['-v']).trim(),'0.31.0-alpha.2');
+ assert.equal(blob(),input.snapshotBlob);
+ assert.deepEqual(views(),input.before);
+ const expected=structuredClone(input.before),d=expected.defs.find(d=>d.id===input.id),test=d.tests.find(t=>t.name===input.name);
+ let parent=test.code;for(const i of input.path.slice(0,-1))parent=parent[i];
+ assert.deepEqual(parent[input.path.at(-1)],input.site.before);
+ parent[input.path.at(-1)]=input.old==='atom'?['ref',input.site.before[1]]:['Option',':some',input.site.before[1]];
+ assert.deepEqual(expected,input.expected);
+ const ops=[['edit','add-test',input.id,input.name,'--tags',test.tags.join(','),'--input-format','json-ast','--code',JSON.stringify(test.code),'--overwrite']];
+ writeFileSync('acceptance/operations.json',JSON.stringify(ops));
+ const txn=['edit','transaction','--file','acceptance/operations.json','--format','json'];
+ const preview=JSON.parse(run(...txn,'--dry-run'));assert.ok(preview.scoped_revision);
+ writeFileSync('acceptance/preview.json',JSON.stringify(preview));
+ writeFileSync('acceptance/applied.json',run(...txn,'--expect-revision',preview.scoped_revision));
+ assert.deepEqual(views(),expected);
+ writeFileSync('acceptance/source-after.json',JSON.stringify(views()));
+ writeFileSync('acceptance/snapshot-after-blob.txt',blob());
+ for(const file of ['deps.cirru','package.json'])assert.equal(readFileSync(file,'utf8'),input.manifests[file]);
+ assert.equal(input.manifests['deps.cirru'].split('(:calcit-version |0.31.0-alpha.2)').length,2);
+ writeFileSync('deps.cirru',input.manifests['deps.cirru'].replace('(:calcit-version |0.31.0-alpha.2)','(:calcit-version |0.31.0-alpha.4)'));
+ const pkg=JSON.parse(input.manifests['package.json']);assert.equal(pkg.dependencies['@calcit/procs'],'0.31.0-alpha.2');
+ pkg.dependencies['@calcit/procs']='0.31.0-alpha.4';writeFileSync('package.json',JSON.stringify(pkg,null,2)+'\n');
+}else{
+ assert.equal(process.argv[2],'verify');
+ assert.equal(exec('calcit',['-v']).trim(),'0.31.0-alpha.4');
+ assert.equal(blob(),readFileSync('acceptance/snapshot-after-blob.txt','utf8'));
+ const expected=norm(JSON.parse(readFileSync('acceptance/source-after.json','utf8'))),actual=views();
+ assert.deepEqual(actual,expected);
+ writeFileSync('acceptance/after.json',JSON.stringify(actual));
+ writeFileSync('acceptance/snapshot.cirru',readFileSync('calcit.cirru'));
+ for(const f of ['deps.cirru','package.json','yarn.lock'])writeFileSync('acceptance/'+f,readFileSync(f));
+}

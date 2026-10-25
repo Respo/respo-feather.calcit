@@ -1,0 +1,6022 @@
+{
+  "slug": "feather",
+  "dir": "/Users/chenyong/repo/respo/feather-alpha4-tests-prepare",
+  "id": "feather.core/icon-color-text",
+  "name": "rejects-collections",
+  "path": [
+    2,
+    2,
+    1,
+    0,
+    1
+  ],
+  "old": "atom",
+  "before": {
+    "config": {
+      "package": "feather",
+      "version": "0.5.0-alpha.2",
+      "selected_entry": null,
+      "entries": [
+        {
+          "name": "default",
+          "mode": "js",
+          "target": "browser",
+          "init_fn": "feather.main/main!",
+          "reload_fn": "feather.main/reload!",
+          "description": "",
+          "modules": [
+            "respo.calcit/",
+            "respo-ui.calcit/",
+            "reel.calcit/",
+            "js-ffi/"
+          ],
+          "type_slots": {
+            "dispatch-op": "feather.schema/Op"
+          },
+          "feature_policy": {}
+        }
+      ],
+      "verification_schema_version": 1,
+      "verification_profiles": []
+    },
+    "namespaces": [
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.$meta",
+        "ns_code": [
+          "ns",
+          "feather.$meta"
+        ]
+      },
+      {
+        "definition_count": 8,
+        "doc": "",
+        "namespace": "feather.comp.container",
+        "ns_code": [
+          "ns",
+          "feather.comp.container",
+          [
+            ":require",
+            [
+              "respo-ui.core",
+              ":as",
+              "ui"
+            ],
+            [
+              "respo-ui.css",
+              ":as",
+              "css"
+            ],
+            [
+              "respo.util.format",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "defeffect",
+                "list->",
+                "<>",
+                ">>",
+                "div",
+                "button",
+                "textarea",
+                "span",
+                "input",
+                "memo-comp-by"
+              ]
+            ],
+            [
+              "respo.comp.space",
+              ":refer",
+              [
+                "=<"
+              ]
+            ],
+            [
+              "reel.comp.reel",
+              ":refer",
+              [
+                "comp-typed-reel"
+              ]
+            ],
+            [
+              "feather.config",
+              ":refer",
+              [
+                "dev?"
+              ]
+            ],
+            [
+              "feather.core",
+              ":refer",
+              [
+                "comp-icon",
+                "comp-i"
+              ]
+            ],
+            [
+              "|feather-icons",
+              ":default",
+              "feather-icons"
+            ],
+            [
+              "|copy-text-to-clipboard",
+              ":default",
+              "copy!"
+            ],
+            [
+              "respo.css",
+              ":refer",
+              [
+                "defstyle"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.config",
+        "ns_code": [
+          "ns",
+          "feather.config"
+        ]
+      },
+      {
+        "definition_count": 7,
+        "doc": "",
+        "namespace": "feather.core",
+        "ns_code": [
+          "ns",
+          "feather.core",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "create-element",
+                "span",
+                "div",
+                "<>"
+              ]
+            ],
+            [
+              "respo.util.format",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "|feather-icons",
+              ":default",
+              "feather-icons"
+            ],
+            [
+              "respo.css",
+              ":refer",
+              [
+                "defstyle"
+              ]
+            ],
+            [
+              "js-ffi.shared",
+              ":as",
+              "shared"
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 11,
+        "doc": "",
+        "namespace": "feather.main",
+        "ns_code": [
+          "ns",
+          "feather.main",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "render!",
+                "clear-cache!"
+              ]
+            ],
+            [
+              "respo.ffi.browser",
+              ":refer",
+              [
+                "narrow-element"
+              ]
+            ],
+            [
+              "feather.comp.container",
+              ":refer",
+              [
+                "comp-container"
+              ]
+            ],
+            [
+              "feather.updater",
+              ":refer",
+              [
+                "updater"
+              ]
+            ],
+            [
+              "feather.schema",
+              ":as",
+              "schema"
+            ],
+            [
+              "reel.util",
+              ":refer",
+              [
+                "listen-devtools!"
+              ]
+            ],
+            [
+              "reel.core",
+              ":refer",
+              [
+                "reel-updater",
+                "refresh-reel"
+              ]
+            ],
+            [
+              "reel.schema",
+              ":as",
+              "reel-schema"
+            ],
+            [
+              "reel.typed",
+              ":as",
+              "typed"
+            ],
+            [
+              "feather.config",
+              ":as",
+              "config"
+            ],
+            [
+              "|./calcit.build-errors",
+              ":default",
+              "build-errors"
+            ],
+            [
+              "|bottom-tip",
+              ":default",
+              "hud!"
+            ],
+            [
+              "js-ffi.browser",
+              ":as",
+              "browser"
+            ],
+            [
+              "js-ffi.shared",
+              ":as",
+              "shared"
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.schema",
+        "ns_code": [
+          "ns",
+          "feather.schema"
+        ]
+      },
+      {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "feather.updater",
+        "ns_code": [
+          "ns",
+          "feather.updater",
+          [
+            ":require",
+            [
+              "respo.cursor",
+              ":refer",
+              [
+                "update-states"
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "defs": [
+      {
+        "code": [
+          "def",
+          "calcit-dirname",
+          "|"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.$meta/calcit-dirname",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "calcit-filename",
+          "|calcit.cirru"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.$meta/calcit-filename",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-container",
+          [
+            "reel"
+          ],
+          [
+            "let",
+            [
+              [
+                "store",
+                [
+                  ":store",
+                  "reel"
+                ]
+              ],
+              [
+                "states",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "store",
+                      ":states"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "::",
+                    "'Map",
+                    "'Dynamic",
+                    "'Dynamic"
+                  ]
+                ]
+              ],
+              [
+                "cursor",
+                [
+                  "or",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":cursor"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "[]"
+                  ]
+                ]
+              ],
+              [
+                "state",
+                [
+                  "or",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":data"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "{}",
+                    [
+                      ":content",
+                      "|"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "selected-icon",
+                [
+                  ".unwrap-or",
+                  [
+                    "get",
+                    "store",
+                    ":icon"
+                  ],
+                  "nil"
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":class-name",
+                  [
+                    "str-spaced",
+                    "css/preset",
+                    "css/global",
+                    "css/fullscreen"
+                  ]
+                ]
+              ],
+              [
+                "if",
+                [
+                  "non-nil?",
+                  "selected-icon"
+                ],
+                [
+                  "let",
+                  [
+                    [
+                      "icon",
+                      "selected-icon"
+                    ]
+                  ],
+                  [
+                    "div",
+                    [
+                      "{}",
+                      [
+                        ":class-name",
+                        [
+                          "str-spaced",
+                          "css/row-center",
+                          "style-preview"
+                        ]
+                      ]
+                    ],
+                    [
+                      "<>",
+                      [
+                        "str",
+                        "|Copied ",
+                        "|:",
+                        "icon"
+                      ]
+                    ],
+                    [
+                      "=<",
+                      "16",
+                      "nil"
+                    ],
+                    [
+                      "comp-i",
+                      [
+                        "str",
+                        "icon"
+                      ],
+                      "40",
+                      "|black"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "list->",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":width",
+                        "|100%"
+                      ],
+                      [
+                        ":padding",
+                        "16"
+                      ],
+                      [
+                        ":overflow",
+                        ":auto"
+                      ],
+                      [
+                        ":margin-top",
+                        "80"
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "map",
+                  "icon-names",
+                  [
+                    "fn",
+                    [
+                      "icon"
+                    ],
+                    [
+                      "[]",
+                      "icon",
+                      [
+                        "comp-icon-demo",
+                        "icon",
+                        [
+                          "&=",
+                          "icon",
+                          "selected-icon"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "when",
+                "dev?",
+                [
+                  "comp-typed-reel",
+                  [
+                    ">>",
+                    "states",
+                    ":reel"
+                  ],
+                  "reel",
+                  [
+                    "{}"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/comp-container",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-icon-demo",
+          [
+            "icon",
+            "selected?"
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                [
+                  "if",
+                  "selected?",
+                  [
+                    "str-spaced",
+                    "css/center",
+                    "css-cell",
+                    "style-selected"
+                  ],
+                  [
+                    "str-spaced",
+                    "css/center",
+                    "css-cell"
+                  ]
+                ]
+              ],
+              [
+                ":on-click",
+                [
+                  "fn",
+                  [
+                    "event",
+                    "d!"
+                  ],
+                  [
+                    "copy!",
+                    [
+                      "str",
+                      "|:",
+                      "icon"
+                    ]
+                  ],
+                  [
+                    "d!",
+                    ":exhibit",
+                    "icon"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "comp-icon",
+              "icon",
+              [
+                "{}",
+                [
+                  ":font-size",
+                  "24"
+                ],
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "200",
+                    "80",
+                    "60"
+                  ]
+                ]
+              ],
+              "nil"
+            ],
+            [
+              "<>",
+              "icon",
+              "css-icon-name"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/comp-icon-demo",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String",
+              "'Bool"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "css-cell",
+          [
+            "{}",
+            [
+              "|$0",
+              [
+                "{}",
+                [
+                  ":display",
+                  ":inline-flex"
+                ],
+                [
+                  ":width",
+                  "80"
+                ],
+                [
+                  ":height",
+                  "80"
+                ],
+                [
+                  ":cursor",
+                  ":pointer"
+                ],
+                [
+                  ":transition-duration",
+                  "|300ms"
+                ]
+              ]
+            ],
+            [
+              "|$0:hover",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "96"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "|$0:active",
+              [
+                "{}",
+                [
+                  ":transition-duration",
+                  "|0ms"
+                ],
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "90"
+                  ]
+                ],
+                [
+                  ":transform",
+                  "|scale(1.02)"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/css-cell",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "css-icon-name",
+          [
+            "{}",
+            [
+              "|$0",
+              [
+                "{}",
+                [
+                  ":font-size",
+                  "12"
+                ],
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "80"
+                  ]
+                ],
+                [
+                  ":white-space",
+                  ":nowrap"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/css-icon-name",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "icon-names",
+          [
+            "load-icon-names"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/icon-names",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'List",
+          "'String"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "load-icon-names",
+          [],
+          [
+            "decode-map-as",
+            [
+              "to-calcit-data",
+              [
+                "js/Object.keys",
+                [
+                  ".-icons",
+                  [
+                    "unsafe-coerce",
+                    "feather-icons",
+                    "feather.core/FeatherIconsHost"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/load-icon-names",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-preview",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":padding",
+                  "|16px"
+                ],
+                [
+                  ":position",
+                  ":fixed"
+                ],
+                [
+                  ":top",
+                  "0"
+                ],
+                [
+                  ":width",
+                  "|100%"
+                ],
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "100",
+                    "0.8"
+                  ]
+                ],
+                [
+                  ":border-bottom",
+                  [
+                    "str",
+                    "|1px solid ",
+                    [
+                      "hsl",
+                      "0",
+                      "0",
+                      "92"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/style-preview",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-selected",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "95"
+                  ]
+                ],
+                [
+                  ":outline",
+                  [
+                    "str",
+                    "|1px solid ",
+                    [
+                      "hsl",
+                      "200",
+                      "90",
+                      "89"
+                    ]
+                  ]
+                ],
+                [
+                  ":z-index",
+                  "999"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/style-selected",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "dev?",
+          [
+            "=",
+            "|dev",
+            [
+              "option:unwrap-or",
+              [
+                "get-env",
+                "|mode"
+              ],
+              "|release"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.config/dev?",
+        "js_ffi": null,
+        "schema": "'Bool",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "site",
+          [
+            "{}",
+            [
+              ":title",
+              "|Calcit"
+            ],
+            [
+              ":icon",
+              "|http://cdn.tiye.me/logo/mvc-works.png"
+            ],
+            [
+              ":storage-key",
+              "|respo-feather"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.config/site",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Map",
+          "'Tag",
+          "'String"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "deftrait",
+          "FeatherIconHost",
+          [
+            ".to-svg",
+            [
+              "::",
+              "'Fn",
+              [
+                "{}",
+                [
+                  ":args",
+                  [
+                    "[]",
+                    "'feather.core/FeatherIconHost",
+                    "'Dynamic"
+                  ]
+                ],
+                [
+                  ":return",
+                  "'String"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          },
+          ":names": {
+            ":to-svg": "toSvg"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object)\n  :names $ {} $ :to-svg |toSvg",
+        "id": "feather.core/FeatherIconHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "deftrait",
+          "FeatherIconsHost",
+          [
+            ":icons",
+            "'JsObject"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object)",
+        "id": "feather.core/FeatherIconsHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-i",
+          [
+            "icon",
+            "size",
+            "color"
+          ],
+          [
+            "comp-icon",
+            "icon",
+            [
+              "{}",
+              [
+                ":font-size",
+                "size"
+              ],
+              [
+                ":color",
+                "color"
+              ]
+            ],
+            "nil"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/comp-i",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-icon",
+          [
+            "icon",
+            "options",
+            "on-click"
+          ],
+          [
+            "let",
+            [
+              [
+                "opts",
+                [
+                  "if",
+                  [
+                    "map?",
+                    "options"
+                  ],
+                  "options",
+                  [
+                    "if",
+                    [
+                      "nil?",
+                      "options"
+                    ],
+                    [
+                      "{}"
+                    ],
+                    [
+                      "raise",
+                      "|comp-icon expected options as a map"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "icon-name",
+                [
+                  "if",
+                  [
+                    "tag?",
+                    "icon"
+                  ],
+                  [
+                    "to-string",
+                    "icon"
+                  ],
+                  "icon"
+                ]
+              ],
+              [
+                "obj",
+                [
+                  "js-get",
+                  [
+                    "unsafe-coerce",
+                    [
+                      ".-icons",
+                      [
+                        "unsafe-coerce",
+                        "feather-icons",
+                        "FeatherIconsHost"
+                      ]
+                    ],
+                    "JsObject"
+                  ],
+                  "icon-name"
+                ]
+              ]
+            ],
+            [
+              "if",
+              "obj",
+              [
+                "span",
+                [
+                  "{}",
+                  [
+                    ":class-name",
+                    [
+                      "str-spaced",
+                      "style-base",
+                      [
+                        "or",
+                        [
+                          ".unwrap-or",
+                          [
+                            "get",
+                            "opts",
+                            ":class-name"
+                          ],
+                          "nil"
+                        ],
+                        "|"
+                      ]
+                    ]
+                  ],
+                  [
+                    ":style",
+                    [
+                      "or",
+                      [
+                        ".unwrap-or",
+                        [
+                          "get",
+                          "opts",
+                          ":style"
+                        ],
+                        "nil"
+                      ],
+                      [
+                        "{}"
+                      ]
+                    ]
+                  ],
+                  [
+                    ":on-click",
+                    "on-click"
+                  ],
+                  [
+                    ":innerHTML",
+                    [
+                      ".to-svg",
+                      [
+                        "unsafe-coerce",
+                        "obj",
+                        "FeatherIconHost"
+                      ],
+                      [
+                        "js-object",
+                        [
+                          ":width",
+                          [
+                            "or",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":size"
+                              ],
+                              "nil"
+                            ],
+                            "14"
+                          ]
+                        ],
+                        [
+                          ":height",
+                          [
+                            "or",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":size"
+                              ],
+                              "nil"
+                            ],
+                            "14"
+                          ]
+                        ],
+                        [
+                          ":color",
+                          [
+                            "icon-color-text",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":color"
+                              ],
+                              "nil"
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "do",
+                [
+                  "shared/console-error!",
+                  [
+                    "str",
+                    "|No icon named:",
+                    "icon-name"
+                  ]
+                ],
+                [
+                  "span",
+                  [
+                    "{}",
+                    [
+                      ":on-click",
+                      "on-click"
+                    ],
+                    [
+                      ":class-name",
+                      "style-error"
+                    ]
+                  ],
+                  [
+                    "<>",
+                    [
+                      "str",
+                      "|No icon: ",
+                      "icon-name"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/comp-icon",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "icon-color-text",
+          [
+            "color"
+          ],
+          [
+            "cond",
+            [
+              [
+                "nil?",
+                "color"
+              ],
+              "|blue"
+            ],
+            [
+              [
+                "=",
+                ":unit",
+                [
+                  "type-of",
+                  "color"
+                ]
+              ],
+              "|blue"
+            ],
+            [
+              [
+                "string?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'String"
+                ]
+              ]
+            ],
+            [
+              [
+                "tag?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Tag"
+                ]
+              ]
+            ],
+            [
+              [
+                "number?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Number"
+                ]
+              ]
+            ],
+            [
+              [
+                "bool?",
+                "color"
+              ],
+              [
+                "if",
+                "color",
+                [
+                  ".to-string",
+                  [
+                    "assert-type",
+                    "color",
+                    "'Bool"
+                  ]
+                ],
+                "|blue"
+              ]
+            ],
+            [
+              [
+                "symbol?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Symbol"
+                ]
+              ]
+            ],
+            [
+              "true",
+              [
+                "raise",
+                "|[Feather/comp-icon] expected color to be a text scalar"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/icon-color-text",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'String"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'ColorInput"
+            ]
+          ],
+          [
+            ":generics",
+            [
+              "[]",
+              "'ColorInput"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": [
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  ":blue"
+                ]
+              ],
+              [
+                "assert=",
+                "|#123456",
+                [
+                  "icon-color-text",
+                  "|#123456"
+                ]
+              ],
+              [
+                "assert=",
+                "|",
+                [
+                  "icon-color-text",
+                  "|"
+                ]
+              ],
+              [
+                "assert=",
+                "|0",
+                [
+                  "icon-color-text",
+                  "0"
+                ]
+              ],
+              [
+                "assert=",
+                "|true",
+                [
+                  "icon-color-text",
+                  "true"
+                ]
+              ],
+              [
+                "assert=",
+                "|red",
+                [
+                  "icon-color-text",
+                  "'red"
+                ]
+              ]
+            ],
+            "name": "preserves-text-scalars",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "nil"
+                ]
+              ],
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "false"
+                ]
+              ],
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "&unit"
+                ]
+              ]
+            ],
+            "name": "defaults-falsey-colors",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "each",
+              [
+                "[]",
+                [
+                  "{}"
+                ],
+                [
+                  "[]"
+                ],
+                [
+                  "#{}"
+                ]
+              ],
+              [
+                "fn",
+                [
+                  "value"
+                ],
+                [
+                  "let",
+                  [
+                    [
+                      "rejected?",
+                      [
+                        "atom",
+                        "false"
+                      ]
+                    ]
+                  ],
+                  [
+                    "try",
+                    [
+                      "icon-color-text",
+                      "value"
+                    ],
+                    [
+                      "fn",
+                      [
+                        "error"
+                      ],
+                      [
+                        "assert=",
+                        "|[Feather/comp-icon] expected color to be a text scalar",
+                        "error"
+                      ],
+                      [
+                        "reset!",
+                        "rejected?",
+                        "true"
+                      ]
+                    ]
+                  ],
+                  [
+                    "assert",
+                    "|collection-color-rejected",
+                    [
+                      "deref",
+                      "rejected?"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "name": "rejects-collections",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|蓝色😀",
+                [
+                  "icon-color-text",
+                  "|蓝色😀"
+                ]
+              ],
+              [
+                "assert=",
+                "|12.5",
+                [
+                  "icon-color-text",
+                  "12.5"
+                ]
+              ],
+              [
+                "assert=",
+                "|-2",
+                [
+                  "icon-color-text",
+                  "-2"
+                ]
+              ]
+            ],
+            "name": "preserves-unicode-and-number-text",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          }
+        ]
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-base",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":display",
+                  ":inline-block"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/style-base",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-error",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "80",
+                    "70"
+                  ]
+                ],
+                [
+                  ":color",
+                  ":white"
+                ],
+                [
+                  ":padding",
+                  "|0 8px"
+                ],
+                [
+                  ":line-height",
+                  "|24px"
+                ],
+                [
+                  ":border-radius",
+                  "|12px"
+                ],
+                [
+                  ":display",
+                  ":inline-block"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/style-error",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defref",
+          "*reel",
+          [
+            "typed/new-reel",
+            "schema/store"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/*reel",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Ref",
+          [
+            "::",
+            "'reel.typed/State",
+            "'Enum",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "dispatch!",
+          [
+            "op"
+          ],
+          [
+            "when",
+            "config/dev?",
+            [
+              "shared/console-log!",
+              [
+                "str",
+                "|Dispatch:",
+                "op"
+              ]
+            ]
+          ],
+          [
+            "if",
+            [
+              "enum?",
+              "op"
+            ],
+            [
+              "&let",
+              [
+                "_next",
+                [
+                  "reset!",
+                  "*reel",
+                  [
+                    "next-reel",
+                    "op"
+                  ]
+                ]
+              ],
+              "&unit"
+            ],
+            [
+              "raise",
+              "|dispatch! expected an Enum op"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/dispatch!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "main!",
+          [],
+          [
+            "load-console-formatter!"
+          ],
+          [
+            "println",
+            "|Running mode:",
+            [
+              "if",
+              "config/dev?",
+              "|dev",
+              "|release"
+            ]
+          ],
+          [
+            "if",
+            "config/dev?",
+            [
+              "load-console-formatter!"
+            ]
+          ],
+          [
+            "let",
+            [
+              [
+                "storage-key",
+                [
+                  "match",
+                  [
+                    "get",
+                    "config/site",
+                    ":storage-key"
+                  ],
+                  [
+                    [
+                      ":some",
+                      "lookup-value"
+                    ],
+                    "lookup-value"
+                  ],
+                  [
+                    [
+                      ":none"
+                    ],
+                    [
+                      "raise",
+                      "|Feather configuration missing :storage-key"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "raw",
+                [
+                  "browser/storage-get",
+                  "storage-key"
+                ]
+              ]
+            ],
+            [
+              "match",
+              "raw",
+              [
+                [
+                  ":some",
+                  "value"
+                ],
+                [
+                  "dispatch!",
+                  [
+                    "::",
+                    ":hydrate-storage",
+                    [
+                      "parse-cirru-edn",
+                      "value"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                [
+                  ":none"
+                ],
+                "&unit"
+              ]
+            ]
+          ],
+          [
+            "render-app!"
+          ],
+          [
+            "add-watch!",
+            "*reel",
+            ":changes",
+            [
+              "fn",
+              [
+                "reel",
+                "prev"
+              ],
+              [
+                "render-app!"
+              ]
+            ]
+          ],
+          [
+            "listen-devtools!",
+            "|a",
+            "dispatch!"
+          ],
+          [
+            "browser/add-event-listener!",
+            "|beforeunload",
+            [
+              "fn",
+              [
+                "event"
+              ],
+              [
+                "persist-storage!"
+              ]
+            ]
+          ],
+          [
+            "browser/set-interval!",
+            "persist-storage!",
+            [
+              "*",
+              "60",
+              "1000"
+            ]
+          ],
+          [
+            "println",
+            "|App started."
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/main!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "mount-target",
+          [],
+          [
+            "option:unwrap",
+            [
+              "browser/query-selector",
+              "|.app"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/mount-target",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'js-ffi.browser/DomElementHost"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "next-reel",
+          [
+            "op"
+          ],
+          [
+            "let",
+            [
+              [
+                "reel",
+                [
+                  "assert-type",
+                  "@*reel",
+                  [
+                    "::",
+                    "'reel.typed/State",
+                    "'Enum",
+                    [
+                      "::",
+                      "'Map",
+                      "'Dynamic",
+                      "'Dynamic"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "match",
+              [
+                "typed/decode-control",
+                "op"
+              ],
+              [
+                [
+                  ":some",
+                  "control"
+                ],
+                [
+                  "typed/apply-control",
+                  "updater",
+                  "reel",
+                  "control"
+                ]
+              ],
+              [
+                [
+                  ":none"
+                ],
+                [
+                  "typed/record-op",
+                  "updater",
+                  "reel",
+                  "op",
+                  [
+                    "generate-id!"
+                  ],
+                  [
+                    "shared/now-ms"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/next-reel",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'reel.typed/State",
+              "'Enum",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "persist-storage!",
+          [],
+          [
+            "let",
+            [
+              [
+                "storage-key",
+                [
+                  "match",
+                  [
+                    "get",
+                    "config/site",
+                    ":storage-key"
+                  ],
+                  [
+                    [
+                      ":some",
+                      "lookup-value"
+                    ],
+                    "lookup-value"
+                  ],
+                  [
+                    [
+                      ":none"
+                    ],
+                    [
+                      "raise",
+                      "|Feather configuration missing :storage-key"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "store",
+                [
+                  "ret-reel-store",
+                  "@*reel"
+                ]
+              ]
+            ],
+            [
+              "browser/storage-set!",
+              "storage-key",
+              [
+                "format-cirru-edn",
+                "store"
+              ]
+            ],
+            "&unit"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/persist-storage!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "reload!",
+          [],
+          [
+            "if",
+            [
+              "nil?",
+              "build-errors"
+            ],
+            [
+              "do",
+              [
+                "remove-watch!",
+                "*reel",
+                ":changes"
+              ],
+              [
+                "clear-cache!"
+              ],
+              [
+                "add-watch!",
+                "*reel",
+                ":changes",
+                [
+                  "fn",
+                  [
+                    "reel",
+                    "prev"
+                  ],
+                  [
+                    "render-app!"
+                  ]
+                ]
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "reloaded-reel"
+                ]
+              ],
+              [
+                "hud!",
+                "|ok~",
+                "|Ok"
+              ]
+            ],
+            [
+              "hud!",
+              "|error",
+              "build-errors"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/reload!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "reloaded-reel",
+          [],
+          [
+            "typed/refresh",
+            "updater",
+            [
+              "assert-type",
+              "@*reel",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              "assert-type",
+              "schema/store",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/reloaded-reel",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'reel.typed/State",
+              "'Enum",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "render-app!",
+          [],
+          [
+            "render!",
+            [
+              "narrow-element",
+              [
+                "mount-target"
+              ]
+            ],
+            [
+              "comp-container",
+              "@*reel"
+            ],
+            "dispatch!"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/render-app!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "repeat!",
+          [
+            "duration",
+            "cb"
+          ],
+          [
+            "browser/set-timeout!",
+            [
+              "fn",
+              [],
+              [
+                "cb"
+              ],
+              [
+                "repeat!",
+                [
+                  "*",
+                  "1000",
+                  "duration"
+                ],
+                "cb"
+              ]
+            ],
+            [
+              "*",
+              "1000",
+              "duration"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/repeat!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Number",
+              "'Fn"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "ret-reel-store",
+          [
+            "r"
+          ],
+          [
+            ":store",
+            "r"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/ret-reel-store",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defenum",
+          "Op",
+          [
+            ":states",
+            [
+              "::",
+              "'List",
+              "'Dynamic"
+            ],
+            "'Dynamic"
+          ],
+          [
+            ":hydrate-storage",
+            "'Dynamic"
+          ],
+          [
+            ":exhibit",
+            "'Dynamic"
+          ],
+          [
+            ":reel/toggle"
+          ],
+          [
+            ":reel/recall",
+            "'Number"
+          ],
+          [
+            ":reel/run"
+          ],
+          [
+            ":reel/step"
+          ],
+          [
+            ":reel/merge"
+          ],
+          [
+            ":reel/reset"
+          ],
+          [
+            ":reel/remove",
+            "'Number"
+          ]
+        ],
+        "doc": "Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends.",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.schema/Op",
+        "js_ffi": null,
+        "schema": "'EnumDef",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "store",
+          [
+            "{}",
+            [
+              ":states",
+              [
+                "{}",
+                [
+                  ":cursor",
+                  [
+                    "[]"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.schema/store",
+        "js_ffi": null,
+        "schema": "'Map",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "updater",
+          [
+            "store",
+            "op",
+            "op-id",
+            "op-time"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "s"
+              ],
+              [
+                "decode-map-as",
+                [
+                  "update-states",
+                  "store",
+                  [
+                    "decode-map-as",
+                    "cursor",
+                    [
+                      "::",
+                      "'List",
+                      "'Dynamic"
+                    ]
+                  ],
+                  "s"
+                ],
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "data"
+              ],
+              [
+                "decode-map-as",
+                "data",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              [
+                ":exhibit",
+                "d"
+              ],
+              [
+                "&map:assoc",
+                "store",
+                ":icon",
+                "d"
+              ]
+            ],
+            [
+              "_",
+              [
+                "do",
+                [
+                  "eprintln",
+                  "|Unknown op:",
+                  "op"
+                ],
+                "store"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.updater/updater",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              "'Enum",
+              "'String",
+              "'Number"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      }
+    ]
+  },
+  "expected": {
+    "config": {
+      "package": "feather",
+      "version": "0.5.0-alpha.2",
+      "selected_entry": null,
+      "entries": [
+        {
+          "name": "default",
+          "mode": "js",
+          "target": "browser",
+          "init_fn": "feather.main/main!",
+          "reload_fn": "feather.main/reload!",
+          "description": "",
+          "modules": [
+            "respo.calcit/",
+            "respo-ui.calcit/",
+            "reel.calcit/",
+            "js-ffi/"
+          ],
+          "type_slots": {
+            "dispatch-op": "feather.schema/Op"
+          },
+          "feature_policy": {}
+        }
+      ],
+      "verification_schema_version": 1,
+      "verification_profiles": []
+    },
+    "namespaces": [
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.$meta",
+        "ns_code": [
+          "ns",
+          "feather.$meta"
+        ]
+      },
+      {
+        "definition_count": 8,
+        "doc": "",
+        "namespace": "feather.comp.container",
+        "ns_code": [
+          "ns",
+          "feather.comp.container",
+          [
+            ":require",
+            [
+              "respo-ui.core",
+              ":as",
+              "ui"
+            ],
+            [
+              "respo-ui.css",
+              ":as",
+              "css"
+            ],
+            [
+              "respo.util.format",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "defeffect",
+                "list->",
+                "<>",
+                ">>",
+                "div",
+                "button",
+                "textarea",
+                "span",
+                "input",
+                "memo-comp-by"
+              ]
+            ],
+            [
+              "respo.comp.space",
+              ":refer",
+              [
+                "=<"
+              ]
+            ],
+            [
+              "reel.comp.reel",
+              ":refer",
+              [
+                "comp-typed-reel"
+              ]
+            ],
+            [
+              "feather.config",
+              ":refer",
+              [
+                "dev?"
+              ]
+            ],
+            [
+              "feather.core",
+              ":refer",
+              [
+                "comp-icon",
+                "comp-i"
+              ]
+            ],
+            [
+              "|feather-icons",
+              ":default",
+              "feather-icons"
+            ],
+            [
+              "|copy-text-to-clipboard",
+              ":default",
+              "copy!"
+            ],
+            [
+              "respo.css",
+              ":refer",
+              [
+                "defstyle"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.config",
+        "ns_code": [
+          "ns",
+          "feather.config"
+        ]
+      },
+      {
+        "definition_count": 7,
+        "doc": "",
+        "namespace": "feather.core",
+        "ns_code": [
+          "ns",
+          "feather.core",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "create-element",
+                "span",
+                "div",
+                "<>"
+              ]
+            ],
+            [
+              "respo.util.format",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "|feather-icons",
+              ":default",
+              "feather-icons"
+            ],
+            [
+              "respo.css",
+              ":refer",
+              [
+                "defstyle"
+              ]
+            ],
+            [
+              "js-ffi.shared",
+              ":as",
+              "shared"
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 11,
+        "doc": "",
+        "namespace": "feather.main",
+        "ns_code": [
+          "ns",
+          "feather.main",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "render!",
+                "clear-cache!"
+              ]
+            ],
+            [
+              "respo.ffi.browser",
+              ":refer",
+              [
+                "narrow-element"
+              ]
+            ],
+            [
+              "feather.comp.container",
+              ":refer",
+              [
+                "comp-container"
+              ]
+            ],
+            [
+              "feather.updater",
+              ":refer",
+              [
+                "updater"
+              ]
+            ],
+            [
+              "feather.schema",
+              ":as",
+              "schema"
+            ],
+            [
+              "reel.util",
+              ":refer",
+              [
+                "listen-devtools!"
+              ]
+            ],
+            [
+              "reel.core",
+              ":refer",
+              [
+                "reel-updater",
+                "refresh-reel"
+              ]
+            ],
+            [
+              "reel.schema",
+              ":as",
+              "reel-schema"
+            ],
+            [
+              "reel.typed",
+              ":as",
+              "typed"
+            ],
+            [
+              "feather.config",
+              ":as",
+              "config"
+            ],
+            [
+              "|./calcit.build-errors",
+              ":default",
+              "build-errors"
+            ],
+            [
+              "|bottom-tip",
+              ":default",
+              "hud!"
+            ],
+            [
+              "js-ffi.browser",
+              ":as",
+              "browser"
+            ],
+            [
+              "js-ffi.shared",
+              ":as",
+              "shared"
+            ]
+          ]
+        ]
+      },
+      {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "feather.schema",
+        "ns_code": [
+          "ns",
+          "feather.schema"
+        ]
+      },
+      {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "feather.updater",
+        "ns_code": [
+          "ns",
+          "feather.updater",
+          [
+            ":require",
+            [
+              "respo.cursor",
+              ":refer",
+              [
+                "update-states"
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "defs": [
+      {
+        "code": [
+          "def",
+          "calcit-dirname",
+          "|"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.$meta/calcit-dirname",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "calcit-filename",
+          "|calcit.cirru"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.$meta/calcit-filename",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-container",
+          [
+            "reel"
+          ],
+          [
+            "let",
+            [
+              [
+                "store",
+                [
+                  ":store",
+                  "reel"
+                ]
+              ],
+              [
+                "states",
+                [
+                  "decode-map-as",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "store",
+                      ":states"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "::",
+                    "'Map",
+                    "'Dynamic",
+                    "'Dynamic"
+                  ]
+                ]
+              ],
+              [
+                "cursor",
+                [
+                  "or",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":cursor"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "[]"
+                  ]
+                ]
+              ],
+              [
+                "state",
+                [
+                  "or",
+                  [
+                    ".unwrap-or",
+                    [
+                      "get",
+                      "states",
+                      ":data"
+                    ],
+                    "nil"
+                  ],
+                  [
+                    "{}",
+                    [
+                      ":content",
+                      "|"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "selected-icon",
+                [
+                  ".unwrap-or",
+                  [
+                    "get",
+                    "store",
+                    ":icon"
+                  ],
+                  "nil"
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":class-name",
+                  [
+                    "str-spaced",
+                    "css/preset",
+                    "css/global",
+                    "css/fullscreen"
+                  ]
+                ]
+              ],
+              [
+                "if",
+                [
+                  "non-nil?",
+                  "selected-icon"
+                ],
+                [
+                  "let",
+                  [
+                    [
+                      "icon",
+                      "selected-icon"
+                    ]
+                  ],
+                  [
+                    "div",
+                    [
+                      "{}",
+                      [
+                        ":class-name",
+                        [
+                          "str-spaced",
+                          "css/row-center",
+                          "style-preview"
+                        ]
+                      ]
+                    ],
+                    [
+                      "<>",
+                      [
+                        "str",
+                        "|Copied ",
+                        "|:",
+                        "icon"
+                      ]
+                    ],
+                    [
+                      "=<",
+                      "16",
+                      "nil"
+                    ],
+                    [
+                      "comp-i",
+                      [
+                        "str",
+                        "icon"
+                      ],
+                      "40",
+                      "|black"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "list->",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":width",
+                        "|100%"
+                      ],
+                      [
+                        ":padding",
+                        "16"
+                      ],
+                      [
+                        ":overflow",
+                        ":auto"
+                      ],
+                      [
+                        ":margin-top",
+                        "80"
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "map",
+                  "icon-names",
+                  [
+                    "fn",
+                    [
+                      "icon"
+                    ],
+                    [
+                      "[]",
+                      "icon",
+                      [
+                        "comp-icon-demo",
+                        "icon",
+                        [
+                          "&=",
+                          "icon",
+                          "selected-icon"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "when",
+                "dev?",
+                [
+                  "comp-typed-reel",
+                  [
+                    ">>",
+                    "states",
+                    ":reel"
+                  ],
+                  "reel",
+                  [
+                    "{}"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/comp-container",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-icon-demo",
+          [
+            "icon",
+            "selected?"
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":class-name",
+                [
+                  "if",
+                  "selected?",
+                  [
+                    "str-spaced",
+                    "css/center",
+                    "css-cell",
+                    "style-selected"
+                  ],
+                  [
+                    "str-spaced",
+                    "css/center",
+                    "css-cell"
+                  ]
+                ]
+              ],
+              [
+                ":on-click",
+                [
+                  "fn",
+                  [
+                    "event",
+                    "d!"
+                  ],
+                  [
+                    "copy!",
+                    [
+                      "str",
+                      "|:",
+                      "icon"
+                    ]
+                  ],
+                  [
+                    "d!",
+                    ":exhibit",
+                    "icon"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "comp-icon",
+              "icon",
+              [
+                "{}",
+                [
+                  ":font-size",
+                  "24"
+                ],
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "200",
+                    "80",
+                    "60"
+                  ]
+                ]
+              ],
+              "nil"
+            ],
+            [
+              "<>",
+              "icon",
+              "css-icon-name"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/comp-icon-demo",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String",
+              "'Bool"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "css-cell",
+          [
+            "{}",
+            [
+              "|$0",
+              [
+                "{}",
+                [
+                  ":display",
+                  ":inline-flex"
+                ],
+                [
+                  ":width",
+                  "80"
+                ],
+                [
+                  ":height",
+                  "80"
+                ],
+                [
+                  ":cursor",
+                  ":pointer"
+                ],
+                [
+                  ":transition-duration",
+                  "|300ms"
+                ]
+              ]
+            ],
+            [
+              "|$0:hover",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "96"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "|$0:active",
+              [
+                "{}",
+                [
+                  ":transition-duration",
+                  "|0ms"
+                ],
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "90"
+                  ]
+                ],
+                [
+                  ":transform",
+                  "|scale(1.02)"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/css-cell",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "css-icon-name",
+          [
+            "{}",
+            [
+              "|$0",
+              [
+                "{}",
+                [
+                  ":font-size",
+                  "12"
+                ],
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "80"
+                  ]
+                ],
+                [
+                  ":white-space",
+                  ":nowrap"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/css-icon-name",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "icon-names",
+          [
+            "load-icon-names"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/icon-names",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'List",
+          "'String"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "load-icon-names",
+          [],
+          [
+            "decode-map-as",
+            [
+              "to-calcit-data",
+              [
+                "js/Object.keys",
+                [
+                  ".-icons",
+                  [
+                    "unsafe-coerce",
+                    "feather-icons",
+                    "feather.core/FeatherIconsHost"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/load-icon-names",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'List",
+              "'String"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-preview",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":padding",
+                  "|16px"
+                ],
+                [
+                  ":position",
+                  ":fixed"
+                ],
+                [
+                  ":top",
+                  "0"
+                ],
+                [
+                  ":width",
+                  "|100%"
+                ],
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "100",
+                    "0.8"
+                  ]
+                ],
+                [
+                  ":border-bottom",
+                  [
+                    "str",
+                    "|1px solid ",
+                    [
+                      "hsl",
+                      "0",
+                      "0",
+                      "92"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/style-preview",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-selected",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "95"
+                  ]
+                ],
+                [
+                  ":outline",
+                  [
+                    "str",
+                    "|1px solid ",
+                    [
+                      "hsl",
+                      "200",
+                      "90",
+                      "89"
+                    ]
+                  ]
+                ],
+                [
+                  ":z-index",
+                  "999"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.comp.container/style-selected",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "dev?",
+          [
+            "=",
+            "|dev",
+            [
+              "option:unwrap-or",
+              [
+                "get-env",
+                "|mode"
+              ],
+              "|release"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.config/dev?",
+        "js_ffi": null,
+        "schema": "'Bool",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "site",
+          [
+            "{}",
+            [
+              ":title",
+              "|Calcit"
+            ],
+            [
+              ":icon",
+              "|http://cdn.tiye.me/logo/mvc-works.png"
+            ],
+            [
+              ":storage-key",
+              "|respo-feather"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.config/site",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Map",
+          "'Tag",
+          "'String"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "deftrait",
+          "FeatherIconHost",
+          [
+            ".to-svg",
+            [
+              "::",
+              "'Fn",
+              [
+                "{}",
+                [
+                  ":args",
+                  [
+                    "[]",
+                    "'feather.core/FeatherIconHost",
+                    "'Dynamic"
+                  ]
+                ],
+                [
+                  ":return",
+                  "'String"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          },
+          ":names": {
+            ":to-svg": "toSvg"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object)\n  :names $ {} $ :to-svg |toSvg",
+        "id": "feather.core/FeatherIconHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "deftrait",
+          "FeatherIconsHost",
+          [
+            ":icons",
+            "'JsObject"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": {
+          ":backend": {
+            "__edn_tag": "js"
+          },
+          ":kind": {
+            "__edn_tag": "external-object"
+          }
+        },
+        "ffi_edn": "{} (:backend :js) (:kind :external-object)",
+        "id": "feather.core/FeatherIconsHost",
+        "js_ffi": null,
+        "schema": "'Trait",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-i",
+          [
+            "icon",
+            "size",
+            "color"
+          ],
+          [
+            "comp-icon",
+            "icon",
+            [
+              "{}",
+              [
+                ":font-size",
+                "size"
+              ],
+              [
+                ":color",
+                "color"
+              ]
+            ],
+            "nil"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/comp-i",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defcomp",
+          "comp-icon",
+          [
+            "icon",
+            "options",
+            "on-click"
+          ],
+          [
+            "let",
+            [
+              [
+                "opts",
+                [
+                  "if",
+                  [
+                    "map?",
+                    "options"
+                  ],
+                  "options",
+                  [
+                    "if",
+                    [
+                      "nil?",
+                      "options"
+                    ],
+                    [
+                      "{}"
+                    ],
+                    [
+                      "raise",
+                      "|comp-icon expected options as a map"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "icon-name",
+                [
+                  "if",
+                  [
+                    "tag?",
+                    "icon"
+                  ],
+                  [
+                    "to-string",
+                    "icon"
+                  ],
+                  "icon"
+                ]
+              ],
+              [
+                "obj",
+                [
+                  "js-get",
+                  [
+                    "unsafe-coerce",
+                    [
+                      ".-icons",
+                      [
+                        "unsafe-coerce",
+                        "feather-icons",
+                        "FeatherIconsHost"
+                      ]
+                    ],
+                    "JsObject"
+                  ],
+                  "icon-name"
+                ]
+              ]
+            ],
+            [
+              "if",
+              "obj",
+              [
+                "span",
+                [
+                  "{}",
+                  [
+                    ":class-name",
+                    [
+                      "str-spaced",
+                      "style-base",
+                      [
+                        "or",
+                        [
+                          ".unwrap-or",
+                          [
+                            "get",
+                            "opts",
+                            ":class-name"
+                          ],
+                          "nil"
+                        ],
+                        "|"
+                      ]
+                    ]
+                  ],
+                  [
+                    ":style",
+                    [
+                      "or",
+                      [
+                        ".unwrap-or",
+                        [
+                          "get",
+                          "opts",
+                          ":style"
+                        ],
+                        "nil"
+                      ],
+                      [
+                        "{}"
+                      ]
+                    ]
+                  ],
+                  [
+                    ":on-click",
+                    "on-click"
+                  ],
+                  [
+                    ":innerHTML",
+                    [
+                      ".to-svg",
+                      [
+                        "unsafe-coerce",
+                        "obj",
+                        "FeatherIconHost"
+                      ],
+                      [
+                        "js-object",
+                        [
+                          ":width",
+                          [
+                            "or",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":size"
+                              ],
+                              "nil"
+                            ],
+                            "14"
+                          ]
+                        ],
+                        [
+                          ":height",
+                          [
+                            "or",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":size"
+                              ],
+                              "nil"
+                            ],
+                            "14"
+                          ]
+                        ],
+                        [
+                          ":color",
+                          [
+                            "icon-color-text",
+                            [
+                              ".unwrap-or",
+                              [
+                                "get",
+                                "opts",
+                                ":color"
+                              ],
+                              "nil"
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "do",
+                [
+                  "shared/console-error!",
+                  [
+                    "str",
+                    "|No icon named:",
+                    "icon-name"
+                  ]
+                ],
+                [
+                  "span",
+                  [
+                    "{}",
+                    [
+                      ":on-click",
+                      "on-click"
+                    ],
+                    [
+                      ":class-name",
+                      "style-error"
+                    ]
+                  ],
+                  [
+                    "<>",
+                    [
+                      "str",
+                      "|No icon: ",
+                      "icon-name"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/comp-icon",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Dynamic",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "icon-color-text",
+          [
+            "color"
+          ],
+          [
+            "cond",
+            [
+              [
+                "nil?",
+                "color"
+              ],
+              "|blue"
+            ],
+            [
+              [
+                "=",
+                ":unit",
+                [
+                  "type-of",
+                  "color"
+                ]
+              ],
+              "|blue"
+            ],
+            [
+              [
+                "string?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'String"
+                ]
+              ]
+            ],
+            [
+              [
+                "tag?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Tag"
+                ]
+              ]
+            ],
+            [
+              [
+                "number?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Number"
+                ]
+              ]
+            ],
+            [
+              [
+                "bool?",
+                "color"
+              ],
+              [
+                "if",
+                "color",
+                [
+                  ".to-string",
+                  [
+                    "assert-type",
+                    "color",
+                    "'Bool"
+                  ]
+                ],
+                "|blue"
+              ]
+            ],
+            [
+              [
+                "symbol?",
+                "color"
+              ],
+              [
+                ".to-string",
+                [
+                  "assert-type",
+                  "color",
+                  "'Symbol"
+                ]
+              ]
+            ],
+            [
+              "true",
+              [
+                "raise",
+                "|[Feather/comp-icon] expected color to be a text scalar"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/icon-color-text",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'String"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'ColorInput"
+            ]
+          ],
+          [
+            ":generics",
+            [
+              "[]",
+              "'ColorInput"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": [
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  ":blue"
+                ]
+              ],
+              [
+                "assert=",
+                "|#123456",
+                [
+                  "icon-color-text",
+                  "|#123456"
+                ]
+              ],
+              [
+                "assert=",
+                "|",
+                [
+                  "icon-color-text",
+                  "|"
+                ]
+              ],
+              [
+                "assert=",
+                "|0",
+                [
+                  "icon-color-text",
+                  "0"
+                ]
+              ],
+              [
+                "assert=",
+                "|true",
+                [
+                  "icon-color-text",
+                  "true"
+                ]
+              ],
+              [
+                "assert=",
+                "|red",
+                [
+                  "icon-color-text",
+                  "'red"
+                ]
+              ]
+            ],
+            "name": "preserves-text-scalars",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "nil"
+                ]
+              ],
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "false"
+                ]
+              ],
+              [
+                "assert=",
+                "|blue",
+                [
+                  "icon-color-text",
+                  "&unit"
+                ]
+              ]
+            ],
+            "name": "defaults-falsey-colors",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "each",
+              [
+                "[]",
+                [
+                  "{}"
+                ],
+                [
+                  "[]"
+                ],
+                [
+                  "#{}"
+                ]
+              ],
+              [
+                "fn",
+                [
+                  "value"
+                ],
+                [
+                  "let",
+                  [
+                    [
+                      "rejected?",
+                      [
+                        "ref",
+                        "false"
+                      ]
+                    ]
+                  ],
+                  [
+                    "try",
+                    [
+                      "icon-color-text",
+                      "value"
+                    ],
+                    [
+                      "fn",
+                      [
+                        "error"
+                      ],
+                      [
+                        "assert=",
+                        "|[Feather/comp-icon] expected color to be a text scalar",
+                        "error"
+                      ],
+                      [
+                        "reset!",
+                        "rejected?",
+                        "true"
+                      ]
+                    ]
+                  ],
+                  [
+                    "assert",
+                    "|collection-color-rejected",
+                    [
+                      "deref",
+                      "rejected?"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "name": "rejects-collections",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "do",
+              [
+                "assert=",
+                "|蓝色😀",
+                [
+                  "icon-color-text",
+                  "|蓝色😀"
+                ]
+              ],
+              [
+                "assert=",
+                "|12.5",
+                [
+                  "icon-color-text",
+                  "12.5"
+                ]
+              ],
+              [
+                "assert=",
+                "|-2",
+                [
+                  "icon-color-text",
+                  "-2"
+                ]
+              ]
+            ],
+            "name": "preserves-unicode-and-number-text",
+            "tags": [
+              "regression",
+              "unit"
+            ]
+          }
+        ]
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-base",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":display",
+                  ":inline-block"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/style-base",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defstyle",
+          "style-error",
+          [
+            "{}",
+            [
+              "|&",
+              [
+                "{}",
+                [
+                  ":background-color",
+                  [
+                    "hsl",
+                    "0",
+                    "80",
+                    "70"
+                  ]
+                ],
+                [
+                  ":color",
+                  ":white"
+                ],
+                [
+                  ":padding",
+                  "|0 8px"
+                ],
+                [
+                  ":line-height",
+                  "|24px"
+                ],
+                [
+                  ":border-radius",
+                  "|12px"
+                ],
+                [
+                  ":display",
+                  ":inline-block"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.core/style-error",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defref",
+          "*reel",
+          [
+            "typed/new-reel",
+            "schema/store"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/*reel",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Ref",
+          [
+            "::",
+            "'reel.typed/State",
+            "'Enum",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "dispatch!",
+          [
+            "op"
+          ],
+          [
+            "when",
+            "config/dev?",
+            [
+              "shared/console-log!",
+              [
+                "str",
+                "|Dispatch:",
+                "op"
+              ]
+            ]
+          ],
+          [
+            "if",
+            [
+              "enum?",
+              "op"
+            ],
+            [
+              "&let",
+              [
+                "_next",
+                [
+                  "reset!",
+                  "*reel",
+                  [
+                    "next-reel",
+                    "op"
+                  ]
+                ]
+              ],
+              "&unit"
+            ],
+            [
+              "raise",
+              "|dispatch! expected an Enum op"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/dispatch!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "main!",
+          [],
+          [
+            "load-console-formatter!"
+          ],
+          [
+            "println",
+            "|Running mode:",
+            [
+              "if",
+              "config/dev?",
+              "|dev",
+              "|release"
+            ]
+          ],
+          [
+            "if",
+            "config/dev?",
+            [
+              "load-console-formatter!"
+            ]
+          ],
+          [
+            "let",
+            [
+              [
+                "storage-key",
+                [
+                  "match",
+                  [
+                    "get",
+                    "config/site",
+                    ":storage-key"
+                  ],
+                  [
+                    [
+                      ":some",
+                      "lookup-value"
+                    ],
+                    "lookup-value"
+                  ],
+                  [
+                    [
+                      ":none"
+                    ],
+                    [
+                      "raise",
+                      "|Feather configuration missing :storage-key"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "raw",
+                [
+                  "browser/storage-get",
+                  "storage-key"
+                ]
+              ]
+            ],
+            [
+              "match",
+              "raw",
+              [
+                [
+                  ":some",
+                  "value"
+                ],
+                [
+                  "dispatch!",
+                  [
+                    "::",
+                    ":hydrate-storage",
+                    [
+                      "parse-cirru-edn",
+                      "value"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                [
+                  ":none"
+                ],
+                "&unit"
+              ]
+            ]
+          ],
+          [
+            "render-app!"
+          ],
+          [
+            "add-watch!",
+            "*reel",
+            ":changes",
+            [
+              "fn",
+              [
+                "reel",
+                "prev"
+              ],
+              [
+                "render-app!"
+              ]
+            ]
+          ],
+          [
+            "listen-devtools!",
+            "|a",
+            "dispatch!"
+          ],
+          [
+            "browser/add-event-listener!",
+            "|beforeunload",
+            [
+              "fn",
+              [
+                "event"
+              ],
+              [
+                "persist-storage!"
+              ]
+            ]
+          ],
+          [
+            "browser/set-interval!",
+            "persist-storage!",
+            [
+              "*",
+              "60",
+              "1000"
+            ]
+          ],
+          [
+            "println",
+            "|App started."
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/main!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "mount-target",
+          [],
+          [
+            "option:unwrap",
+            [
+              "browser/query-selector",
+              "|.app"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/mount-target",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'js-ffi.browser/DomElementHost"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "next-reel",
+          [
+            "op"
+          ],
+          [
+            "let",
+            [
+              [
+                "reel",
+                [
+                  "assert-type",
+                  "@*reel",
+                  [
+                    "::",
+                    "'reel.typed/State",
+                    "'Enum",
+                    [
+                      "::",
+                      "'Map",
+                      "'Dynamic",
+                      "'Dynamic"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "match",
+              [
+                "typed/decode-control",
+                "op"
+              ],
+              [
+                [
+                  ":some",
+                  "control"
+                ],
+                [
+                  "typed/apply-control",
+                  "updater",
+                  "reel",
+                  "control"
+                ]
+              ],
+              [
+                [
+                  ":none"
+                ],
+                [
+                  "typed/record-op",
+                  "updater",
+                  "reel",
+                  "op",
+                  [
+                    "generate-id!"
+                  ],
+                  [
+                    "shared/now-ms"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/next-reel",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'reel.typed/State",
+              "'Enum",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "persist-storage!",
+          [],
+          [
+            "let",
+            [
+              [
+                "storage-key",
+                [
+                  "match",
+                  [
+                    "get",
+                    "config/site",
+                    ":storage-key"
+                  ],
+                  [
+                    [
+                      ":some",
+                      "lookup-value"
+                    ],
+                    "lookup-value"
+                  ],
+                  [
+                    [
+                      ":none"
+                    ],
+                    [
+                      "raise",
+                      "|Feather configuration missing :storage-key"
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "store",
+                [
+                  "ret-reel-store",
+                  "@*reel"
+                ]
+              ]
+            ],
+            [
+              "browser/storage-set!",
+              "storage-key",
+              [
+                "format-cirru-edn",
+                "store"
+              ]
+            ],
+            "&unit"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/persist-storage!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "reload!",
+          [],
+          [
+            "if",
+            [
+              "nil?",
+              "build-errors"
+            ],
+            [
+              "do",
+              [
+                "remove-watch!",
+                "*reel",
+                ":changes"
+              ],
+              [
+                "clear-cache!"
+              ],
+              [
+                "add-watch!",
+                "*reel",
+                ":changes",
+                [
+                  "fn",
+                  [
+                    "reel",
+                    "prev"
+                  ],
+                  [
+                    "render-app!"
+                  ]
+                ]
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "reloaded-reel"
+                ]
+              ],
+              [
+                "hud!",
+                "|ok~",
+                "|Ok"
+              ]
+            ],
+            [
+              "hud!",
+              "|error",
+              "build-errors"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/reload!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "reloaded-reel",
+          [],
+          [
+            "typed/refresh",
+            "updater",
+            [
+              "assert-type",
+              "@*reel",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              "assert-type",
+              "schema/store",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/reloaded-reel",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'reel.typed/State",
+              "'Enum",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ]
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "render-app!",
+          [],
+          [
+            "render!",
+            [
+              "narrow-element",
+              [
+                "mount-target"
+              ]
+            ],
+            [
+              "comp-container",
+              "@*reel"
+            ],
+            "dispatch!"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/render-app!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "repeat!",
+          [
+            "duration",
+            "cb"
+          ],
+          [
+            "browser/set-timeout!",
+            [
+              "fn",
+              [],
+              [
+                "cb"
+              ],
+              [
+                "repeat!",
+                [
+                  "*",
+                  "1000",
+                  "duration"
+                ],
+                "cb"
+              ]
+            ],
+            [
+              "*",
+              "1000",
+              "duration"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/repeat!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Number",
+              "'Fn"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "ret-reel-store",
+          [
+            "r"
+          ],
+          [
+            ":store",
+            "r"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.main/ret-reel-store",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'Enum",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defenum",
+          "Op",
+          [
+            ":states",
+            [
+              "::",
+              "'List",
+              "'Dynamic"
+            ],
+            "'Dynamic"
+          ],
+          [
+            ":hydrate-storage",
+            "'Dynamic"
+          ],
+          [
+            ":exhibit",
+            "'Dynamic"
+          ],
+          [
+            ":reel/toggle"
+          ],
+          [
+            ":reel/recall",
+            "'Number"
+          ],
+          [
+            ":reel/run"
+          ],
+          [
+            ":reel/step"
+          ],
+          [
+            ":reel/merge"
+          ],
+          [
+            ":reel/reset"
+          ],
+          [
+            ":reel/remove",
+            "'Number"
+          ]
+        ],
+        "doc": "Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends.",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.schema/Op",
+        "js_ffi": null,
+        "schema": "'EnumDef",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "def",
+          "store",
+          [
+            "{}",
+            [
+              ":states",
+              [
+                "{}",
+                [
+                  ":cursor",
+                  [
+                    "[]"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.schema/store",
+        "js_ffi": null,
+        "schema": "'Map",
+        "tags": [],
+        "tests": []
+      },
+      {
+        "code": [
+          "defn",
+          "updater",
+          [
+            "store",
+            "op",
+            "op-id",
+            "op-time"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "s"
+              ],
+              [
+                "decode-map-as",
+                [
+                  "update-states",
+                  "store",
+                  [
+                    "decode-map-as",
+                    "cursor",
+                    [
+                      "::",
+                      "'List",
+                      "'Dynamic"
+                    ]
+                  ],
+                  "s"
+                ],
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "data"
+              ],
+              [
+                "decode-map-as",
+                "data",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ],
+            [
+              [
+                ":exhibit",
+                "d"
+              ],
+              [
+                "&map:assoc",
+                "store",
+                ":icon",
+                "d"
+              ]
+            ],
+            [
+              "_",
+              [
+                "do",
+                [
+                  "eprintln",
+                  "|Unknown op:",
+                  "op"
+                ],
+                "store"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "feather.updater/updater",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              "'Enum",
+              "'String",
+              "'Number"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      }
+    ]
+  },
+  "snapshotBlob": "a66ee6495fa7016fb140dcadf5a499120a9b5ee1",
+  "manifests": {
+    "deps.cirru": "\n{} (:calcit-version |0.31.0-alpha.2)\n  :version |0.5.0-alpha.2\n  :dependencies $ {} (|Respo/reel.calcit |0.7.0-alpha.1)\n    |Respo/respo-ui.calcit |0.9.0-alpha.1\n    |Respo/respo.calcit |0.17.0-alpha.2\n    |calcit-lang/js-ffi |0.2.5\n",
+    "package.json": "{\n  \"version\": \"0.5.0-alpha.2\",\n  \"dependencies\": {\n    \"@calcit/procs\": \"0.31.0-alpha.2\",\n    \"bottom-tip\": \"^0.1.5\",\n    \"copy-text-to-clipboard\": \"^3.2.2\",\n    \"feather-icons\": \"^4.29.2\"\n  },\n  \"devDependencies\": {\n    \"vite\": \"8.3.1\"\n  },\n  \"packageManager\": \"yarn@4.18.0\"\n}\n"
+  },
+  "site": {
+    "id": "feather.core/icon-color-text",
+    "test": "rejects-collections",
+    "path": [
+      2,
+      2,
+      1,
+      0,
+      1
+    ],
+    "before": [
+      "atom",
+      "false"
+    ],
+    "after": [
+      "ref",
+      "false"
+    ]
+  }
+}
