@@ -3,7 +3,14 @@
 
 Feather icon components for Respo applications written in Calcit.
 
-### 当前 0.31 预发布维护线
+### 当前工具链：Calcit 0.31.0-alpha.7
+
+CLI 与 `@calcit/procs` 从 alpha.6 成对升级为已发布 `0.31.0-alpha.7`，
+UI/Reel/Respo 等已发布依赖保持不变。该版默认预检查会拒绝未证明的 Dynamic 流向；
+保留原 strict 和渲染回归，不关闭 proof audit、不放宽基线。Snapshot、图标 API、
+HUD 和部署路径不变；0.30 稳定消费者继续使用原维护线。以下 alpha.6 记录为历史。
+
+### alpha.6 历史迁移记录
 
 使用者影响：`0.5.0-alpha.3` 候选将 Calcit CLI 与 `@calcit/procs` 成对同步到
 已发布的 `0.31.0-alpha.6`（仍为预发布），UI 升为已发布 `0.9.0-alpha.2`，
