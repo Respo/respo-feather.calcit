@@ -1,6 +1,6 @@
 
 {} (:calcit-version |0.31.0-alpha.7)
-  :version |0.5.0-alpha.3
+  :version |0.5.0-alpha.4
   :dependencies $ {} (|Respo/respo.calcit |0.17.0-alpha.2)
     |calcit-lang/js-ffi |0.2.5
   :dev-dependencies $ {} (|Respo/reel.calcit |0.7.0-alpha.1)
