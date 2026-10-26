@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFile, mkdir, mkdtemp, readFile, rm, symlink } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,10 +13,17 @@ import { store } from '../js-out/feather.schema.mjs';
 import { new_reel, toggle_display } from '../js-out/reel.typed.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
 
+const binary = process.env.CALCIT_BIN ?? 'calcit';
+const cliOptions = { encoding: 'utf8', timeout: 60000, maxBuffer: 16 * 1024 * 1024,
+  stdio: ['ignore', 'pipe', 'pipe'] };
+const invoke = (snapshot, ...args) => execFileSync(binary, [snapshot, ...args], cliOptions);
+const transact = (snapshot, operations) => {
+  const args = ['edit', 'transaction', '--code', JSON.stringify(operations)];
+  const preview = JSON.parse(invoke(snapshot, ...args, '--dry-run', '--format', 'json'));
+  invoke(snapshot, ...args, '--expect-revision', preview.scoped_revision, '--format', 'edn');
+};
+
 test('canonical attached tests replay on native and generated JavaScript', async () => {
-  const invoke = (snapshot, ...args) => execFileSync(process.env.CALCIT_BIN ?? 'calcit', [snapshot, ...args],
-    { encoding: 'utf8', timeout: 60000, maxBuffer: 16 * 1024 * 1024,
-      stdio: ['ignore', 'pipe', 'pipe'] });
   const canonical = resolve('calcit.cirru');
   const before = await readFile(canonical);
   const selected = JSON.parse(invoke(canonical, 'test', '--list', '--require-match', '--format', 'json'));
@@ -53,9 +60,7 @@ test('canonical attached tests replay on native and generated JavaScript', async
       JSON.stringify(['defn', 'replay-attached!', [], ...calls, '&unit'])]);
     operations.push(['edit', 'schema', entry, '--input-format', 'json-ast', '--code',
       JSON.stringify(['::', "'Fn", ['{}', [':args', ['[]']], [':return', "'Unit"]]])]);
-    const args = ['edit', 'transaction', '--code', JSON.stringify(operations)];
-    const preview = JSON.parse(invoke(snapshot, ...args, '--dry-run', '--format', 'json'));
-    invoke(snapshot, ...args, '--expect-revision', preview.original_revision, '--format', 'edn');
+    transact(snapshot, operations);
     const roots = ['--init-fn', entry, '--reload-fn', entry];
     invoke(snapshot, ...roots);
     const output = join(directory, 'js');
@@ -71,6 +76,79 @@ test('canonical attached tests replay on native and generated JavaScript', async
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
+  }
+});
+
+test('a clean consumer loads only the library graph and retains its checked String result', async () => {
+  const canonical = resolve('calcit.cirru');
+  const original = await readFile(canonical);
+  const directory = await mkdtemp(resolve('.calcit/feather-consumer-'));
+  try {
+    const library = join(directory, 'library');
+    const consumer = join(directory, 'consumer');
+    for (const project of [library, consumer]) {
+      await mkdir(join(project, '.calcit/modules'), { recursive: true });
+      await copyFile(canonical, join(project, 'calcit.cirru'));
+      await copyFile('deps.cirru', join(project, 'deps.cirru'));
+      await symlink(resolve('node_modules'), join(project, 'node_modules'), 'dir');
+      for (const name of ['respo.calcit', 'js-ffi']) {
+        await symlink(resolve('.calcit/modules', name), join(project, '.calcit/modules', name), 'dir');
+      }
+    }
+    const librarySnapshot = join(library, 'calcit.cirru');
+    invoke(librarySnapshot, '--check-only', '--ns', 'feather.core');
+    invoke(librarySnapshot, 'test', 'feather.core/icon-color-text', '--require-match');
+    for (const args of [['--entry', 'demo', '--check-only'], ['--check-only', '--all-defs']]) {
+      const rejected = spawnSync(binary, [librarySnapshot, ...args], cliOptions);
+      assert.ifError(rejected.error);
+      assert.notEqual(rejected.status, 0, 'an incomplete Demo must still fail');
+      assert.match(rejected.stdout + rejected.stderr, /respo-ui|reel/);
+    }
+    await symlink(library, join(consumer, '.calcit/modules/feather.calcit'), 'dir');
+    const snapshot = join(consumer, 'calcit.cirru');
+    const config = JSON.parse(invoke(snapshot, 'config', 'show', '--format', 'json')).data;
+    const defaults = config.entries.find(entry => entry.name === 'default');
+    const namespaces = JSON.parse(invoke(snapshot, 'query', 'ns', '--format', 'json')).data.namespaces;
+    invoke(snapshot, 'docs', 'agents', '--contract');
+    // Derive an independent consumer from the opaque template using only
+    // guarded edits; no local Feather namespaces may shadow the dependency.
+    transact(snapshot, [
+      ['config', 'unset', 'entry', '--entry', 'demo'],
+      ['config', 'set', 'init-fn', 'consumer.main/main!'],
+      ['config', 'set', 'reload-fn', 'consumer.main/main!'],
+      ...Object.keys(defaults.type_slots).map(slot => ['config', 'rm-type-slot', slot]),
+      ...defaults.modules.map(module => ['config', 'rm-module', module]),
+      ...namespaces.map(namespace => ['edit', 'rm-ns', namespace]),
+      ['config', 'set', 'package', 'consumer'],
+      ['edit', 'add-ns', 'consumer.main'],
+      ['edit', 'add-import', 'consumer.main', '--input-format', 'json-ast', '--code',
+        JSON.stringify(['feather.core', ':refer', ['icon-color-text']])],
+      ['edit', 'def', 'consumer.main/main!', '--input-format', 'json-ast', '--code',
+        JSON.stringify(['defn', 'main!', [], ['assert=', '|red', ['icon-color-text', ':red']], '&unit'])],
+      ['edit', 'schema', 'consumer.main/main!', '--input-format', 'cirru', '--code',
+        "quote $ :: 'Fn $ {} (:args $ []) (:return 'Unit)"],
+      ['config', 'set', 'mode', 'native'],
+      ['config', 'add-module', 'feather.calcit/'],
+    ]);
+    const consumerNamespaces = JSON.parse(invoke(snapshot, 'query', 'ns', '--format', 'json')).data.namespaces;
+    assert.deepEqual(consumerNamespaces, ['consumer.$meta', 'consumer.main']);
+    invoke(snapshot, '--check-only', '--all-defs');
+    invoke(snapshot);
+    const output = join(consumer, 'js');
+    invoke(snapshot, '--emit-path', output, 'js');
+    execFileSync(process.execPath, ['--input-type=module', '--eval',
+      `const consumer = await import(${JSON.stringify(pathToFileURL(join(output, 'consumer.main.mjs')).href)}); consumer.main_$x_();`],
+      { timeout: 60000, stdio: 'inherit' });
+    transact(snapshot, [['edit', 'def', 'consumer.main/main!', '--overwrite', '--input-format', 'json-ast', '--code',
+      JSON.stringify(['defn', 'main!', [], ['+', ['icon-color-text', ':red'], '1'], '&unit'])]]);
+    const rejected = spawnSync(binary, [snapshot, '--check-only'], cliOptions);
+    assert.ifError(rejected.error);
+    assert.notEqual(rejected.status, 0, 'a public String result must not satisfy numeric addition');
+    assert.match(rejected.stdout + rejected.stderr, /[Ss]tring|:string/);
+    assert.match(rejected.stdout + rejected.stderr, /[Nn]umber|:number/);
+  } finally {
+    assert.deepEqual(await readFile(canonical), original, 'consumer acceptance must not rewrite library source');
+    await rm(directory, { recursive: true, force: true });
   }
 });
 
