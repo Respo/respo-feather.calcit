@@ -21,7 +21,7 @@ Demo 采用新 UI 图，不能把工具链升级描述为整个依赖图都没�
 UI/Reel 目前仍是实际装载所需的运行依赖：虽然公开 `feather.core` 不引用它们，
 默认 Demo 的模块列表仍会被消费者预加载。仅移动到开发依赖已在隔离消费者中失败，
 该试验已撤回；上游合同/配置方式跟踪 [Calcit #2406](https://github.com/calcit-lang/calcit/issues/2406)。
-不通过删 Demo、补空模块或放宽门禁绕过这项限制。
+不得通过删除 Demo、补空模块或放宽门禁来绕过这项限制。
 CLI/runtime 的当前版本以 `deps.cirru` / `package.json` 为准，下文 0.4.30
 及正式 0.30.1 的说明为历史维护线记录，不代表当前 main 的工具链。
 
