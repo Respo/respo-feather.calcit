@@ -5,16 +5,27 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前 0.31 预发布维护线
 
-使用者影响：本分支将 Calcit CLI 与 `@calcit/procs` 同步到已发布的
-`0.31.0-alpha.4`（仍为预发布），消费方需协调依赖图并重新生成 JS；
+使用者影响：`0.5.0-alpha.3` 候选将 Calcit CLI 与 `@calcit/procs` 成对同步到
+已发布的 `0.31.0-alpha.6`（仍为预发布），UI 升为已发布 `0.9.0-alpha.2`，
+其余 Calcit 模块版本不变。消费方需协调完整依赖图并重新生成 JS；
 仍使用 0.30.1 的项目继续使用原维护版本，不要只替换单个 runtime。
-本次不改图标 API、颜色、点击、HUD 或存档行为，也不发布新的模块 tag。
+本次不改图标 API、颜色、点击、HUD 或存档行为。UI 的条件渲染修复随依赖带入，
+Demo 采用新 UI 图，不能把工具链升级描述为整个依赖图都没有变化。
 
-只将颜色拒绝测试中的旧 `atom` 构造器改为 `ref`，保留全部四项附带测试的
-名称、标签、顺序及其余断言。原完整 strict、native/JS 同源回放、渲染回归和
-前端构建继续作为门禁；不添加迁移脚本、预批准项或额外 COS 校验。
+本 PR 只把两处已证明的 Option 调用改成 `.unwrap-or` / `.unwrap`，保留环境默认值
+和挂载点缺失时的原异常。相对已发布 alpha.2，尚包含主线已合入的测试 `atom` → `ref`
+迁移；全部四项附带测试的名称、标签、顺序及其余断言保留。
+原完整 strict、native/JS 同源回放、渲染回归和前端构建继续作为门禁；
+不添加迁移脚本、预批准项或额外 COS 校验。候选不等于已发布 tag。
+
+UI/Reel 目前仍是实际装载所需的运行依赖：虽然公开 `feather.core` 不引用它们，
+默认 Demo 的模块列表仍会被消费者预加载。仅移动到开发依赖已在隔离消费者中失败，
+该试验已撤回；上游合同/配置方式跟踪 [Calcit #2406](https://github.com/calcit-lang/calcit/issues/2406)。
+不通过删 Demo、补空模块或放宽门禁绕过这项限制。
 CLI/runtime 的当前版本以 `deps.cirru` / `package.json` 为准，下文 0.4.30
 及正式 0.30.1 的说明为历史维护线记录，不代表当前 main 的工具链。
+
+#### 0.4.30 稳定维护线历史
 
 使用者注意：`0.4.30` 候选配对正式 Calcit CLI / `@calcit/procs` **0.30.1**，
 请同步下方完整依赖图、重新生成 JS，并完整刷新页面，不混装旧 alpha。
@@ -54,7 +65,7 @@ https://github.com/calcit-lang/respo-calcit-workflow
 本模块为 Calcit/Respo 应用提供 Feather 图标组件。依赖固定到已发布的
 Respo 模块 tag，以保证本地与 CI 的依赖解析稳定。
 
-当前候选配对正式 Calcit / `@calcit/procs` `0.30.1`。
+历史 `0.4.30` 候选配对正式 Calcit / `@calcit/procs` `0.30.1`。
 仍固定旧工具链的项目不要单独替换本模块，先迁移完整依赖图。
 此前将 11 处底层 Map 读取迁到公开 `get` / Option，保留 nil、false、0、原默认值及存储 key。
 states 在真实开放边界校验为 Map，保留混合 key；站点配置明确为 Map<Tag,String>。
@@ -73,7 +84,7 @@ Fork PR 只构建，不使用部署 secrets。原类型/渲染门禁及生产部
 准备 0.4.30，使用已发布的正式 Reel `0.6.41`、UI `0.8.0`、
 Respo `0.16.124`、js-ffi `0.2.5`；传递 Router
 `0.8.37`。Reel 0.6.41 指向其 #83，尚不含后续 main 的 UI 解耦改动。
-发布状态以 GitHub Release 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
+发布状态以对应 Git tag 为准。使用 Node.js 24、Yarn 4.18.0、Vite 8.3.1。
 本仓库 npm 新包安装隔离期沿用已批准的一小时设置，不使用逐包预批准。
 规范项目文件为 `calcit.cirru` 与 `deps.cirru`，CI 禁止恢复两个旧 Snapshot 文件。
 
@@ -121,8 +132,8 @@ CI 用 all-defs 严格检查覆盖全部定义，不重复手列 namespace；
 
 ### 限制
 
-- 当前候选使用正式工具链与正式模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
-- Reel 0.6.41 已正式发布，CI 直接要求完整 strict；仍须验证当前根的合同与
+- 当前 0.31 候选使用已发布的预发布工具链与模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
+- Reel 0.6.41 的记录属于 0.4 稳定维护线；当前使用 0.7.0-alpha.1。CI 直接要求完整 strict，仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
   0.4.27 的正式 0.30.0/Reel 0.6.37 根完整 strict、204 个定义、原 4 项 native
