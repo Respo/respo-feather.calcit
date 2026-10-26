@@ -25,12 +25,26 @@ Demo 采用新 UI 图，不能把工具链升级描述为整个依赖图都没�
 原完整 strict、native/JS 同源回放、渲染回归和前端构建继续作为门禁；
 不添加迁移脚本、预批准项或额外 COS 校验。候选不等于已发布 tag。
 
-UI/Reel 目前仍是实际装载所需的运行依赖：虽然公开 `feather.core` 不引用它们，
-默认 Demo 的模块列表仍会被消费者预加载。仅移动到开发依赖已在隔离消费者中失败，
-该试验已撤回；上游合同/配置方式跟踪 [Calcit #2406](https://github.com/calcit-lang/calcit/issues/2406)。
-不得通过删除 Demo、补空模块或放宽门禁来绕过这项限制。
 CLI/runtime 的当前版本以 `deps.cirru` / `package.json` 为准，下文 0.4.30
 及正式 0.30.1 的说明为历史维护线记录，不代表当前 main 的工具链。
+
+### 库消费与 Demo
+
+库的默认入口只装载公开 API 使用的 Respo / JS-FFI。UI / Reel 放在开发依赖和
+独立的 `demo` 入口中；依赖版本、图标 API、原测试和画廊行为不变。
+普通 Calcit 消费者按依赖的默认图装载源码，不再为了调用 `feather.core` 预加载 Demo。
+依赖分组与 Snapshot 模块图共同调整，不能只移动 `deps.cirru` 的字段。
+
+| 入口 | 用途 | Calcit 直接模块 |
+| --- | --- | --- |
+| `default` | 库消费、公开命名空间检查与轻量 smoke | Respo、JS-FFI |
+| `demo` | 完整图标画廊、完整 strict、生成 Demo JS | Respo、UI、Reel、JS-FFI |
+
+开发画廊时，原 `calcit js` 改为 `calcit --entry demo js`；监听使用
+`calcit --entry demo -w js`。根项目用 `caps --strict --ci` 安装完整开发图。
+`default` 的轻量入口只验证公开颜色 helper，不替代完整 Demo 的严格检查。
+`--all-defs` 会检查本地 Demo 定义，必须选择依赖完整的 `demo` 入口。
+详见 [Calcit 模块合同](https://github.com/calcit-lang/calcit/blob/main/docs/installation/modules.md)。
 
 #### 0.4.30 稳定维护线历史
 
@@ -118,10 +132,11 @@ Number（含 0）、true 与 Symbol 保留各自文本。Map/List/Set 等非标�
 caps --strict --ci
 YARN_ENABLE_HARDENED_MODE=1 yarn install --immutable
 caps verify --toolchain
-calcit --check-only --all-defs
-calcit fix --workflow strict --verify --format edn
+calcit --check-only --ns feather.core
+calcit --entry demo --check-only --all-defs
+calcit --entry demo fix --workflow strict --verify --format edn
 calcit test --require-match
-calcit js
+calcit --entry demo js
 node --test scripts/feather-render.test.mjs
 yarn vite build
 ```
@@ -130,8 +145,11 @@ yarn vite build
 Snapshot，执行 native 与生成 JS，再验证规范 Snapshot 字节未变；不存在
 零测试选择静默通过，也不新增检查入口。普通消费项目可通过
 `calcit query def feather.core/icon-color-text` 查看合同和附带测试。
-CI 用 all-defs 严格检查覆盖全部定义，不重复手列 namespace；
+CI 在完整 Demo 图上用 all-defs 严格检查覆盖全部定义，不重复手列 namespace；
 完整 strict 明确要求 passed 且 diagnostics 为空，保留原渲染测试并报告弱类型与废弃调用。
+另建只含真实 Respo / JS-FFI 模块的隔离图，验证原附带测试、独立消费者的正常
+Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定义检查仍须失败，
+公开 String 返回值仍不能传入 Number 运算。隔离验收不改规范 Snapshot，不伪造空模块。
 旧迁移预算在正式依赖图、原有测试及构建通过后退役，不保留重复预算脚本。
 实际启动使用 `typed/new-reel` 创建名义 State，持久化用 `:store` 字段访问，
 不再把旧 Map 初始值标注成 State；选中图标按字符串读取，不把它作为函数调用。

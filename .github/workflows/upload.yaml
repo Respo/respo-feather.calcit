@@ -49,13 +49,14 @@ jobs:
         caps verify --toolchain
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
-        calcit calcit.cirru --check-only --all-defs
-        report="$(calcit calcit.cirru fix --workflow strict --verify --format json)"
+        calcit calcit.cirru --check-only --ns feather.core
+        calcit calcit.cirru --entry demo --check-only --all-defs
+        report="$(calcit calcit.cirru --entry demo fix --workflow strict --verify --format json)"
         printf '%s\n' "$report"
         jq -e '.data.workflow.status? == "passed" and .diagnostics? == []' <<< "$report"
-        calcit calcit.cirru analyze weak-types --only coverage --summary-only --format json
-        calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
-        calcit calcit.cirru analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'
+        calcit calcit.cirru --entry demo analyze weak-types --only coverage --summary-only --format json
+        calcit calcit.cirru --entry demo analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
+        calcit calcit.cirru --entry demo analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'
 
     - name: Select frontend CDN path
       id: asset-path
@@ -77,7 +78,7 @@ jobs:
     - name: Build frontend with CDN URLs
       run: |
         set -euo pipefail
-        calcit calcit.cirru js
+        calcit calcit.cirru --entry demo js
         yarn vite build --base="$VITE_BASE_URL"
 
     - name: Render Feather and typed Reel regression tests

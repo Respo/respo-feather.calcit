@@ -2,8 +2,12 @@
 {}
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |feather
-  :entries $ {} $ :default
-    {} (:description |) (:init-fn 'feather.main/main!) (:mode :js) (:reload-fn 'feather.main/reload!) (:target :browser)
+  :entries $ {}
+    :default $ {} (:description "|库运行依赖与公开 helper 检查；画廊使用 --entry demo") (:init-fn 'feather.library-check/main!) (:mode :js) (:reload-fn 'feather.library-check/main!) (:target :browser)
+      :feature-policy $ {}
+      :modules $ [] |respo.calcit/ |js-ffi/
+      :type-slots $ {} $ :dispatch-op |feather.schema/Op
+    :demo $ {} (:description "|完整图标画廊与 Demo 模块图") (:init-fn 'feather.main/main!) (:mode :js) (:reload-fn 'feather.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {} $ :dispatch-op |feather.schema/Op
@@ -274,6 +278,18 @@
             |feather-icons :default feather-icons
             respo.css :refer $ defstyle
             js-ffi.shared :as shared
+    'feather.library-check $ %{} 'FileEntry
+      :defs $ {} $ 'main!
+        %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn main! ()
+            assert= |red $ icon-color-text :red
+            , &unit
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'Unit)
+            :args $ []
+      :ns $ %{} 'NsEntry (:doc |)
+        :code $ quote $ ns feather.library-check
+          :require $ feather.core :refer $ icon-color-text
     'feather.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
