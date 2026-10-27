@@ -3,9 +3,11 @@
 
 Feather icon components for Respo applications written in Calcit.
 
-### 当前工具链：Calcit 0.31.0-alpha.7
+### 当前工具链：正式 Calcit 0.31.0
 
-CLI 与 `@calcit/procs` 从 alpha.6 成对升级为已发布 `0.31.0-alpha.7`，
+本仓库提交仍为模块候选，未发布新 tag；消费者需同步 CLI/runtime 并重新生成 JS，不用候选、main 或 commit 替代已发布依赖。
+
+CLI 与 `@calcit/procs` 从 alpha.7 成对升级为已发布 `0.31.0`，
 UI/Reel/Respo 等已发布依赖保持不变。该版默认预检查会拒绝未证明的 Dynamic 流向；
 保留原 strict 和渲染回归，不关闭 proof audit、不放宽基线。Snapshot、图标 API、
 HUD 和部署路径不变；0.30 稳定消费者继续使用原维护线。以下 alpha.6 记录为历史。
@@ -157,7 +159,7 @@ Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定�
 
 ### 限制
 
-- 当前 0.31 候选使用已发布的预发布工具链与模块 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
+- 当前 0.31 候选使用正式工具链，模块依赖仍有预发布 tag；发布仍需最新 PR HEAD CI/review、真实页面与合并后 main 验收。
 - Reel 0.6.41 的记录属于 0.4 稳定维护线；当前使用 0.7.0-alpha.1。CI 直接要求完整 strict，仍须验证当前根的合同与
   干净 Caps 依赖解析，不以普通检查代替，不删除演示功能、伪造类型或放宽门禁。
 - reload 保留 watch/cache/reel/HUD 的顺序与异常传播，宿主 effect 后显式返回 Unit。
