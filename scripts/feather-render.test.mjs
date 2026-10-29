@@ -52,14 +52,14 @@ test('canonical attached tests replay on native and generated JavaScript', async
       operations.push(['edit', 'def', target, '--input-format', 'json-ast', '--code',
         JSON.stringify(['defn', target.split('/')[1], [], attached.code, '&unit'])]);
       operations.push(['edit', 'schema', target, '--input-format', 'json-ast', '--code',
-        JSON.stringify(['::', "'Fn", ['{}', [':args', ['[]']], [':return', "'Unit"]]])]);
+        JSON.stringify(['Fn', ['->', 'Unit']])]);
       calls.push([target]);
     }
     const entry = 'feather.core/replay-attached!';
     operations.push(['edit', 'def', entry, '--input-format', 'json-ast', '--code',
       JSON.stringify(['defn', 'replay-attached!', [], ...calls, '&unit'])]);
     operations.push(['edit', 'schema', entry, '--input-format', 'json-ast', '--code',
-      JSON.stringify(['::', "'Fn", ['{}', [':args', ['[]']], [':return', "'Unit"]]])]);
+      JSON.stringify(['Fn', ['->', 'Unit']])]);
     transact(snapshot, operations);
     const roots = ['--init-fn', entry, '--reload-fn', entry];
     invoke(snapshot, ...roots);
