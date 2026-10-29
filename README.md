@@ -5,9 +5,9 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-候选 **0.5.0-alpha.5** 配对正式 **Calcit / @calcit/procs 0.31.0**，同步真实已发布的 Respo **0.17.0-alpha.4**、JS-FFI **0.2.7**，以及 Demo 的 Reel **0.7.0-alpha.4**、UI **0.9.0-alpha.4**。消费者需整图更新、重新生成 JS 并重启开发服务；正式 tag 发布前不要引用候选 main/hash。原 0.30 稳定维护线和旧 tag 保留。
+候选 **0.5.0-alpha.6** 配对正式 **Calcit / @calcit/procs 0.32.1**，同步已发布的 Respo **0.17.1**、JS-FFI **0.2.9**，以及 Demo 的 Reel **0.7.0-alpha.5**、UI **0.9.0**。Snapshot 已用 `calcit edit format` 迁移为 0.32 类型写法。消费者需整图更新、重新生成 JS 并重启开发服务；正式 tag 发布前不要引用候选 main/hash。原 0.30 稳定维护线和旧 tag 保留。
 
-已发布 0.5.0-alpha.4 仍声明 alpha.7；main 的正式工具链声明不等于旧 tag 已升级。本候选 Snapshot 与 main / 0.5.0-alpha.4 完全相同，不改图标 API、颜色、点击、HUD、原四项附带测试或存档逻辑。原完整 strict、同源 native/JS 回放、渲染回归和前端构建继续作为门禁，不关闭审计、不放宽类型或基线，不增加迁移/验证脚本。
+已发布 0.5.0-alpha.4 仍声明 alpha.7；main 的正式工具链声明不等于旧 tag 已升级。本候选只做类型标注的 0.32 语法迁移（`:: 'Fn` 旧写法改为 `quote` 形式），不改图标 API、颜色、点击、HUD、原四项附带测试或存档逻辑。原完整 strict、同源 native/JS 回放、渲染回归和前端构建继续作为门禁，不关闭审计、不放宽类型或基线，不增加迁移/验证脚本。
 
 依赖图更新包含上游已发布的 Respo/UI/Reel 修复，因此须验收真实图；不能把本项目源码未变说成整个生态行为都没变。模块的 0.5 alpha 发布线保留，不回退为旧 0.4 稳定接口。
 
@@ -109,7 +109,7 @@ Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定�
 
 ### 限制
 
-- 当前工具链是正式 0.31，部分模块仍沿用已有 alpha 发布线。发布需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
+- 当前工具链是正式 0.32.1，部分模块仍沿用已有 alpha 发布线。发布需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
 - 不以轻量入口检查替代完整 Demo strict，也不因消除图冲突而扩大公开类型或移除门禁。旧存档保护已由既有实现负责，依赖升级不意味着跨浏览器或全部消费者均已验证。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。

@@ -44,9 +44,10 @@
                     [] icon $ comp-icon-demo icon $ &= icon selected-icon
                 when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn
+            reel.typed/State Enum $ Map Dynamic Dynamic
+            -> respo.schema/Component
+            :features :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon-demo (icon selected?)
             div
@@ -61,8 +62,7 @@
                 , nil
               <> icon css-icon-name
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'String 'Bool
+          :schema $ quote $ Fn String Bool (-> respo.schema/Component)
         'css-cell $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle css-cell
             {}
@@ -72,35 +72,34 @@
                 :background-color $ hsl 0 0 90
                 :transform "|scale(1.02)"
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
         'css-icon-name $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle css-icon-name
             {} $ |$0 $ {} (:font-size 12)
               :color $ hsl 0 0 80
               :white-space :nowrap
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
         'icon-names $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def icon-names (load-icon-names)
           :examples $ []
-          :schema $ :: 'List 'String
+          :schema $ quote $ List String
         'load-icon-names $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn load-icon-names ()
             decode-map-as
               to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons feather.core/FeatherIconsHost)
               :: 'List 'String
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ []
-            :features $ #{} :js-ffi
-            :return $ :: 'List 'String
+          :schema $ quote $ Fn
+            -> $ List String
+            :features :js-ffi
         'style-preview $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-preview
             {} $ |& $ {} (:padding |16px) (:position :fixed) (:top 0) (:width |100%)
               :background-color $ hsl 0 0 100 0.8
               :border-bottom $ str "|1px solid " $ hsl 0 0 92
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
         'style-selected $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-selected
             {} $ |& $ {}
@@ -108,7 +107,7 @@
               :outline $ str "|1px solid " $ hsl 200 90 89
               :z-index 999
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.comp.container
           :require (respo-ui.core :as ui) (respo-ui.css :as css)
@@ -127,38 +126,35 @@
           :code $ quote $ def dev?
             = |dev $ .unwrap-or (get-env |mode) |release
           :examples $ []
-          :schema $ :: 'Bool
+          :schema $ quote Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
             {} (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |respo-feather)
           :examples $ []
-          :schema $ :: 'Map 'Tag 'String
+          :schema $ quote $ Map Tag String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.config
     'feather.core $ %{} 'FileEntry
       :defs $ {}
         'FeatherIconHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait FeatherIconHost
-            .to-svg $ :: 'Fn $ {}
-              :args $ [] 'feather.core/FeatherIconHost 'Dynamic
-              :return 'String
+            .to-svg $ quote $ Fn feather.core/FeatherIconHost Dynamic (-> String)
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
             :names $ {} $ :to-svg |toSvg
-          :schema $ :: 'Trait
+          :schema $ quote Trait
         'FeatherIconsHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait FeatherIconsHost (:icons 'JsObject)
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
-          :schema $ :: 'Trait
+          :schema $ quote Trait
         'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-i (icon size color)
             comp-icon icon
               {} (:font-size size) (:color color)
               , nil
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'Dynamic 'Dynamic 'Dynamic
+          :schema $ quote $ Fn Dynamic Dynamic Dynamic (-> respo.schema/Component)
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
@@ -193,9 +189,7 @@
                     {} (:on-click on-click) (:class-name style-error)
                     <> $ str "|No icon: " icon-name
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'Dynamic 'Dynamic 'Dynamic
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Dynamic Dynamic Dynamic (-> respo.schema/Component) (:features :js-ffi)
         'icon-color-text $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn icon-color-text (color)
             cond
@@ -217,9 +211,7 @@
                 .to-string $ assert-type color 'Symbol
               true $ raise "|[Feather/comp-icon] expected color to be a text scalar"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ [] 'ColorInput
-            :generics $ [] 'ColorInput
+          :schema $ quote $ Fn ColorInput (-> String) (:generics ColorInput)
           :tests $ []
             %{} 'TestEntry (:name |preserves-text-scalars)
               :code $ quote $ do
@@ -258,7 +250,7 @@
           :code $ quote $ defstyle style-base
             {} $ |& $ {} (:display :inline-block)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
         'style-error $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-error
             {} $ |& $ {}
@@ -269,7 +261,7 @@
               :border-radius |12px
               :display :inline-block
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ quote Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.core
           :require
@@ -285,8 +277,7 @@
             assert= |red $ icon-color-text :red
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
+          :schema $ quote $ Fn (-> Unit)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.library-check
           :require $ feather.core :refer $ icon-color-text
@@ -295,7 +286,8 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ :: 'Ref $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
+          :schema $ quote $ Ref
+            reel.typed/State Enum $ Map Dynamic Dynamic
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
@@ -305,9 +297,7 @@
                 , &unit
               raise "|dispatch! expected an Enum op"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Enum
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -328,29 +318,25 @@
             browser/set-interval! persist-storage! $ * 60 1000
             println "|App started."
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             .unwrap $ browser/query-selector |.app
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'js-ffi.browser/DomElementHost)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> js-ffi.browser/DomElementHost) (:features :js-ffi)
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
             let
-                reel $ assert-type @*reel $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
+                reel $ assert-type @*reel $ quote
+                  reel.typed/State Enum $ Map Dynamic Dynamic
               match (typed/decode-control op)
                 (:some control) (typed/apply-control updater reel control)
                 (:none)
                   typed/record-op updater reel op (generate-id!) (shared/now-ms)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] 'Enum
-            :features $ #{} :js-ffi
-            :return $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Fn Enum
+            -> $ reel.typed/State Enum $ Map Dynamic Dynamic
+            :features :js-ffi
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             let
@@ -361,9 +347,7 @@
               browser/storage-set! storage-key $ format-cirru-edn store
               , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -374,17 +358,15 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
+          :schema $ quote $ Fn (-> Unit)
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
-              assert-type @*reel $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
-              assert-type schema/store $ :: 'Map 'Dynamic 'Dynamic
+              assert-type @*reel $ quote $ reel.typed/State Enum (Map Dynamic Dynamic)
+              assert-type schema/store $ quote $ Map Dynamic Dynamic
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ []
-            :return $ :: 'reel.typed/State 'Enum $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Fn
+            -> $ reel.typed/State Enum $ Map Dynamic Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render!
@@ -392,8 +374,7 @@
               comp-container @*reel
               , dispatch!
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
+          :schema $ quote $ Fn (-> Unit)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             browser/set-timeout!
@@ -402,16 +383,14 @@
               * 1000 duration
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Number 'Fn
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Number Fn (-> Unit) (:features :js-ffi)
         'ret-reel-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] $ :: 'reel.typed/State 'Enum (:: 'Map 'Dynamic 'Dynamic)
-            :features $ #{} :js-ffi
-            :return $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Fn
+            reel.typed/State Enum $ Map Dynamic Dynamic
+            -> $ Map Dynamic Dynamic
+            :features :js-ffi
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.main
           :require
@@ -434,7 +413,9 @@
         'Op $ %{} 'CodeEntry
           :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends."
           :code $ quote $ defenum Op
-            :states (:: 'List 'Dynamic) 'Dynamic
+            :states
+              quote $ List Dynamic
+              , 'Dynamic
             :hydrate-storage 'Dynamic
             :exhibit 'Dynamic
             :reel/toggle
@@ -445,13 +426,13 @@
             :reel/reset
             :reel/remove 'Number
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {} $ :states $ {}
               :cursor $ []
           :examples $ []
-          :schema $ :: 'Map
+          :schema $ quote Map
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.schema
     'feather.updater $ %{} 'FileEntry
@@ -470,9 +451,8 @@
               (:exhibit d) (&map:assoc store :icon d)
               _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'Enum 'String 'Number
-            :return $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Fn (Map Dynamic Dynamic) Enum String Number
+            -> $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.updater
           :require $ respo.cursor :refer $ update-states
