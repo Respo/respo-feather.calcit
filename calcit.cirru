@@ -72,14 +72,14 @@
                 :background-color $ hsl 0 0 90
                 :transform "|scale(1.02)"
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
         'css-icon-name $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle css-icon-name
             {} $ |$0 $ {} (:font-size 12)
               :color $ hsl 0 0 80
               :white-space :nowrap
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
         'icon-names $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def icon-names (load-icon-names)
           :examples $ []
@@ -99,7 +99,7 @@
               :background-color $ hsl 0 0 100 0.8
               :border-bottom $ str "|1px solid " $ hsl 0 0 92
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
         'style-selected $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-selected
             {} $ |& $ {}
@@ -107,7 +107,7 @@
               :outline $ str "|1px solid " $ hsl 200 90 89
               :z-index 999
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.comp.container
           :require (respo-ui.core :as ui) (respo-ui.css :as css)
@@ -250,7 +250,7 @@
           :code $ quote $ defstyle style-base
             {} $ |& $ {} (:display :inline-block)
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
         'style-error $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-error
             {} $ |& $ {}
@@ -261,7 +261,7 @@
               :border-radius |12px
               :display :inline-block
           :examples $ []
-          :schema $ quote Dynamic
+          :schema $ quote String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.core
           :require
