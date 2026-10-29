@@ -41,13 +41,11 @@ npm install feather-icons
 ```
 
 ```cirru.no-run
-ns demo.icon $ :require
-  feather.core :refer $ comp-icon
+ns demo.icon $ :require $ feather.core :refer (comp-icon)
 
 comp-icon |activity
-  {} (:size 20) (:color :blue)
-    :class-name |consumer-icon
-    :style $ {} (:opacity 0.5)
+  {} (:size 20) (:color :blue) (:class-name |consumer-icon)
+    :style $ {} $ :opacity 0.5
   , nil
 ```
 
