@@ -11,6 +11,8 @@ Feather icon components for Respo applications written in Calcit.
 
 依赖图更新包含上游已发布的 Respo/UI/Reel 修复，因此须验收真实图；不能把本项目源码未变说成整个生态行为都没变。本候选结束 0.5 预发布线，拟发布正式 0.5.0；旧 0.4 稳定维护接口及旧 tag 保留。Demo 的 Reel 仍使用已发布 0.7.0-alpha.5，升级整图时注意这一传递版本。
 
+本轮正式候选已通过真实发布依赖图、库 API 与完整 Demo strict、原四项 native/JS 同源回放及原 17 项渲染/消费者回归，保留全部原门禁。实际画廊加载和刷新正常，warn/error 为空；复制到系统剪贴板、存档和 HMR 本轮未复验，不沿用旧版本验收作为本次通过依据。
+
 ### 库消费与 Demo
 
 库的默认入口只装载公开 API 使用的 Respo / JS-FFI。UI / Reel 放在开发依赖和
