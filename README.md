@@ -7,7 +7,7 @@ Feather icon components for Respo applications written in Calcit.
 
 候选 **0.5.0-alpha.6** 配对正式 **Calcit / @calcit/procs 0.32.1**，同步已发布的 Respo **0.17.1**、JS-FFI **0.2.9**，以及 Demo 的 Reel **0.7.0-alpha.5**、UI **0.9.0**。Snapshot 已用 `calcit edit format` 迁移为 0.32 类型写法。消费者需整图更新、重新生成 JS 并重启开发服务；正式 tag 发布前不要引用候选 main/hash。原 0.30 稳定维护线和旧 tag 保留。
 
-已发布 0.5.0-alpha.4 仍声明 alpha.7；main 的正式工具链声明不等于旧 tag 已升级。本候选 Snapshot 与 main / 0.5.0-alpha.4 完全相同，不改图标 API、颜色、点击、HUD、原四项附带测试或存档逻辑。原完整 strict、同源 native/JS 回放、渲染回归和前端构建继续作为门禁，不关闭审计、不放宽类型或基线，不增加迁移/验证脚本。
+已发布 0.5.0-alpha.4 仍声明 alpha.7；main 的正式工具链声明不等于旧 tag 已升级。本候选只做类型标注的 0.32 语法迁移（`:: 'Fn` 旧写法改为 `quote` 形式），不改图标 API、颜色、点击、HUD、原四项附带测试或存档逻辑。原完整 strict、同源 native/JS 回放、渲染回归和前端构建继续作为门禁，不关闭审计、不放宽类型或基线，不增加迁移/验证脚本。
 
 依赖图更新包含上游已发布的 Respo/UI/Reel 修复，因此须验收真实图；不能把本项目源码未变说成整个生态行为都没变。模块的 0.5 alpha 发布线保留，不回退为旧 0.4 稳定接口。
 
