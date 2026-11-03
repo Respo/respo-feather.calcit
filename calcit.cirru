@@ -58,7 +58,7 @@
                 :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
                   copy! $ str |: icon
-                  d! :exhibit icon
+                  d! $ :: :exhibit icon
               comp-icon icon
                 {} (:font-size 24)
                   :color $ hsl 200 80 60
