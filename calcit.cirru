@@ -20,7 +20,7 @@
                 store $ :store reel
                 states $ decode-map-as
                   .unwrap-or (get store :states) nil
-                  :: 'Map 'Dynamic 'Dynamic
+                  quote $ Map Dynamic Dynamic
                 cursor $ or
                   .unwrap-or (get states :cursor) nil
                   []
@@ -31,18 +31,21 @@
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
                 if (non-nil? selected-icon)
-                  let
+                  Option :some $ let
                       icon selected-icon
                     div
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
                       =< 16 nil
                       comp-i (str icon) 40 |black
+                  Option :none
                 list->
                   {} $ :style $ {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
                   map icon-names $ fn (icon)
                     [] icon $ comp-icon-demo icon $ &= icon selected-icon
-                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
+                if dev?
+                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :none
           :examples $ []
           :schema $ quote $ Fn
             reel.typed/State Enum $ Map Dynamic Dynamic
@@ -55,7 +58,7 @@
                 :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
                   copy! $ str |: icon
-                  d! :exhibit icon
+                  d! $ :: :exhibit icon
               comp-icon icon
                 {} (:font-size 24)
                   :color $ hsl 200 80 60
@@ -88,7 +91,7 @@
           :code $ quote $ defn load-icon-names ()
             decode-map-as
               to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons feather.core/FeatherIconsHost)
-              :: 'List 'String
+              quote $ List String
           :examples $ []
           :schema $ quote $ Fn
             -> $ List String
@@ -415,16 +418,16 @@
           :code $ quote $ defenum Op
             :states
               quote $ List Dynamic
-              , 'Dynamic
-            :hydrate-storage 'Dynamic
-            :exhibit 'Dynamic
+              , Dynamic
+            :hydrate-storage Dynamic
+            :exhibit Dynamic
             :reel/toggle
-            :reel/recall 'Number
+            :reel/recall Number
             :reel/run
             :reel/step
             :reel/merge
             :reel/reset
-            :reel/remove 'Number
+            :reel/remove Number
           :examples $ []
           :schema $ quote EnumDef
         'store $ %{} 'CodeEntry (:doc |)
@@ -443,11 +446,11 @@
               (:states cursor s)
                 decode-map-as
                   update-states store
-                    decode-map-as cursor $ :: 'List 'Dynamic
+                    decode-map-as cursor $ quote $ List Dynamic
                     , s
-                  :: 'Map 'Dynamic 'Dynamic
+                  quote $ Map Dynamic Dynamic
               (:hydrate-storage data)
-                decode-map-as data $ :: 'Map 'Dynamic 'Dynamic
+                decode-map-as data $ quote $ Map Dynamic Dynamic
               (:exhibit d) (&map:assoc store :icon d)
               _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []

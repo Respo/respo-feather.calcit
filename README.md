@@ -5,11 +5,9 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-候选 **0.5.1** 配对正式 **Calcit / @calcit/procs 0.32.1**，库依赖升级为已发布的 Respo **0.18.0**、JS-FFI **0.2.9**，Demo 使用正式 Reel **0.7.1**、UI **0.10.0**（传递 Router **0.9.0**）。消费者需协调完整精确依赖图并重新生成 JS；Respo 0.18 的直接 DomProps 构造使用 Option 字段。旧 tag 不移动，0.5.1 正式 tag 发布前不要引用候选 main/hash。
+**0.5.2** 配对正式 **Calcit / @calcit/procs 0.34.3**，留在 Respo **0.18.1** 兼容线：库依赖 Respo 0.18.1、JS-FFI 0.2.9，Demo 使用 Reel **0.8.1**、UI **0.12.1**（传递 Router 0.10.1）。这条线与 Reel 0.8.1、Alerts 0.11.3、Recollect 0.2.1 等一致，可以在 `caps --strict` 下拼成同一张依赖图；不能与要求 Respo 0.19.1 / JS-FFI 0.2.10 的 UI 0.14.0 混装。
 
-本次只更新依赖和版本声明，规范 Snapshot、图标 API、颜色边界、点击回调、实际 JS HUD 与存档顺序不变。上游依赖包含真实行为修复，不能以本库源码未变代替整图验收。原完整 strict、四项附带测试的 native/JS 同源回放、渲染与独立消费者回归、前端构建均保留；不关闭审计、不放宽类型或基线、不新增验证脚本。
-
-本候选已从正式 tag 正常安装五模块并通过库 API 7/7、完整 Demo 209 定义检查、完整 strict、原四项 native/JS 同源测试及原 17 项渲染/独立消费者回归。实际画廊显示 287 个 SVG，普通刷新后正常，控制台 warn/error 为空；不把旧版本的复制、坏存档或 HMR 验收算作本轮通过。正式 tag 发布后才可按该版本安装。
+图标 API、颜色边界和点击回调不变。Demo 容器中两个没有 else 的子节点（复制提示、开发模式下的 Reel 面板）改为返回 `Option :some` / `Option :none`，以通过 0.34 的 `E_IMPLICIT_NIL_BRANCH` 检查；`edit format` 把旧 `::` 类型写法迁移为 `quote` / 裸类型名。
 
 ### 库消费与 Demo
 
@@ -107,7 +105,7 @@ Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定�
 
 ### 限制
 
-- 当前工具链是正式 0.32.1，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
+- 当前工具链是正式 0.34.3，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
 - 不以轻量入口检查替代完整 Demo strict，也不因消除图冲突而扩大公开类型或移除门禁。旧存档保护已由既有实现负责，依赖升级不意味着跨浏览器或全部消费者均已验证。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。
