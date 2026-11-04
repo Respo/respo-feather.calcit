@@ -5,13 +5,17 @@ import { copyFile, mkdir, mkdtemp, readFile, rm, symlink } from 'node:fs/promise
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { _$n__$M_ } from '../js-out/calcit.core.mjs';
+import { _$n__$M_, get, init_tags } from '../js-out/calcit.core.mjs';
+import { invoke_method } from '@calcit/procs';
 import { parse_cirru_edn } from '../js-out/calcit.core.mjs';
-import { comp_container } from '../js-out/feather.comp.container.mjs';
+import { comp_container, comp_icon_demo } from '../js-out/feather.comp.container.mjs';
 import { comp_icon } from '../js-out/feather.core.mjs';
 import { store } from '../js-out/feather.schema.mjs';
 import { new_reel, toggle_display } from '../js-out/reel.typed.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
+import { component_tree } from '../js-out/respo.util.detect.mjs';
+import { event__GT_edn } from '../js-out/respo.util.format.mjs';
+import { updater } from '../js-out/feather.updater.mjs';
 
 const binary = process.env.CALCIT_BIN ?? 'calcit';
 const cliOptions = { encoding: 'utf8', timeout: 60000, maxBuffer: 16 * 1024 * 1024,
@@ -159,11 +163,43 @@ test('renders a Feather icon from the package icons map', () => {
   assert.doesNotMatch(html, /No icon:/);
 });
 
-test('renders the icon gallery with a typed Reel state', () => {
+test('renders the typed gallery and copies/selects an icon through its real click handler', () => {
   const html = make_string(comp_container(toggle_display(new_reel(store))));
   assert.match(html, /<svg\b/);
   assert.match(html, /activity/);
   assert.doesNotMatch(html, /No icon:/);
+  const tags = init_tags(['event', 'click', 'icon']);
+  const unwrap = value => invoke_method('unwrap', value);
+  const node = unwrap(component_tree(comp_icon_demo('activity', false)));
+  const click = unwrap(get(unwrap(get(node, tags.event)), tags.click));
+  const previousDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const copied = [], operations = [];
+  let selected;
+  try {
+    // Run the actual npm copy implementation against an offline DOM fixture;
+    // no operating-system clipboard is accessed.
+    globalThis.document = {
+      body: { append() {} }, activeElement: null,
+      createElement(tag) {
+        assert.equal(tag, 'textarea');
+        return { value: '', style: {}, setAttribute() {},
+          select() { selected = this.value; }, remove() {} };
+      },
+      getSelection() { return { rangeCount: 0 }; },
+      execCommand(command) { assert.equal(command, 'copy'); copied.push(selected); return true; },
+    };
+    click(event__GT_edn({ type: 'click' }), (...args) => {
+      assert.equal(args.length, 1); operations.push(args[0]);
+    });
+  } finally {
+    if (previousDocument) Object.defineProperty(globalThis, 'document', previousDocument);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
+  assert.deepEqual(copied, [':activity']);
+  assert.equal(operations.length, 1);
+  const next = updater(store, operations[0], 'fixture', 0);
+  assert.equal(unwrap(get(next, tags.icon)), 'activity');
+  assert.match(make_string(comp_container(new_reel(next))), /Copied :activity/);
 });
 
 for (const [color, expected] of [
