@@ -126,7 +126,7 @@ test('a clean consumer loads only the library graph and retains its checked Stri
       ['edit', 'def', 'consumer.main/main!', '--input-format', 'json-ast', '--code',
         JSON.stringify(['defn', 'main!', [], ['assert=', '|red', ['icon-color-text', ':red']], '&unit'])],
       ['edit', 'schema', 'consumer.main/main!', '--input-format', 'cirru', '--code',
-        "quote $ :: 'Fn $ {} (:args $ []) (:return 'Unit)"],
+        "quote $ Fn (-> Unit)"],
       ['config', 'set', 'mode', 'native'],
       ['config', 'add-module', 'feather.calcit/'],
     ]);
