@@ -36,7 +36,7 @@
                     div
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
-                      =< 16 nil
+                      space-x 16
                       comp-i (str icon) 40 |black
                   Option :none
                 list->
@@ -57,6 +57,9 @@
               {}
                 :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
+                  hint-fn $ Fn respo.schema/RespoEvent
+                    Fn Enum $ -> Unit
+                    -> Unit
                   copy! $ str |: icon
                   d! $ :: :exhibit icon
               comp-icon icon
@@ -116,7 +119,7 @@
           :require (respo-ui.core :as ui) (respo-ui.css :as css)
             respo.util.format :refer $ hsl
             respo.core :refer $ defcomp defeffect list-> <> >> div button textarea span input memo-comp-by
-            respo.comp.space :refer $ =<
+            respo.comp.space :refer $ space-x
             reel.comp.reel :refer $ comp-typed-reel
             feather.config :refer $ dev?
             feather.core :refer $ comp-icon comp-i
@@ -151,6 +154,10 @@
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
           :schema $ quote Trait
+        'IconColorScalar $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion IconColorScalar String Tag Number Bool Symbol
+          :examples $ []
+          :schema $ quote UnionDef
         'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-i (icon size color)
             comp-icon icon
@@ -200,19 +207,17 @@
                 , |blue
               (= :unit (type-of color))
                 , |blue
-              (string? color)
-                .to-string $ assert-type color 'String
-              (tag? color)
-                .to-string $ assert-type color 'Tag
-              (number? color)
-                .to-string $ assert-type color 'Number
-              (bool? color)
-                if color
-                  .to-string $ assert-type color 'Bool
-                  , |blue
-              (symbol? color)
-                .to-string $ assert-type color 'Symbol
-              true $ raise "|[Feather/comp-icon] expected color to be a text scalar"
+              true $ match (try-decode-map-as color IconColorScalar)
+                (:ok scalar)
+                  match scalar
+                    (String v) (.to-string v)
+                    (Tag v) (.to-string v)
+                    (Number v) (.to-string v)
+                    (Bool v)
+                      if v (.to-string v) |blue
+                    (Symbol v) (.to-string v)
+                (:err _)
+                  raise "|[Feather/comp-icon] expected color to be a text scalar"
           :examples $ []
           :schema $ quote $ Fn ColorInput (-> String) (:generics ColorInput)
           :tests $ []
@@ -372,7 +377,7 @@
             -> $ reel.typed/State Enum $ Map Dynamic Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render!
+            with-memo-frame $ fn () $ render!
               narrow-element $ mount-target
               comp-container @*reel
               , dispatch!
@@ -386,7 +391,10 @@
               * 1000 duration
             , &unit
           :examples $ []
-          :schema $ quote $ Fn Number Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn Number
+            Fn $ -> Unit
+            -> Unit
+            :features :js-ffi
         'ret-reel-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
@@ -411,6 +419,7 @@
             |bottom-tip :default hud!
             js-ffi.browser :as browser
             js-ffi.shared :as shared
+            respo.memo :refer $ with-memo-frame
     'feather.schema $ %{} 'FileEntry
       :defs $ {}
         'Op $ %{} 'CodeEntry

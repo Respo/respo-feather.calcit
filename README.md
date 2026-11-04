@@ -5,9 +5,9 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-**0.5.2** 配对正式 **Calcit / @calcit/procs 0.34.3**，留在 Respo **0.18.1** 兼容线：库依赖 Respo 0.18.1、JS-FFI 0.2.9，Demo 使用 Reel **0.8.1**、UI **0.12.1**（传递 Router 0.10.1）。这条线与 Reel 0.8.1、Alerts 0.11.3、Recollect 0.2.1 等一致，可以在 `caps --strict` 下拼成同一张依赖图；不能与要求 Respo 0.19.1 / JS-FFI 0.2.10 的 UI 0.14.0 混装。
+**0.6.0** 保留正式 **Calcit / @calcit/procs 0.34.3**，切换至 Respo **0.19.2**、JS-FFI **0.2.10**；Demo 使用 Reel **0.9.0**、UI **0.14.1**（传递 Router **0.11.2**）。消费者需同步现代 Respo 依赖图、重新安装和编译；旧 Respo 0.18 应用继续使用 **0.5.2**，不能混装两个依赖图。库与 Demo 的依赖分组保持。
 
-图标 API、颜色边界和点击回调不变。Demo 容器中两个没有 else 的子节点（复制提示、开发模式下的 Reel 面板）改为返回 `Option :some` / `Option :none`，以通过 0.34 的 `E_IMPLICIT_NIL_BRANCH` 检查；`edit format` 把旧 `::` 类型写法迁移为 `quote` / 裸类型名。
+图标 API、颜色默认值、错误文本与点击回调保持。颜色在 nil / Unit 默认值处理后，受检解码为 `IconColorScalar = String | Tag | Number | Bool | Symbol`，再穷尽匹配转换；不再依赖五处分支内的 `assert-type`。该 union 只表达真实标量，开放 options 与宿主对象仍在原边界处理。Demo 根渲染使用现代 Respo memo 生命周期，点击回调标注真实 RespoEvent，间距改用 `space-x`；原存档恢复及 HUD 顺序保持。
 
 ### 库消费与 Demo
 
@@ -65,7 +65,7 @@ Node.js 24、Yarn 4.18.0、Vite 8.3.1 和原 npm 一小时隔离设置保持，�
 ### 颜色边界
 
 `comp-icon` 返回名义 `respo.schema/Component`。颜色先检查实际输入，
-再通过已证明标量类型的 `.to-string` 方法转换，不把开放值直接交给泛型
+再通过受检 union 的具体成员 `.to-string` 方法转换，不把开放值直接交给泛型
 ToString。nil、false、Unit 使用默认蓝色；String（含空字符串）、Tag、
 Number（含 0）、true 与 Symbol 保留各自文本。Map/List/Set 等非标量
 在调用 SVG API 前给出明确错误。
