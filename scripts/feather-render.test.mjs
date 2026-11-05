@@ -9,7 +9,7 @@ import { _$n__$M_, get, init_tags } from '../js-out/calcit.core.mjs';
 import { invoke_method } from '@calcit/procs';
 import { parse_cirru_edn } from '../js-out/calcit.core.mjs';
 import { comp_container, comp_icon_demo } from '../js-out/feather.comp.container.mjs';
-import { comp_icon } from '../js-out/feather.core.mjs';
+import { comp_icon, comp_i } from '../js-out/feather.core.mjs';
 import { store } from '../js-out/feather.schema.mjs';
 import { new_reel, toggle_display } from '../js-out/reel.typed.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
@@ -161,6 +161,9 @@ test('renders a Feather icon from the package icons map', () => {
   assert.match(html, /<svg\b/);
   assert.match(html, /<polyline\b/);
   assert.doesNotMatch(html, /No icon:/);
+  const shortcut = make_string(comp_i('activity', 32, 'red'));
+  assert.match(shortcut, /width="32" height="32"/);
+  assert.match(shortcut, /color="red"/);
 });
 
 test('renders the typed gallery and copies/selects an icon through its real click handler', () => {
