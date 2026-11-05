@@ -20,7 +20,7 @@
                 store $ :store reel
                 states $ decode-map-as
                   .unwrap-or (get store :states) nil
-                  quote $ Map Dynamic Dynamic
+                  Map Dynamic Dynamic
                 cursor $ or
                   .unwrap-or (get states :cursor) nil
                   []
@@ -94,7 +94,7 @@
           :code $ quote $ defn load-icon-names ()
             decode-map-as
               to-calcit-data $ js/Object.keys $ .-icons (unsafe-coerce feather-icons feather.core/FeatherIconsHost)
-              quote $ List String
+              List String
           :examples $ []
           :schema $ quote $ Fn
             -> $ List String
@@ -144,7 +144,7 @@
       :defs $ {}
         'FeatherIconHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait FeatherIconHost
-            .to-svg $ quote $ Fn feather.core/FeatherIconHost Dynamic (-> String)
+            .to-svg $ Fn feather.core/FeatherIconHost Dynamic $ -> String
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
             :names $ {} $ :to-svg |toSvg
@@ -161,7 +161,7 @@
         'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-i (icon size color)
             comp-icon icon
-              {} (:font-size size) (:color color)
+              {} (:size size) (:color color)
               , nil
           :examples $ []
           :schema $ quote $ Fn Dynamic Dynamic Dynamic (-> respo.schema/Component)
@@ -335,8 +335,7 @@
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
             let
-                reel $ assert-type @*reel $ quote
-                  reel.typed/State Enum $ Map Dynamic Dynamic
+                reel $ assert-type @*reel $ reel.typed/State Enum (Map Dynamic Dynamic)
               match (typed/decode-control op)
                 (:some control) (typed/apply-control updater reel control)
                 (:none)
@@ -370,8 +369,8 @@
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
-              assert-type @*reel $ quote $ reel.typed/State Enum (Map Dynamic Dynamic)
-              assert-type schema/store $ quote $ Map Dynamic Dynamic
+              assert-type @*reel $ reel.typed/State Enum $ Map Dynamic Dynamic
+              assert-type schema/store $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote $ Fn
             -> $ reel.typed/State Enum $ Map Dynamic Dynamic
@@ -425,9 +424,7 @@
         'Op $ %{} 'CodeEntry
           :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends."
           :code $ quote $ defenum Op
-            :states
-              quote $ List Dynamic
-              , Dynamic
+            :states (List Dynamic) Dynamic
             :hydrate-storage Dynamic
             :exhibit Dynamic
             :reel/toggle
@@ -455,11 +452,11 @@
               (:states cursor s)
                 decode-map-as
                   update-states store
-                    decode-map-as cursor $ quote $ List Dynamic
+                    decode-map-as cursor $ List Dynamic
                     , s
-                  quote $ Map Dynamic Dynamic
+                  Map Dynamic Dynamic
               (:hydrate-storage data)
-                decode-map-as data $ quote $ Map Dynamic Dynamic
+                decode-map-as data $ Map Dynamic Dynamic
               (:exhibit d) (&map:assoc store :icon d)
               _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []

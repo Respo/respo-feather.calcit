@@ -5,7 +5,9 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-**0.6.0** 保留正式 **Calcit / @calcit/procs 0.34.3**，切换至 Respo **0.19.2**、JS-FFI **0.2.10**；Demo 使用 Reel **0.9.0**、UI **0.14.1**（传递 Router **0.11.2**）。消费者需同步现代 Respo 依赖图、重新安装和编译；旧 Respo 0.18 应用继续使用 **0.5.2**，不能混装两个依赖图。库与 Demo 的依赖分组保持。
+**0.6.1 候选** 配对正式 **Calcit / @calcit/procs 0.35.0**、Respo **0.19.3**、JS-FFI **0.2.12**；Demo 使用 Reel **0.9.1**、UI **0.15.0**（传递 Router **0.12.0**）。消费者需同步现代 Respo 依赖图、重新安装和编译；旧 Respo 0.18 应用继续使用 **0.5.2**，不能混装两个依赖图。库与 Demo 的依赖分组保持。
+
+`comp-i icon size color` 修复被忽略的尺寸参数：32 现在渲染为 32×32，而非固定的默认 14×14。旧代码若依赖这个错误的默认尺寸，需要显式传 14；`comp-icon` 的选项合同和颜色、回调行为不变。只在原渲染测试中补充尺寸断言，不增加验证脚本。
 
 图标 API、颜色默认值、错误文本与点击回调保持。颜色在 nil / Unit 默认值处理后，受检解码为 `IconColorScalar = String | Tag | Number | Bool | Symbol`，再穷尽匹配转换；不再依赖五处分支内的 `assert-type`。该 union 只表达真实标量，开放 options 与宿主对象仍在原边界处理。Demo 根渲染使用现代 Respo memo 生命周期，点击回调标注真实 RespoEvent，间距改用 `space-x`；原存档恢复及 HUD 顺序保持。
 
