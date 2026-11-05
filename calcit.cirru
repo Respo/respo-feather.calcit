@@ -48,7 +48,7 @@
                   Option :none
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State Enum $ Map Dynamic Dynamic
+            reel.typed/State AnyEnum $ Map Dynamic Dynamic
             -> respo.schema/Component
             :features :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
@@ -58,7 +58,7 @@
                 :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn Enum $ -> Unit
+                    Fn AnyEnum $ -> Unit
                     -> Unit
                   copy! $ str |: icon
                   d! $ :: :exhibit icon
@@ -295,7 +295,7 @@
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ quote $ Ref
-            reel.typed/State Enum $ Map Dynamic Dynamic
+            reel.typed/State AnyEnum $ Map Dynamic Dynamic
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
@@ -305,7 +305,7 @@
                 , &unit
               raise "|dispatch! expected an Enum op"
           :examples $ []
-          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -335,14 +335,14 @@
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
             let
-                reel $ assert-type @*reel $ reel.typed/State Enum (Map Dynamic Dynamic)
+                reel $ assert-type @*reel $ reel.typed/State AnyEnum (Map Dynamic Dynamic)
               match (typed/decode-control op)
                 (:some control) (typed/apply-control updater reel control)
                 (:none)
                   typed/record-op updater reel op (generate-id!) (shared/now-ms)
           :examples $ []
-          :schema $ quote $ Fn Enum
-            -> $ reel.typed/State Enum $ Map Dynamic Dynamic
+          :schema $ quote $ Fn AnyEnum
+            -> $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
             :features :js-ffi
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
@@ -369,11 +369,11 @@
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
-              assert-type @*reel $ reel.typed/State Enum $ Map Dynamic Dynamic
+              assert-type @*reel $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
               assert-type schema/store $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote $ Fn
-            -> $ reel.typed/State Enum $ Map Dynamic Dynamic
+            -> $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render!
@@ -398,7 +398,7 @@
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State Enum $ Map Dynamic Dynamic
+            reel.typed/State AnyEnum $ Map Dynamic Dynamic
             -> $ Map Dynamic Dynamic
             :features :js-ffi
       :ns $ %{} 'NsEntry (:doc |)
@@ -460,7 +460,7 @@
               (:exhibit d) (&map:assoc store :icon d)
               _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) Enum String Number
+          :schema $ quote $ Fn (Map Dynamic Dynamic) AnyEnum String Number
             -> $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.updater
