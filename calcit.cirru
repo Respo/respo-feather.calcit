@@ -170,6 +170,9 @@
             let
                 opts $ if (map? options) options $ if (nil? options) ({}) (raise "|comp-icon expected options as a map")
                 icon-name $ if (tag? icon) (to-string icon) icon
+                size $ match (get opts :size)
+                  (:some v) (or v 14)
+                  (:none) 14
                 obj $ js-get
                   unsafe-coerce
                     .-icons $ unsafe-coerce feather-icons FeatherIconsHost
@@ -177,22 +180,19 @@
                   , icon-name
               if obj
                 span $ {}
-                  :class-name $ str-spaced style-base $ or
-                    .unwrap-or (get opts :class-name) nil
-                    , |
-                  :style $ or
-                    .unwrap-or (get opts :style) nil
-                    {}
+                  :class-name $ str-spaced style-base $ match (get opts :class-name)
+                    (:some v) (or v |)
+                    (:none) |
+                  :style $ match (get opts :style)
+                    (:some v)
+                      or v $ {}
+                    (:none) ({})
                   :on-click on-click
                   :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
-                    js-object
-                      :width $ or
-                        .unwrap-or (get opts :size) nil
-                        , 14
-                      :height $ or
-                        .unwrap-or (get opts :size) nil
-                        , 14
-                      :color $ icon-color-text $ .unwrap-or (get opts :color) nil
+                    js-object (:width size) (:height size)
+                      :color $ match (get opts :color)
+                        (:some v) (icon-color-text v)
+                        (:none) |blue
                 do
                   shared/console-error! $ str "|No icon named:" icon-name
                   span
