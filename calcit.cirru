@@ -6,11 +6,11 @@
     :default $ {} (:description "|库运行依赖与公开 helper 检查；画廊使用 --entry demo") (:init-fn 'feather.library-check/main!) (:mode :js) (:reload-fn 'feather.library-check/main!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |feather.schema/Op
+      :type-slots $ {} $ :dispatch-op 'feather.schema/Op
     :demo $ {} (:description "|完整图标画廊与 Demo 模块图") (:init-fn 'feather.main/main!) (:mode :js) (:reload-fn 'feather.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |feather.schema/Op
+      :type-slots $ {} $ :dispatch-op 'feather.schema/Op
   :files $ {}
     'feather.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -19,30 +19,38 @@
             let
                 store $ :store reel
                 states $ decode-map-as
-                  .unwrap-or (get store :states) nil
+                  match (get store :states)
+                    (:some v)
+                      or v $ {}
+                    (:none) ({})
                   Map Dynamic Dynamic
-                cursor $ or
-                  .unwrap-or (get states :cursor) nil
-                  []
-                state $ or
-                  .unwrap-or (get states :data) nil
-                  {} $ :content |
-                selected-icon $ .unwrap-or (get store :icon) nil
+                cursor $ match (get states :cursor)
+                  (:some v)
+                    or v $ []
+                  (:none) ([])
+                state $ match (get states :data)
+                  (:some v)
+                    or v $ {} $ :content |
+                  (:none)
+                    {} $ :content |
+                selected-icon $ match (get store :icon)
+                  (:some v)
+                    if (nil? v) (Option :none) (Option :some v)
+                  (:none) (Option :none)
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
-                if (non-nil? selected-icon)
-                  Option :some $ let
-                      icon selected-icon
-                    div
+                match selected-icon
+                  (:some icon)
+                    Option :some $ div
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
                       space-x 16
                       comp-i (str icon) 40 |black
-                  Option :none
+                  (:none) (Option :none)
                 list->
                   {} $ :style $ {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
                   map icon-names $ fn (icon)
-                    [] icon $ comp-icon-demo icon $ &= icon selected-icon
+                    [] icon $ comp-icon-demo icon $ &= (Option :some icon) selected-icon
                 if dev?
                   Option :some $ comp-typed-reel (>> states :reel) reel $ {}
                   Option :none
