@@ -7,6 +7,7 @@ Feather icon components for Respo applications written in Calcit.
 
 **0.6.3 候选** 配对正式 **Calcit / @calcit/procs 0.38.0**、Respo **0.19.5**、
 JS-FFI **0.2.13**；Demo 使用 Reel **0.10.0**、UI **0.15.2**（传递 Router **0.12.2**）。
+升级后，消费者需同步依赖并使用 Calcit 0.38.0 重新生成 JS。
 入口 `:dispatch-op` 改为符号写法；Demo 的 `comp-container` 不再用 `.unwrap-or … nil`
 把 Option 擦回 nil，改为 `match`，选中图标保持为 Option。画廊历史只记录 `DemoAction`，Reel 控制单独处理；原存档格式和图标库 API 保持。
 
