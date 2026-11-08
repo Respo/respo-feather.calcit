@@ -167,7 +167,7 @@ test('renders a Feather icon from the package icons map', () => {
 });
 
 test('renders the typed gallery and copies/selects an icon through its real click handler', () => {
-  const html = make_string(comp_container(toggle_display(new_reel(store))));
+  const html = make_string(comp_container(toggle_display(new_reel(store)), () => undefined));
   assert.match(html, /<svg\b/);
   assert.match(html, /activity/);
   assert.doesNotMatch(html, /No icon:/);
@@ -202,7 +202,7 @@ test('renders the typed gallery and copies/selects an icon through its real clic
   assert.equal(operations.length, 1);
   const next = updater(store, operations[0], 'fixture', 0);
   assert.equal(unwrap(get(next, tags.icon)), 'activity');
-  assert.match(make_string(comp_container(new_reel(next))), /Copied :activity/);
+  assert.match(make_string(comp_container(new_reel(next), () => undefined)), /Copied :activity/);
 });
 
 for (const [color, expected] of [
