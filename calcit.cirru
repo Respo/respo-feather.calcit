@@ -56,7 +56,7 @@
                   Option :none
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State AnyEnum $ Map Dynamic Dynamic
+            reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
             -> respo.schema/Component
             :features :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
@@ -66,7 +66,7 @@
                 :class-name $ if selected? (str-spaced css/center css-cell style-selected) (str-spaced css/center css-cell)
                 :on-click $ fn (event d!)
                   hint-fn $ Fn respo.schema/RespoEvent
-                    Fn AnyEnum $ -> Unit
+                    Fn *dispatch-op $ -> Unit
                     -> Unit
                   copy! $ str |: icon
                   d! $ :: :exhibit icon
@@ -303,17 +303,32 @@
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ quote $ Ref
-            reel.typed/State AnyEnum $ Map Dynamic Dynamic
+            reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
+        'ResolvedOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ResolvedOp feather.schema/DemoAction reel.typed/Control
+          :examples $ []
+          :schema $ quote UnionDef
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
             if (enum? op)
-              &let
-                _next $ reset! *reel $ next-reel op
-                , &unit
+              reset! *reel $ match (typed/decode-control op)
+                (:some control) (next-reel control)
+                (:none)
+                  match op
+                    (:states cursor value)
+                      next-reel $ schema/DemoAction :states
+                        decode-map-as cursor $ List respo.schema/CoordKey
+                        , value
+                    (:hydrate-storage store)
+                      next-reel $ schema/DemoAction :hydrate-storage $ decode-map-as store (Map Dynamic Dynamic)
+                    (:exhibit icon)
+                      next-reel $ schema/DemoAction :exhibit $ decode-map-as icon 'String
+                    _ $ do (eprintln "|Unknown op:" op) @*reel
               raise "|dispatch! expected an Enum op"
+            , &unit
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi) (:open :decode)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -342,15 +357,13 @@
           :schema $ quote $ Fn (-> js-ffi.browser/DomElementHost) (:features :js-ffi)
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
-            let
-                reel $ assert-type @*reel $ reel.typed/State AnyEnum (Map Dynamic Dynamic)
-              match (typed/decode-control op)
-                (:some control) (typed/apply-control updater reel control)
-                (:none)
-                  typed/record-op updater reel op (generate-id!) (shared/now-ms)
+            match op
+              (reel.typed/Control control) (typed/apply-control updater @*reel control)
+              (feather.schema/DemoAction action)
+                typed/record-op updater @*reel action (generate-id!) (shared/now-ms)
           :examples $ []
-          :schema $ quote $ Fn AnyEnum
-            -> $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
+          :schema $ quote $ Fn feather.main/ResolvedOp
+            -> $ reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
             :features :js-ffi
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
@@ -377,11 +390,11 @@
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
-              assert-type @*reel $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
+              assert-type @*reel $ reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
               assert-type schema/store $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote $ Fn
-            -> $ reel.typed/State AnyEnum $ Map Dynamic Dynamic
+            -> $ reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render!
@@ -406,7 +419,7 @@
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State AnyEnum $ Map Dynamic Dynamic
+            reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
             -> $ Map Dynamic Dynamic
             :features :js-ffi
       :ns $ %{} 'NsEntry (:doc |)
@@ -429,6 +442,13 @@
             respo.memo :refer $ with-memo-frame
     'feather.schema $ %{} 'FileEntry
       :defs $ {}
+        'DemoAction $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defenum DemoAction
+            :states (List respo.schema/CoordKey) Dynamic
+            :hydrate-storage $ Map Dynamic Dynamic
+            :exhibit String
+          :examples $ []
+          :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry
           :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends."
           :code $ quote $ defenum Op
@@ -457,18 +477,12 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor s)
-                decode-map-as
-                  update-states store
-                    decode-map-as cursor $ List Dynamic
-                    , s
-                  Map Dynamic Dynamic
-              (:hydrate-storage data)
-                decode-map-as data $ Map Dynamic Dynamic
-              (:exhibit d) (&map:assoc store :icon d)
-              _ $ do (eprintln "|Unknown op:" op) store
+              (:states cursor state)
+                decode-map-as (update-states store cursor state) (Map Dynamic Dynamic)
+              (:hydrate-storage data) data
+              (:exhibit icon) (&map:assoc store :icon icon)
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) AnyEnum String Number
+          :schema $ quote $ Fn (Map Dynamic Dynamic) feather.schema/DemoAction String Number
             -> $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.updater

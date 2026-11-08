@@ -5,10 +5,10 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-**0.6.3 候选** 配对正式 **Calcit / @calcit/procs 0.37.0**、Respo **0.19.5**、
+**0.6.3 候选** 配对正式 **Calcit / @calcit/procs 0.38.0**、Respo **0.19.5**、
 JS-FFI **0.2.13**；Demo 使用 Reel **0.10.0**、UI **0.15.2**（传递 Router **0.12.2**）。
 入口 `:dispatch-op` 改为符号写法；Demo 的 `comp-container` 不再用 `.unwrap-or … nil`
-把 Option 擦回 nil，改为 `match`，选中图标保持为 Option。库 API 不变。
+把 Option 擦回 nil，改为 `match`，选中图标保持为 Option。画廊历史只记录 `DemoAction`，Reel 控制单独处理；原存档格式和图标库 API 保持。
 
 ### 历史 0.6.2
 
@@ -123,7 +123,7 @@ Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定�
 
 ### 限制
 
-- 当前工具链是正式 0.37.0，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
+- 当前工具链是正式 0.38.0，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
 - 不以轻量入口检查替代完整 Demo strict，也不因消除图冲突而扩大公开类型或移除门禁。旧存档保护已由既有实现负责，依赖升级不意味着跨浏览器或全部消费者均已验证。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。
