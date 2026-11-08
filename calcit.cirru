@@ -15,7 +15,7 @@
     'feather.comp.container $ %{} 'FileEntry
       :defs $ {}
         'comp-container $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-container (reel)
+          :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
                 states $ decode-map-as
@@ -52,11 +52,12 @@
                   map icon-names $ fn (icon)
                     [] icon $ comp-icon-demo icon $ &= (Option :some icon) selected-icon
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
                   Option :none
           :examples $ []
           :schema $ quote $ Fn
             reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
+            Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
             :features :js-ffi
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
@@ -69,7 +70,7 @@
                     Fn *dispatch-op $ -> Unit
                     -> Unit
                   copy! $ str |: icon
-                  d! $ :: :exhibit icon
+                  d! $ schema/Op :exhibit icon
               comp-icon icon
                 {} (:font-size 24)
                   :color $ hsl 200 80 60
@@ -134,6 +135,7 @@
             |feather-icons :default feather-icons
             |copy-text-to-clipboard :default copy!
             respo.css :refer $ defstyle
+            feather.schema :as schema
     'feather.config $ %{} 'FileEntry
       :defs $ {}
         'dev? $ %{} 'CodeEntry (:doc |)
@@ -311,24 +313,18 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ shared/console-log! $ str |Dispatch: op
-            if (enum? op)
-              reset! *reel $ match (typed/decode-control op)
-                (:some control) (next-reel control)
-                (:none)
-                  match op
-                    (:states cursor value)
-                      next-reel $ schema/DemoAction :states
-                        decode-map-as cursor $ List respo.schema/CoordKey
-                        , value
-                    (:hydrate-storage store)
-                      next-reel $ schema/DemoAction :hydrate-storage $ decode-map-as store (Map Dynamic Dynamic)
-                    (:exhibit icon)
-                      next-reel $ schema/DemoAction :exhibit $ decode-map-as icon 'String
-                    _ $ do (eprintln "|Unknown op:" op) @*reel
-              raise "|dispatch! expected an Enum op"
+            reset! *reel $ match op
+              (:states cursor value)
+                next-reel $ schema/DemoAction :states
+                  decode-map-as cursor $ List respo.schema/CoordKey
+                  , value
+              (:hydrate-storage store)
+                next-reel $ schema/DemoAction :hydrate-storage $ decode-map-as store (Map Dynamic Dynamic)
+              (:exhibit icon)
+                next-reel $ schema/DemoAction :exhibit $ decode-map-as icon 'String
             , &unit
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi) (:open :decode)
+          :schema $ quote $ Fn feather.schema/Op (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -340,11 +336,11 @@
                 raw $ browser/storage-get storage-key
               match raw
                 (:some value)
-                  dispatch! $ :: :hydrate-storage $ parse-cirru-edn value
+                  dispatch! $ schema/Op :hydrate-storage $ parse-cirru-edn value
                 (:none) &unit
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |a dispatch!
+            listen-devtools! |a on-control!
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
             browser/set-interval! persist-storage! $ * 60 1000
             println "|App started."
@@ -365,6 +361,13 @@
           :schema $ quote $ Fn feather.main/ResolvedOp
             -> $ reel.typed/State feather.schema/DemoAction $ Map Dynamic Dynamic
             :features :js-ffi
+        'on-control! $ %{} 'CodeEntry
+          :doc "|Applies a Reel panel or shortcut Control to *reel."
+          :code $ quote $ defn on-control! (control)
+            reset! *reel $ next-reel control
+            , &unit
+          :examples $ []
+          :schema $ quote $ Fn reel.typed/Control (-> Unit) (:features :js-ffi)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             let
@@ -399,7 +402,7 @@
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render!
               narrow-element $ mount-target
-              comp-container @*reel
+              comp-container @*reel on-control!
               , dispatch!
           :examples $ []
           :schema $ quote $ Fn (-> Unit)
@@ -450,18 +453,11 @@
           :examples $ []
           :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry
-          :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Includes the :reel/* controls that comp-reel sends."
+          :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Reel controls go through on-control! instead."
           :code $ quote $ defenum Op
             :states (List Dynamic) Dynamic
             :hydrate-storage Dynamic
             :exhibit Dynamic
-            :reel/toggle
-            :reel/recall Number
-            :reel/run
-            :reel/step
-            :reel/merge
-            :reel/reset
-            :reel/remove Number
           :examples $ []
           :schema $ quote EnumDef
         'store $ %{} 'CodeEntry (:doc |)
