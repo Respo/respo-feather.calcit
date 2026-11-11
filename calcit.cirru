@@ -35,28 +35,28 @@
                     {} $ :content |
                 selected-icon $ match (get store :icon)
                   (:some v)
-                    if (nil? v) (Option :none) (Option :some v)
-                  (:none) (Option :none)
+                    if (nil? v) None $ Some v
+                  (:none) None
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
                 match selected-icon
                   (:some icon)
-                    Option :some $ div
+                    Some $ div
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
                       space-x 16
                       comp-i (str icon) 40 |black
-                  (:none) (Option :none)
+                  (:none) None
                 list->
                   {} $ :style $ {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
                   map icon-names $ fn (icon)
-                    [] icon $ comp-icon-demo icon $ &= (Option :some icon) selected-icon
+                    [] icon $ comp-icon-demo icon $ &= (Some icon) selected-icon
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
-                  Option :none
+                  Some $ comp-typed-reel (>> states :reel) reel ({}) on-control
+                  , None
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+            reel.typed/State schema/Op $ Map Dynamic Dynamic
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
             :features :js-ffi
@@ -154,7 +154,7 @@
       :defs $ {}
         'FeatherIconHost $ %{} 'CodeEntry (:doc |)
           :code $ quote $ deftrait FeatherIconHost
-            .to-svg $ Fn feather.core/FeatherIconHost Dynamic $ -> String
+            .to-svg $ Fn feather.core/FeatherIconHost JsObject $ -> String
           :examples $ []
           :ffi $ {} (:backend :js) (:kind :external-object)
             :names $ {} $ :to-svg |toSvg
@@ -168,18 +168,23 @@
           :code $ quote $ defunion IconColorScalar String Tag Number Bool Symbol
           :examples $ []
           :schema $ quote UnionDef
+        'IconName $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion IconName Tag String
+          :examples $ []
         'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-i (icon size color)
             comp-icon icon
               {} (:size size) (:color color)
               , nil
           :examples $ []
-          :schema $ quote $ Fn Dynamic Dynamic Dynamic (-> respo.schema/Component)
+          :schema $ quote $ Fn IconName Dynamic Dynamic (-> respo.schema/Component)
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
                 opts $ if (map? options) options $ if (nil? options) ({}) (raise "|comp-icon expected options as a map")
-                icon-name $ if (tag? icon) (to-string icon) icon
+                icon-name $ match icon
+                  (Tag name) (.to-string name)
+                  (String name) name
                 size $ match (get opts :size)
                   (:some v) (or v 14)
                   (:none) 14
@@ -209,7 +214,7 @@
                     {} (:on-click on-click) (:class-name style-error)
                     <> $ str "|No icon: " icon-name
           :examples $ []
-          :schema $ quote $ Fn Dynamic Dynamic Dynamic (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn IconName Dynamic Dynamic (-> respo.schema/Component) (:features :js-ffi)
         'icon-color-text $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn icon-color-text (color)
             cond
@@ -305,7 +310,7 @@
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ quote $ Ref
-            reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+            typed/State schema/Op $ Map Dynamic Dynamic
         'ResolvedOp $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defunion ResolvedOp feather.schema/Op reel.typed/Control
           :examples $ []
@@ -316,7 +321,7 @@
             reset! *reel $ next-reel op
             , &unit
           :examples $ []
-          :schema $ quote $ Fn feather.schema/Op (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -342,7 +347,7 @@
           :code $ quote $ defn mount-target ()
             .unwrap $ browser/query-selector |.app
           :examples $ []
-          :schema $ quote $ Fn (-> js-ffi.browser/DomElementHost) (:features :js-ffi)
+          :schema $ quote $ Fn (-> browser/DomElementHost) (:features :js-ffi)
         'next-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn next-reel (op)
             match op
@@ -350,8 +355,8 @@
               (feather.schema/Op action)
                 typed/record-op updater @*reel action (generate-id!) (shared/now-ms)
           :examples $ []
-          :schema $ quote $ Fn feather.main/ResolvedOp
-            -> $ reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+          :schema $ quote $ Fn ResolvedOp
+            -> $ typed/State schema/Op $ Map Dynamic Dynamic
             :features :js-ffi
         'on-control! $ %{} 'CodeEntry
           :doc "|Applies a Reel panel or shortcut Control to *reel."
@@ -359,7 +364,7 @@
             reset! *reel $ next-reel control
             , &unit
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn typed/Control (-> Unit) (:features :js-ffi)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             let
@@ -389,7 +394,7 @@
               assert-type schema/store $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote $ Fn
-            -> $ reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+            -> $ typed/State schema/Op $ Map Dynamic Dynamic
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render!
@@ -414,7 +419,7 @@
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
           :schema $ quote $ Fn
-            reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+            typed/State schema/Op $ Map Dynamic Dynamic
             -> $ Map Dynamic Dynamic
             :features :js-ffi
       :ns $ %{} 'NsEntry (:doc |)
