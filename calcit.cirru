@@ -24,18 +24,9 @@
                       or v $ {}
                     (:none) ({})
                   Map Dynamic Dynamic
-                cursor $ match (get states :cursor)
-                  (:some v)
-                    or v $ []
-                  (:none) ([])
-                state $ match (get states :data)
-                  (:some v)
-                    or v $ {} $ :content |
-                  (:none)
-                    {} $ :content |
                 selected-icon $ match (get store :icon)
                   (:some v)
-                    if (nil? v) None $ Some v
+                    if (nil? v) None $ Some $ str v
                   (:none) None
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
@@ -45,7 +36,7 @@
                       {} $ :class-name $ str-spaced css/row-center style-preview
                       <> $ str "|Copied " |: icon
                       space-x 16
-                      comp-i (str icon) 40 |black
+                      comp-i icon 40 |black
                   (:none) None
                 list->
                   {} $ :style $ {} (:width |100%) (:padding 16) (:overflow :auto) (:margin-top 80)
@@ -391,7 +382,7 @@
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
-              assert-type @*reel $ reel.typed/State feather.schema/Op $ Map Dynamic Dynamic
+              assert-type @*reel $ typed/State schema/Op $ Map Dynamic Dynamic
               assert-type schema/store $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote $ Fn
