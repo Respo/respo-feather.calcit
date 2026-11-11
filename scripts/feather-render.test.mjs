@@ -126,11 +126,16 @@ test('a clean consumer loads only the library graph and retains its checked Stri
       ['config', 'set', 'package', 'consumer'],
       ['edit', 'add-ns', 'consumer.main'],
       ['edit', 'add-import', 'consumer.main', '--input-format', 'json-ast', '--code',
-        JSON.stringify(['feather.core', ':refer', ['icon-color-text']])],
+        JSON.stringify(['feather.core', ':refer', ['icon-color-text', 'comp-icon', 'comp-i']])],
       ['edit', 'def', 'consumer.main/main!', '--input-format', 'json-ast', '--code',
         JSON.stringify(['defn', 'main!', [], ['assert=', '|red', ['icon-color-text', ':red']], '&unit'])],
       ['edit', 'schema', 'consumer.main/main!', '--input-format', 'cirru', '--code',
         "quote $ Fn (-> Unit)"],
+      ['edit', 'def', 'consumer.main/check-icon-names!', '--input-format', 'json-ast', '--code',
+        JSON.stringify(['defn', 'check-icon-names!', [],
+          ['comp-icon', ':activity', ['{}'], 'nil'], ['comp-i', '|activity', '32', '|red'], '&unit'])],
+      ['edit', 'schema', 'consumer.main/check-icon-names!', '--input-format', 'cirru', '--code',
+        "quote $ Fn (-> Unit) (:features :js-ffi)"],
       ['config', 'set', 'mode', 'native'],
       ['config', 'add-module', 'feather.calcit/'],
     ]);
@@ -150,6 +155,16 @@ test('a clean consumer loads only the library graph and retains its checked Stri
     assert.notEqual(rejected.status, 0, 'a public String result must not satisfy numeric addition');
     assert.match(rejected.stdout + rejected.stderr, /[Ss]tring|:string/);
     assert.match(rejected.stdout + rejected.stderr, /[Nn]umber|:number/);
+    transact(snapshot, [
+      ['edit', 'def', 'consumer.main/main!', '--overwrite', '--input-format', 'json-ast', '--code',
+        JSON.stringify(['defn', 'main!', [], '&unit'])],
+      ['edit', 'def', 'consumer.main/check-icon-names!', '--overwrite', '--input-format', 'json-ast', '--code',
+        JSON.stringify(['defn', 'check-icon-names!', [], ['comp-i', '42', '32', '|red'], '&unit'])],
+    ]);
+    const badName = spawnSync(binary, [snapshot, '--check-only', '--all-defs'], cliOptions);
+    assert.ifError(badName.error);
+    assert.notEqual(badName.status, 0, 'a Number must not satisfy the icon name contract');
+    assert.match(badName.stdout + badName.stderr, /IconName/);
   } finally {
     assert.deepEqual(await readFile(canonical), original, 'consumer acceptance must not rewrite library source');
     await rm(directory, { recursive: true, force: true });
@@ -164,6 +179,9 @@ test('renders a Feather icon from the package icons map', () => {
   const shortcut = make_string(comp_i('activity', 32, 'red'));
   assert.match(shortcut, /width="32" height="32"/);
   assert.match(shortcut, /color="red"/);
+  const name = init_tags(['activity']).activity;
+  assert.equal(make_string(comp_icon(name, _$n__$M_(), null)), html);
+  assert.equal(make_string(comp_i(name, 32, 'red')), shortcut);
 });
 
 test('renders the typed gallery and copies/selects an icon through its real click handler', () => {
