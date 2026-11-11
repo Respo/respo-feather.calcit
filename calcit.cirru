@@ -171,6 +171,7 @@
         'IconName $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defunion IconName Tag String
           :examples $ []
+          :schema $ quote UnionDef
         'comp-i $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-i (icon size color)
             comp-icon icon
@@ -214,7 +215,7 @@
                     {} (:on-click on-click) (:class-name style-error)
                     <> $ str "|No icon: " icon-name
           :examples $ []
-          :schema $ quote $ Fn IconName Dynamic Dynamic (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn IconName Options Handler (-> respo.schema/Component) (:generics Options Handler) (:features :js-ffi)
         'icon-color-text $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn icon-color-text (color)
             cond
