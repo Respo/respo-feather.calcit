@@ -313,7 +313,7 @@
             reset! *reel $ next-reel op
             , &unit
           :examples $ []
-          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/Op (-> Unit) (:features :js-ffi :state)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (load-console-formatter!)
             println "|Running mode:" $ if config/dev? |dev |release
@@ -334,7 +334,7 @@
             browser/set-interval! persist-storage! $ * 60 1000
             println "|App started."
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             .unwrap $ browser/query-selector |.app
@@ -349,14 +349,14 @@
           :examples $ []
           :schema $ quote $ Fn ResolvedOp
             -> $ typed/State schema/Op $ Map Dynamic Dynamic
-            :features :js-ffi
+            :features :js-ffi :state
         'on-control! $ %{} 'CodeEntry
           :doc "|Applies a Reel panel or shortcut Control to *reel."
           :code $ quote $ defn on-control! (control)
             reset! *reel $ next-reel control
             , &unit
           :examples $ []
-          :schema $ quote $ Fn typed/Control (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn typed/Control (-> Unit) (:features :js-ffi :state)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             let
@@ -367,7 +367,7 @@
               browser/storage-set! storage-key $ format-cirru-edn store
               , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -378,7 +378,7 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit)
+          :schema $ quote $ Fn (-> Unit) (:features :state)
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel ()
             typed/refresh updater
@@ -387,6 +387,7 @@
           :examples $ []
           :schema $ quote $ Fn
             -> $ typed/State schema/Op $ Map Dynamic Dynamic
+            :features :state
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render!
@@ -394,7 +395,7 @@
               comp-container @*reel on-control!
               , dispatch!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit)
+          :schema $ quote $ Fn (-> Unit) (:features :state)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             browser/set-timeout!
