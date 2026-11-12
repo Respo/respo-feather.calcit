@@ -169,7 +169,7 @@
               {} (:size size) (:color color)
               , nil
           :examples $ []
-          :schema $ quote $ Fn IconName Dynamic Dynamic (-> respo.schema/Component)
+          :schema $ quote $ Fn IconName Size Color (-> respo.schema/Component) (:generics Size Color)
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
