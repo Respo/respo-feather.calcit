@@ -10,7 +10,7 @@ import { invoke_method } from '@calcit/procs';
 import { parse_cirru_edn } from '../js-out/calcit.core.mjs';
 import { comp_container, comp_icon_demo } from '../js-out/feather.comp.container.mjs';
 import { comp_icon, comp_i } from '../js-out/feather.core.mjs';
-import { store } from '../js-out/feather.schema.mjs';
+import { read_store, store, write_store } from '../js-out/feather.schema.mjs';
 import { new_reel, toggle_display } from '../js-out/reel.typed.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
 import { component_tree } from '../js-out/respo.util.detect.mjs';
@@ -184,6 +184,16 @@ test('renders a Feather icon from the package icons map', () => {
   assert.equal(make_string(comp_i(name, 32, 'red')), shortcut);
 });
 
+test('demo store restores legacy icon data and preserves extension fields', () => {
+  const tags = init_tags(['icon', 'custom']);
+  const raw = parse_cirru_edn('{} (:states ({})) (:icon 42) (:custom |kept)');
+  const stored = write_store(read_store(raw));
+  const unwrap = value => invoke_method("unwrap", value);
+  assert.equal(unwrap(get(stored, tags.icon)), 42);
+  assert.equal(unwrap(get(stored, tags.custom)), 'kept');
+  assert.match(make_string(comp_container(new_reel(read_store(raw)), () => undefined)), /Copied.*42/);
+});
+
 test('renders the typed gallery and copies/selects an icon through its real click handler', () => {
   const html = make_string(comp_container(toggle_display(new_reel(store)), () => undefined));
   assert.match(html, /<svg\b/);
@@ -219,7 +229,7 @@ test('renders the typed gallery and copies/selects an icon through its real clic
   assert.deepEqual(copied, [':activity']);
   assert.equal(operations.length, 1);
   const next = updater(store, operations[0], 'fixture', 0);
-  assert.equal(unwrap(get(next, tags.icon)), 'activity');
+  assert.equal(unwrap(get(write_store(next), tags.icon)), 'activity');
   assert.match(make_string(comp_container(new_reel(next), () => undefined)), /Copied :activity/);
 });
 
