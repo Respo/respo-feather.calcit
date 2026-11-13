@@ -380,10 +380,7 @@
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :state)
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn reloaded-reel ()
-            typed/refresh updater
-              assert-type @*reel $ typed/State schema/Op $ Map Dynamic Dynamic
-              assert-type schema/store $ Map Dynamic Dynamic
+          :code $ quote $ defn reloaded-reel () (typed/refresh updater @*reel schema/store)
           :examples $ []
           :schema $ quote $ Fn
             -> $ typed/State schema/Op $ Map Dynamic Dynamic
@@ -411,10 +408,7 @@
         'ret-reel-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn ret-reel-store (r) (:store r)
           :examples $ []
-          :schema $ quote $ Fn
-            typed/State schema/Op $ Map Dynamic Dynamic
-            -> $ Map Dynamic Dynamic
-            :features :js-ffi
+          :schema $ quote $ Fn (typed/State Op Store) (-> Store) (:generics Op Store)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.main
           :require
