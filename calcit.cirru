@@ -18,16 +18,8 @@
           :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
-                states $ decode-map-as
-                  match (get store :states)
-                    (:some v)
-                      or v $ {}
-                    (:none) ({})
-                  Map Dynamic Dynamic
-                selected-icon $ match (get store :icon)
-                  (:some v)
-                    if (nil? v) None $ Some $ str v
-                  (:none) None
+                states $ :states store
+                selected-icon $ :icon store
               div
                 {} $ :class-name $ str-spaced css/preset css/global css/fullscreen
                 match selected-icon
@@ -46,8 +38,7 @@
                   Some $ comp-typed-reel (>> states :reel) reel ({}) on-control
                   , None
           :examples $ []
-          :schema $ quote $ Fn
-            reel.typed/State schema/Op $ Map Dynamic Dynamic
+          :schema $ quote $ Fn (reel.typed/State schema/Op schema/DemoStore)
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
             :features :js-ffi
@@ -301,8 +292,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ quote $ Ref
-            typed/State schema/Op $ Map Dynamic Dynamic
+          :schema $ quote $ Ref (typed/State schema/Op schema/DemoStore)
         'ResolvedOp $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defunion ResolvedOp feather.schema/Op reel.typed/Control
           :examples $ []
@@ -325,7 +315,7 @@
                 raw $ browser/storage-get storage-key
               match raw
                 (:some value)
-                  dispatch! $ schema/Op :hydrate-storage $ decode-map-as (parse-cirru-edn value) (Map Dynamic Dynamic)
+                  dispatch! $ schema/Op :hydrate-storage $ schema/read-store (parse-cirru-edn value)
                 (:none) &unit
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
@@ -348,7 +338,7 @@
                 typed/record-op updater @*reel action (generate-id!) (shared/now-ms)
           :examples $ []
           :schema $ quote $ Fn ResolvedOp
-            -> $ typed/State schema/Op $ Map Dynamic Dynamic
+            -> $ typed/State schema/Op schema/DemoStore
             :features :js-ffi :state
         'on-control! $ %{} 'CodeEntry
           :doc "|Applies a Reel panel or shortcut Control to *reel."
@@ -364,7 +354,7 @@
                   (:some lookup-value) lookup-value
                   (:none) (raise "|Feather configuration missing :storage-key")
                 store $ ret-reel-store @*reel
-              browser/storage-set! storage-key $ format-cirru-edn store
+              browser/storage-set! storage-key $ format-cirru-edn $ schema/write-store store
               , &unit
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
@@ -383,7 +373,7 @@
           :code $ quote $ defn reloaded-reel () (typed/refresh updater @*reel schema/store)
           :examples $ []
           :schema $ quote $ Fn
-            -> $ typed/State schema/Op $ Map Dynamic Dynamic
+            -> $ typed/State schema/Op schema/DemoStore
             :features :state
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
@@ -429,20 +419,57 @@
             respo.memo :refer $ with-memo-frame
     'feather.schema $ %{} 'FileEntry
       :defs $ {}
+        'DemoStore $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct DemoStore
+            :states $ Map Dynamic Dynamic
+            :icon $ Option String
+            :extra $ Map Dynamic Dynamic
+          :examples $ []
+          :schema $ quote StructDef
         'Op $ %{} 'CodeEntry
           :doc "|Dispatch Op of the Feather demo, bound to the :dispatch-op type slot. Reel controls go through on-control! instead."
           :code $ quote $ defenum Op
             :states (List respo.schema/CoordKey) Dynamic
-            :hydrate-storage $ Map Dynamic Dynamic
+            :hydrate-storage feather.schema/DemoStore
             :exhibit String
           :examples $ []
           :schema $ quote EnumDef
+        'read-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn read-store (raw)
+            let
+                data $ decode-map-as raw $ Map Dynamic Dynamic
+                states $ decode-map-as
+                  match (get data :states)
+                    (:some raw-states)
+                      or raw-states $ {}
+                    (:none) ({})
+                  Map Dynamic Dynamic
+                icon $ match (get data :icon)
+                  (:none) None
+                  (:some value)
+                    if (nil? value) None $ Some $ str value
+              DemoStore :states states :icon icon :extra $ dissoc data :states
+          :examples $ []
+          :schema $ quote $ Fn Input (-> DemoStore) (:generics Input)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
-            {} $ :states $ {}
-              :cursor $ []
+            DemoStore :states
+              {} $ :cursor $ []
+              , :icon None :extra $ {}
           :examples $ []
-          :schema $ quote Map
+          :schema $ quote DemoStore
+        'write-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn write-store (store)
+            let
+                data $ assoc (:extra store) :states $ :states store
+              match (:icon store)
+                (:some icon)
+                  if (contains? data :icon) data $ assoc data :icon icon
+                (:none) data
+          :examples $ []
+          :schema $ quote $ Fn DemoStore
+            -> $ Map Dynamic Dynamic
+            :open :reflect
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.schema
     'feather.updater $ %{} 'FileEntry
@@ -451,12 +478,16 @@
           :code $ quote $ defn updater (store op op-id op-time)
             match op
               (:states cursor state)
-                decode-map-as (update-states store cursor state) (Map Dynamic Dynamic)
+                assoc store :states $ decode-map-as
+                  respo.cursor/update-state-tree (:states store) cursor state
+                  Map Dynamic Dynamic
               (:hydrate-storage data) data
-              (:exhibit icon) (&map:assoc store :icon icon)
+              (:exhibit icon)
+                struct-with store
+                  :icon $ Some icon
+                  :extra $ dissoc (:extra store) :icon
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) feather.schema/Op String Number
-            -> $ Map Dynamic Dynamic
+          :schema $ quote $ Fn feather.schema/DemoStore feather.schema/Op String Number (-> feather.schema/DemoStore)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns feather.updater
           :require $ respo.cursor :refer $ update-states
