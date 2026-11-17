@@ -39,9 +39,9 @@
                   , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State schema/Op schema/DemoStore)
-            Fn reel.typed/Control $ -> Unit
+            Fn reel.typed/Control (-> Unit) (:features :state)
             -> respo.schema/Component
-            :features :js-ffi
+            :features :js-ffi :state
         'comp-icon-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon-demo (icon selected?)
             div
@@ -368,7 +368,7 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :state)
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel () (typed/refresh updater @*reel schema/store)
           :examples $ []
@@ -382,7 +382,7 @@
               comp-container @*reel on-control!
               , dispatch!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :state)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             browser/set-timeout!

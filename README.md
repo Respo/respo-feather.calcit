@@ -5,7 +5,7 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-当前版本 0.6.5 配对正式 **Calcit / @calcit/procs 0.42.1**、Respo **0.19.9**、JS-FFI **0.2.16**。
+当前版本 0.6.6 配对正式 **Calcit / @calcit/procs 0.43.0**、Respo **0.19.10**、JS-FFI **0.2.18**。
 从源码构建时请同步工具链并重新生成 JS。图标库 API 和 Demo 存档格式保持原样。
 0.42.1 效果边界只影响 Demo（`feather.main/*` 补了 `:state` / `:io`），`feather.core` 的公开函数没有效果，调用方不用新增声明。
 

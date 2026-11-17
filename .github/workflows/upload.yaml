@@ -82,7 +82,9 @@ jobs:
         yarn vite build --base="$VITE_BASE_URL"
 
     - name: Render Feather and typed Reel regression tests
-      run: node --test scripts/feather-render.test.mjs
+      run: |
+        calcit --entry demo --reload-fn respo.render.html/make-string js
+        node --test scripts/feather-render.test.mjs
 
     - name: Check COS credentials
       id: cos-credentials
