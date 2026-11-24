@@ -169,21 +169,31 @@
                   (Tag name) (.to-string name)
                   (String name) name
                 size $ match (get opts :size)
-                  (:some v) (or v 14)
+                  (:some v)
+                    if
+                      or (nil? v) (= false v)
+                      , 14 v
                   (:none) 14
                 obj $ js-get
                   unsafe-coerce
                     .-icons $ unsafe-coerce feather-icons FeatherIconsHost
                     , JsObject
                   , icon-name
-              if obj
+              if
+                not $ js-nullish? obj
                 span $ {}
                   :class-name $ str-spaced style-base $ match (get opts :class-name)
-                    (:some v) (or v |)
+                    (:some v)
+                      if
+                        or (nil? v) (= false v)
+                        , | v
                     (:none) |
                   :style $ match (get opts :style)
                     (:some v)
-                      or v $ {}
+                      if
+                        or (nil? v) (= false v)
+                        {}
+                        , v
                     (:none) ({})
                   :on-click on-click
                   :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
@@ -441,7 +451,10 @@
                 states $ decode-map-as
                   match (get data :states)
                     (:some raw-states)
-                      or raw-states $ {}
+                      if
+                        or (nil? raw-states) (= false raw-states)
+                        {}
+                        , raw-states
                     (:none) ({})
                   Map Dynamic Dynamic
                 icon $ match (get data :icon)

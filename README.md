@@ -5,13 +5,14 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-当前版本 0.6.11 配对正式 **Calcit / @calcit/procs 0.44.0**、Respo **0.19.16**、JS-FFI **0.2.23**。
+当前版本 0.6.12 配对正式 **Calcit / @calcit/procs 0.45.0**、Respo **0.19.17**、JS-FFI **0.2.23**。
 从源码构建时请同步工具链并重新生成 JS。图标库 API 和 Demo 存档格式保持原样。
 0.42.1 效果边界只影响 Demo（`feather.main/*` 补了 `:state` / `:io`），`feather.core` 的公开函数没有效果，调用方不用新增声明。
 
 画廊派发和历史记录共用具名 `feather.schema/Op`，图标名称为 String，路径使用 Respo 的 `CoordKey`。
 直接调用 Demo 内部定义的代码请将旧 `DemoAction` 引用改为 `Op`。Reel 面板继续走独立的 Control 回调。
-Demo 使用 Reel **0.11.7**、UI **0.16.3**（传递 Router **0.12.15**）。
+Demo 使用 Reel **0.11.8**、UI **0.16.4**（传递 Router **0.12.16**）。
+迁移保留图标选项及旧存档中 nil、false 的原有默认行为，零值与空字符串仍按原值处理。
 
 ### 历史 0.6.2
 
