@@ -5,13 +5,13 @@ Feather icon components for Respo applications written in Calcit.
 
 ### 当前工具链与使用者影响
 
-当前版本 0.6.12 配对正式 **Calcit / @calcit/procs 0.45.0**、Respo **0.19.17**、JS-FFI **0.2.23**。
+当前候选版本 0.6.13 配对正式 **Calcit / @calcit/procs 0.45.1**、Respo **0.19.18**、JS-FFI **0.2.24**。
 从源码构建时请同步工具链并重新生成 JS。图标库 API 和 Demo 存档格式保持原样。
 0.42.1 效果边界只影响 Demo（`feather.main/*` 补了 `:state` / `:io`），`feather.core` 的公开函数没有效果，调用方不用新增声明。
 
 画廊派发和历史记录共用具名 `feather.schema/Op`，图标名称为 String，路径使用 Respo 的 `CoordKey`。
 直接调用 Demo 内部定义的代码请将旧 `DemoAction` 引用改为 `Op`。Reel 面板继续走独立的 Control 回调。
-Demo 使用 Reel **0.11.8**、UI **0.16.4**（传递 Router **0.12.16**）。
+Demo 使用 Reel **0.11.9**、UI **0.16.5**（传递 Router **0.12.17**）。
 迁移保留图标选项及旧存档中 nil、false 的原有默认行为，零值与空字符串仍按原值处理。
 
 ### 历史 0.6.2
@@ -131,7 +131,7 @@ Calcit 引用和 native/JS 执行；缺少 Demo 依赖的显式 Demo 与全定�
 
 ### 限制
 
-- 当前工具链是正式 0.45.0，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
+- 当前工具链是正式 0.45.1，本候选声明的模块图均为正式版本。发布仍需要精确 PR/main CI、评审和实际页面验收，源码版本号不代表 tag 已发布。
 - 不以轻量入口检查替代完整 Demo strict，也不因消除图冲突而扩大公开类型或移除门禁。旧存档保护已由既有实现负责，依赖升级不意味着跨浏览器或全部消费者均已验证。
 - 颜色检查证明标量文本，不验证浏览器是否接受任意 CSS 颜色文本。
 - 图标库、SVG 与 DOM 属于 `:js-ffi`，纯颜色转换可在 native 执行。
