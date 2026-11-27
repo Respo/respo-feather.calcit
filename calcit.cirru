@@ -171,7 +171,8 @@
                 size $ match (get opts :size)
                   (:some v)
                     if
-                      or (nil? v) (= false v)
+                      or (nil? v)
+                        if (bool? v) (not v) false
                       , 14 v
                   (:none) 14
                 obj $ js-get
@@ -185,13 +186,15 @@
                   :class-name $ str-spaced style-base $ match (get opts :class-name)
                     (:some v)
                       if
-                        or (nil? v) (= false v)
+                        or (nil? v)
+                          if (bool? v) (not v) false
                         , | v
                     (:none) |
                   :style $ match (get opts :style)
                     (:some v)
                       if
-                        or (nil? v) (= false v)
+                        or (nil? v)
+                          if (bool? v) (not v) false
                         {}
                         , v
                     (:none) ({})
@@ -452,7 +455,8 @@
                   match (get data :states)
                     (:some raw-states)
                       if
-                        or (nil? raw-states) (= false raw-states)
+                        or (nil? raw-states)
+                          if (bool? raw-states) (not raw-states) false
                         {}
                         , raw-states
                     (:none) ({})
