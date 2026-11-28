@@ -164,16 +164,19 @@
         'comp-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-icon (icon options on-click)
             let
-                opts $ if (map? options) options $ if (nil? options) ({}) (raise "|comp-icon expected options as a map")
+                opts $ match (nil->option options)
+                  (:none) ({})
+                  (:some raw-options)
+                    match
+                      try-decode-map-as raw-options $ Map Dynamic Dynamic
+                      (:ok m) m
+                      (:err _) (raise "|comp-icon expected options as a map")
                 icon-name $ match icon
                   (Tag name) (.to-string name)
                   (String name) name
-                size $ match (get opts :size)
-                  (:some v)
-                    if
-                      or (nil? v)
-                        if (bool? v) (not v) false
-                      , 14 v
+                size $ match
+                  non-false-option $ get opts :size
+                  (:some v) v
                   (:none) 14
                 obj $ js-get
                   unsafe-coerce
@@ -183,20 +186,13 @@
               if
                 not $ js-nullish? obj
                 span $ {}
-                  :class-name $ str-spaced style-base $ match (get opts :class-name)
-                    (:some v)
-                      if
-                        or (nil? v)
-                          if (bool? v) (not v) false
-                        , | v
+                  :class-name $ str-spaced style-base $ match
+                    non-false-option $ get opts :class-name
+                    (:some v) v
                     (:none) |
-                  :style $ match (get opts :style)
-                    (:some v)
-                      if
-                        or (nil? v)
-                          if (bool? v) (not v) false
-                        {}
-                        , v
+                  :style $ match
+                    non-false-option $ get opts :style
+                    (:some v) v
                     (:none) ({})
                   :on-click on-click
                   :innerHTML $ .to-svg (unsafe-coerce obj FeatherIconHost)
@@ -213,22 +209,23 @@
           :schema $ quote $ Fn IconName Options Handler (-> respo.schema/Component) (:generics Options Handler) (:features :js-ffi)
         'icon-color-text $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn icon-color-text (color)
-            cond
-                nil? color
-                , |blue
-              (= :unit (type-of color))
-                , |blue
-              true $ match (try-decode-map-as color IconColorScalar)
-                (:ok scalar)
-                  match scalar
-                    (String v) (.to-string v)
-                    (Tag v) (.to-string v)
-                    (Number v) (.to-string v)
-                    (Bool v)
-                      if v (.to-string v) |blue
-                    (Symbol v) (.to-string v)
-                (:err _)
-                  raise "|[Feather/comp-icon] expected color to be a text scalar"
+            match (nil->option color)
+              (:none) |blue
+              (:some raw)
+                match (try-decode-map-as raw IconColorScalar)
+                  (:ok scalar)
+                    match scalar
+                      (String v) (.to-string v)
+                      (Tag v) (.to-string v)
+                      (Number v) (.to-string v)
+                      (Bool v)
+                        if v (.to-string v) |blue
+                      (Symbol v) (.to-string v)
+                  (:err _)
+                    match (try-decode-map-as raw 'Unit)
+                      (:ok _) |blue
+                      (:err _)
+                        raise "|[Feather/comp-icon] expected color to be a text scalar"
           :examples $ []
           :schema $ quote $ Fn ColorInput (-> String) (:generics ColorInput)
           :tests $ []
@@ -265,6 +262,22 @@
                 assert= |12.5 $ icon-color-text 12.5
                 assert= |-2 $ icon-color-text -2
               :tags $ #{} :regression :unit
+        'non-false-option $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn non-false-option (opt)
+            match opt
+              (:none) None
+              (:some raw)
+                match (nil->option raw)
+                  (:none) None
+                  (:some v)
+                    match (try-decode-map-as v 'Bool)
+                      (:ok b)
+                        if b (Some v) None
+                      (:err _) (Some v)
+          :examples $ []
+          :schema $ quote $ Fn (Option T)
+            -> $ Option T
+            :generics T
         'style-base $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-base
             {} $ |& $ {} (:display :inline-block)
@@ -373,15 +386,16 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
-            if (nil? build-errors)
-              do (remove-watch! *reel :changes) (clear-cache!)
-                add-watch! *reel :changes $ fn (reel prev) (render-app!)
-                reset! *reel $ reloaded-reel
-                hud! |ok~ |Ok
-              hud! |error build-errors
+            match (js-nullish->option build-errors)
+              (:none)
+                do (remove-watch! *reel :changes) (clear-cache!)
+                  add-watch! *reel :changes $ fn (reel prev) (render-app!)
+                  reset! *reel $ reloaded-reel
+                  hud! |ok~ |Ok
+              (:some err) (hud! |error err)
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :io :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'reloaded-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reloaded-reel () (typed/refresh updater @*reel schema/store)
           :examples $ []
@@ -454,17 +468,22 @@
                 states $ decode-map-as
                   match (get data :states)
                     (:some raw-states)
-                      if
-                        or (nil? raw-states)
-                          if (bool? raw-states) (not raw-states) false
-                        {}
-                        , raw-states
+                      match (nil->option raw-states)
+                        (:none) ({})
+                        (:some non-nil-states)
+                          match (try-decode-map-as non-nil-states 'Bool)
+                            (:ok b)
+                              if b non-nil-states $ {}
+                            (:err _) non-nil-states
                     (:none) ({})
                   Map Dynamic Dynamic
                 icon $ match (get data :icon)
                   (:none) None
                   (:some value)
-                    if (nil? value) None $ Some $ str value
+                    match (nil->option value)
+                      (:none) None
+                      (:some icon-value)
+                        Some $ str icon-value
               DemoStore :states states :icon icon :extra $ dissoc data :states
           :examples $ []
           :schema $ quote $ Fn Input (-> DemoStore) (:generics Input)
